@@ -81,6 +81,11 @@ DATABASES = {
     }
 }
 
+# Substituting a custom User model
+# https://docs.djangoproject.com/en/4.1/topics/auth/customizing/
+
+AUTH_USER_MODEL = 'main.User'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
