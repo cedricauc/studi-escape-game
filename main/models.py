@@ -2,7 +2,7 @@ from unicodedata import decimal
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.forms import ValidationError
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager
 
 ROLES = [
     (0, "Admin"),
@@ -14,12 +14,8 @@ ROLES = [
 class User(AbstractUser):
     first_name = models.CharField(max_length=40, null=True, blank=True)
     last_name = models.CharField(max_length=40, null=True, blank=True)
-    username = None
     email = models.EmailField('email address', unique=True)
-    role = models.IntegerField(choices=ROLES)
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    role = models.IntegerField(choices=ROLES, null=True, blank=True)
 
     @property
     def full_name(self):
@@ -84,7 +80,7 @@ class Scenario(models.Model):
         blank=True,
         related_name="scenarios",
     )
-    images = models.ManyToManyField(Image)
+    images = models.ManyToManyField(Image, blank=True)
     rooms = models.ManyToManyField(Room)
 
     def __str__(self):
@@ -232,6 +228,7 @@ class TicketCategory(models.Model):
 
     class Meta:
         db_table = "ticket_category"
+        verbose_name_plural = "Ticket Categories"
 
 
 class TicketQuestion(models.Model):
