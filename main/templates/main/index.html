@@ -1,6 +1,6 @@
 {% extends "__base.html" %} {% load static %} {% block body %}
 
-<div>
+<main>
   <!--welcome-->
   <section id="welcome" class="bg-welcome">
     <div class="container h-100">
@@ -39,7 +39,9 @@
                   <h2 class="card-title text-light fw-bold mb-5">
                     La prison maudite du hollandais volant
                   </h2>
-                  <a href="#" class="btn btn-light">Réserver</a>
+                  <a href="#" class="btn btn-lg btn-block btn-light">
+                    Réserver
+                  </a>
                 </div>
               </div>
             </div>
@@ -192,7 +194,7 @@
             <div class="card-deck mt-5 text-center text-light">
               <div class="row h-100 align-items-center justify-content-between">
                 <div class="col-md-4">
-                  <div class="card mb-4 bg-dark box-shadow">
+                  <div class="card mb-4 bg-dark border-0 box-shadow">
                     <div class="card-body mt-4 mb-4">
                       <h2
                         class="card-title pricing-card-title d-flex justify-content-center"
@@ -215,7 +217,7 @@
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="card mb-4 bg-secondary box-shadow">
+                  <div class="card mb-4 bg-secondary border-0 box-shadow">
                     <div class="card-body mt-4 mb-4">
                       <h2
                         class="card-title pricing-card-title d-flex justify-content-center"
@@ -238,7 +240,7 @@
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="card mb-4 bg-dark box-shadow">
+                  <div class="card mb-4 bg-dark border-0 box-shadow">
                     <div class="card-body mt-4 mb-4">
                       <h2
                         class="card-title pricing-card-title d-flex justify-content-center"
@@ -292,7 +294,7 @@
                     <div class="single-social-item text-center">
                       <div class="icon fs-2 mb-3">
                         <a href="#" title="">
-                          <i class="fa fa-facebook"></i>
+                          <em class="fa fa-facebook"></em>
                         </a>
                       </div>
                     </div>
@@ -333,6 +335,6 @@
     </div>
   </section>
   <!--social-->
-</div>
+</main>
 
 {% endblock %}

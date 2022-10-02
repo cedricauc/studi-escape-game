@@ -49,6 +49,12 @@ body {
   box-sizing: inherit;
 }
 
+#root {
+  min-height        : 100%;
+  display           : grid;
+  grid-template-rows: auto 1fr auto;
+}
+
 body {
   font-family: 'DMSans';
 }
@@ -97,4 +103,22 @@ small {
 
 .bg-price {
   background-color: #f2f2f2;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+  float        : left;
+  padding-right: 10px;
+  color        : #000;
+  content      : url(../img/svg/arrow-right.svg);
+}
+
+.circle {
+  padding   : 5px;
+  background: url(../img/svg/circle.svg) no-repeat center center;
+  height    : 50px;
+  width     : 50px;
+}
+
+.table-details> :not(caption)>*>* {
+  border: none;
 }
