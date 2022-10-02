@@ -1,0 +1,100 @@
+@font-face {
+  font-family: Oswald;
+  src        : url(../fonts/Oswald-Bold.ttf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Oswald;
+  src        : url(../fonts/Oswald-Medium.ttf);
+  font-weight: medium;
+}
+
+@font-face {
+  font-family: Oswald;
+  src        : url(../fonts/Oswald-Regular.ttf);
+  font-weight: regular;
+}
+
+@font-face {
+  font-family: DMSans;
+  src        : url(../fonts/DMSans-Bold.ttf);
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: DMSans;
+  src        : url(../fonts/DMSans-Medium.ttf);
+  font-weight: medium;
+}
+
+@font-face {
+  font-family: DMSans;
+  src        : url(../fonts/DMSans-Regular.ttf);
+  font-weight: regular;
+}
+
+html {
+  height    : 100%;
+  box-sizing: border-box;
+}
+
+body {
+  height : 100%;
+  padding: 0;
+  margin : 0;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'DMSans';
+}
+
+h1,
+h2 {
+  font-family: 'Oswald';
+}
+
+h3,
+h4,
+h5 {
+  font-family: 'DMSans';
+}
+
+small {
+  font-size: 0.6em;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+}
+
+.navbar .show+div {
+  width: 100%;
+}
+
+.bg-welcome {
+  background: linear-gradient(rgba(1, 111, 185, 1), rgba(1, 111, 185, .8)),
+    url(../img/puzzle.jpg) rgba(1, 111, 185, .8) 50%;
+  background-repeat      : no-repeat;
+  background-position    : center center;
+  -webkit-background-size: cover;
+  -moz-background-size   : cover;
+  -o-background-size     : cover;
+  background-size        : cover;
+  width                  : 100%;
+  height                 : 800px;
+}
+
+.bg-highlight,
+.bg-about,
+.bg-social {
+  background-color: #fff;
+}
+
+.bg-price {
+  background-color: #f2f2f2;
+}
