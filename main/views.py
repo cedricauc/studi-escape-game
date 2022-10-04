@@ -14,3 +14,7 @@ def faq(request, id=''):
 
 def login(request):
     return render(request, "main/login.html")
+
+
+def register(request):
+    return render(request, "main/register.html")
