@@ -6,3 +6,7 @@ def index(request):
 
 def details(request, id):
     return render(request, "main/details.html")
+
+
+def faq(request, id=''):
+    return render(request, "main/faq.html")
