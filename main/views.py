@@ -18,3 +18,7 @@ def login(request):
 
 def register(request):
     return render(request, "main/register.html")
+
+
+def order(request):
+    return render(request, "main/order.html")

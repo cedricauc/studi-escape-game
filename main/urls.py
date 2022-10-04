@@ -7,5 +7,6 @@ urlpatterns = [
     path("faq", views.faq, name="faq"),
     path("faq/<str:id>", views.faq, name="faq"),
     path("login", views.login, name="login"),
-    path("register", views.register, name="register")
+    path("register", views.register, name="register"),
+    path("order", views.order, name="order")
 ]
