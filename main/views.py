@@ -10,3 +10,7 @@ def details(request, id):
 
 def faq(request, id=''):
     return render(request, "main/faq.html")
+
+
+def login(request):
+    return render(request, "main/login.html")
