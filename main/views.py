@@ -27,3 +27,7 @@ def order(request):
 
 def manage(request):
     return render(request, "main/manage.html")
+
+
+def chat(request):
+    return render(request, "main/chat.html")
