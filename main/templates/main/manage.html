@@ -1,0 +1,92 @@
+{% extends "__base.html" %} {% load static %} {% block body %}
+
+<main class="container">
+  <div class="row h-100">
+    <aside
+      class="col-md-2 bg-light h-100 p-0 d-flex justify-content-center align-items-center"
+    >
+      {% include "__sidebar.html" %}
+    </aside>
+    <section class="col-md-10 ps-5 py-5">
+      <div class="row">
+        <nav class="col-12" aria-label="breadcrumb">
+          <ol class="breadcrumb d-flex bg-white mt-5 p-2">
+            <li class="breadcrumb-item">
+              <a class="text-decoration-none" href="#">Tableau de bord</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Editer profil
+            </li>
+          </ol>
+        </nav>
+      </div>
+      <div class="col-md-12">
+        <div class="card mb-4">
+          <div class="card-body p-4">
+            <div class="card-title fs-4 fw-semibold">
+              Editer Profil Utilisateur
+            </div>
+            <div class="row">
+              <form>
+                <div class="form-group">
+                  <label for="email">Email adresse</label>
+                  <input
+                    type="email"
+                    class="form-control form-control-lg border-primary"
+                    id="email"
+                    name="email"
+                    placeholder="Saisir email"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="last_name">Nom</label>
+                  <input
+                    type="text"
+                    class="form-control form-control-lg border-primary"
+                    id="last_name"
+                    name="last_name"
+                    placeholder="Saisir nom utilisateur"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="first_name">Prénom</label>
+                  <input
+                    type="text"
+                    class="form-control form-control-lg border-primary"
+                    id="first_name"
+                    name="first_name"
+                    placeholder="Saisir prénom utilisateur"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password">Mot de passe</label>
+                  <input
+                    type="password"
+                    class="form-control form-control-lg border-primary"
+                    id="password"
+                    name="password"
+                    placeholder="Saisir mot de passe"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="confirm-password">Confirmer mot de passe</label>
+                  <input
+                    type="password"
+                    class="form-control form-control-lg border-primary"
+                    id="confirm-password"
+                    name="confirm-password"
+                    placeholder="Saisir une confirmation du mot de passe"
+                  />
+                </div>
+                <button type="submit" class="btn btn-lg btn-primary mt-4">
+                  Envoyer
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+{% endblock %}

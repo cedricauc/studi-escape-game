@@ -8,5 +8,6 @@ urlpatterns = [
     path("faq/<str:id>", views.faq, name="faq"),
     path("login", views.login, name="login"),
     path("register", views.register, name="register"),
-    path("order", views.order, name="order")
+    path("order", views.order, name="order"),
+    path("manage", views.manage, name="manage")
 ]

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def index(request):
     return render(request, "main/index.html")
 
@@ -22,3 +23,7 @@ def register(request):
 
 def order(request):
     return render(request, "main/order.html")
+
+
+def manage(request):
+    return render(request, "main/manage.html")
