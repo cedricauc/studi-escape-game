@@ -9,7 +9,7 @@ from main.forms import RegisterForm
 from main.models import User
 
 
-def index(request):
+def home(request):
     return render(request, "main/index.html")
 
 
