@@ -81,12 +81,11 @@ class TicketQuestionAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {"fields": ('author', 'question', 'category',)}),
     )
-    list_display = ("category", "created_date", "author")
-    list_filter = ("category", "created_date")
-    list_editable = ("category",)
+    list_display = ("created_date", "author",)
+    list_filter = ("created_date",)
+    list_editable = ()
     ordering = ("-created_date",)
-    search_fields = ("category", "created_date")
-    list_display_links = None
+    search_fields = ("created_date",)
 
 
 class TicketAnswerAdmin(admin.ModelAdmin):
@@ -94,12 +93,11 @@ class TicketAnswerAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {"fields": ('answer', 'question',)}),
     )
-    list_display = ("question", "created_date",)
-    list_filter = ("question", "created_date")
-    list_editable = ("question",)
+    list_display = ("created_date",)
+    list_filter = ("created_date",)
+    list_editable = ()
     ordering = ("-created_date",)
-    search_fields = ("question", "created_date")
-    list_display_links = None
+    search_fields = ("created_date",)
 
 
 admin.site.register(User, UserAdmin)

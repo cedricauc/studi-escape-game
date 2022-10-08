@@ -271,7 +271,7 @@ class TicketQuestion(models.Model):
 class TicketAnswer(models.Model):
     answer = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
-    question = models.ForeignKey(TicketQuestion, on_delete=models.CASCADE)
+    question = models.ForeignKey(TicketQuestion, on_delete=models.CASCADE, related_name="ticket_answer")
 
     def __str__(self):
         return f"{self.id} : {self.question.category.title}"

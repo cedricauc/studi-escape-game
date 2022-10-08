@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 
 from .forms import RegisterForm
-from .models import User, Scenario, Game, GameDetails
+from .models import User, Scenario, Game, GameDetails, TicketAnswer, TicketCategory, TicketQuestion
 
 from datetime import datetime, date
 
@@ -28,7 +28,7 @@ def scenario(request, id):
         row = GameDetails.objects.get(game=itr)
         # calcul en delta time de la différence début/fin partie
         diff_dt = datetime.combine(date.today(), row.end_time) - datetime.combine(date.today(), row.start_time)
-        diff = diff_dt .total_seconds() / 3600
+        diff = diff_dt.total_seconds() / 3600
         # si e temps est inférieur alors stocker dans la variable record_time
         if diff < record_time:
             record_time = diff
@@ -41,8 +41,21 @@ def scenario(request, id):
     return render(request, "main/scenario.html", context)
 
 
-def faq(request, id=''):
-    return render(request, "main/faq.html")
+def faq(request, id=None):
+    if id:
+        category = TicketCategory.objects.get(pk=id)
+    else:
+        category = TicketCategory.objects.all().first()
+
+    data = TicketAnswer.objects.filter(question__category=category).order_by("id")
+
+    context = {
+        "data": data,
+        "category": category,
+        "categories": TicketCategory.objects.all()
+    }
+
+    return render(request, "main/faq.html", context)
 
 
 @csrf_exempt
@@ -91,7 +104,7 @@ def register(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            context= {
+            context = {
                 'form': form
             }
             return render(request, "main/register.html", context)
