@@ -8,6 +8,8 @@ from django.urls import reverse
 from .forms import RegisterForm
 from .models import User, Scenario, Game, GameDetails
 
+from datetime import datetime, date
+
 
 def home(request):
     return render(request, "main/index.html")
@@ -20,8 +22,20 @@ def scenario(request, id):
     except Scenario.DoesNotExist:
         data = None
 
+    record_time = data.duration
+    # pour chaque partie terminée du scénario ci-dessus
+    for itr in data.games.all():
+        row = GameDetails.objects.get(game=itr)
+        # calcul en delta time de la différence début/fin partie
+        diff_dt = datetime.combine(date.today(), row.end_time) - datetime.combine(date.today(), row.start_time)
+        diff = diff_dt .total_seconds() / 3600
+        # si e temps est inférieur alors stocker dans la variable record_time
+        if diff < record_time:
+            record_time = diff
+
     context = {
         "scenario": data,
+        "record_time": record_time
     }
 
     return render(request, "main/scenario.html", context)
