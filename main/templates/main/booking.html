@@ -1,0 +1,41 @@
+{% extends "__base.html" %} {% load static %} {% block body %}
+
+<main class="container">
+  <div class="row">
+    <nav class="col-md-12 o-stepbar xs-labels">
+      <ol class="d-flex justify-content-center bg-white mt-5 p-2">
+        <li class="col-md-4 current stepbar-item d-flex justify-content-center">
+          <a
+            class="stepbar-link"
+            href="#"
+            title="Step 1 : Sign in"
+            aria-current="step"
+          >
+            <span class="step-number">
+              <img class="p-2" src="/static/img/svg/step-a.svg" alt="step-a" />
+            </span>
+            {# <span class="step-title">Sign in</span>#}
+          </a>
+        </li>
+        <li class="col-md-4 stepbar-item d-flex justify-content-center next">
+          <div class="stepbar-link" title="Step 2 : Review">
+            <span class="step-number">
+              <img class="p-2" src="/static/img/svg/step-b.svg" alt="step-b"
+            /></span>
+            {# <span class="step-title">Review</span>#}
+          </div>
+        </li>
+        <li class="col-md-4 stepbar-item d-flex justify-content-center next">
+          <div class="stepbar-link" title="Step 3 : Delivery">
+            <span class="step-number">
+              <img class="p-2" src="/static/img/svg/step-c.svg" alt="step-c"
+            /></span>
+            {# <span class="step-title">Delivery</span>#}
+          </div>
+        </li>
+      </ol>
+    </nav>
+    <div class="py-5">{% include "main/step_c.html" %}</div>
+  </div>
+</main>
+{% endblock %}
