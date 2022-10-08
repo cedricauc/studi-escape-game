@@ -13,8 +13,8 @@ def index(request):
     return render(request, "main/index.html")
 
 
-def details(request, id):
-    return render(request, "main/details.html")
+def scenario(request, id):
+    return render(request, "main/scenario.html")
 
 
 def faq(request, id=''):
