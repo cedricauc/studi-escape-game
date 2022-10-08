@@ -1,3 +1,4 @@
+{% load tags %}
 <div class="container">
     <div class="row">
         <div class="col-md-12 mt-5 mb-5">
@@ -40,9 +41,17 @@
                         <div class="col-md-12 col-lg-6 border-light">
                             <h3 class="footer-heading text-light">Site</h3>
                             <ul class="list-unstyled">
+                                                     <li>
+                                    <a
+                                            href="{% anchor 'home' 'about' %}"
+                                            class="py-2 d-block text-light text-decoration-none"
+                                    >
+                                        A propos
+                                    </a>
+                                </li>
                                 <li>
                                     <a
-                                            href="#"
+                                            href="{% anchor 'home' 'price' %}"
                                             class="py-2 d-block text-light text-decoration-none"
                                     >
                                         Tarifs

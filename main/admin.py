@@ -18,17 +18,15 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class ScenarioAdmin(admin.ModelAdmin):
-    exclude = []
     fieldsets = (
         (None, {"fields": ('title', 'description', 'duration', 'level', 'rooms',)}),
         ("Détails", {"fields": ('min_participant', 'max_participant', 'price_participant', 'images',)}),
     )
     list_display = ("title", "duration", "price_participant", "level")
-    list_filter = ("title", "level")
-    list_editable = ("title", "level", "duration", "price_participant")
+    list_filter = ("title", "duration", "level")
+    list_editable = ("level", "duration", "price_participant")
     ordering = ("-title",)
     search_fields = ("title", "duration", "price_participant")
-    list_display_links = None
 
 
 class CartAdmin(admin.ModelAdmin):

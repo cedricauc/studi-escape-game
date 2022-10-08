@@ -5,8 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 
-from main.forms import RegisterForm
-from main.models import User
+from .forms import RegisterForm
+from .models import User, Scenario
 
 
 def home(request):
@@ -14,7 +14,17 @@ def home(request):
 
 
 def scenario(request, id):
-    return render(request, "main/scenario.html")
+    # requête pour le scénario demandé
+    try:
+        data = Scenario.objects.get(pk=id)
+    except Scenario.DoesNotExist:
+        data = None
+
+    context = {
+        "scenario": data,
+    }
+
+    return render(request, "main/scenario.html", context)
 
 
 def faq(request, id=''):
