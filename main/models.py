@@ -39,7 +39,7 @@ class Level(models.Model):
 class Image(models.Model):
     title = models.CharField(max_length=255)
     alt = models.CharField(max_length=255)
-    url = models.CharField(max_length=255, null=True, blank=True)
+    img = models.ImageField(upload_to='img', null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -48,8 +48,7 @@ class Image(models.Model):
         return {
             "id": self.id,
             "title": self.title,
-            "alt": self.alt,
-            "url": self.url
+            "alt": self.alt
         }
 
     class Meta:
@@ -73,6 +72,7 @@ class Scenario(models.Model):
     min_participant = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
     max_participant = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
     price_participant = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    slug = models.SlugField(null=True)
     level = models.ForeignKey(
         Level,
         on_delete=models.SET_NULL,
@@ -109,15 +109,33 @@ class Scenario(models.Model):
         db_table = "scenario"
 
 
+class Game(models.Model):
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    scenario = models.ForeignKey(Scenario, on_delete=models.CASCADE, related_name="games")
+
+    def __str__(self):
+        return f"{self.start_time} : {self.end_time}"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "start_time": self.start_time,
+            "end_time": self.end_time
+        }
+
+    class Meta:
+        db_table = "game"
+
+
 class Cart(models.Model):
     participant = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
-    start_date = models.DateField(auto_now_add=False)
     created_date = models.DateTimeField(auto_now_add=True)
-    scenario = models.ForeignKey(Scenario, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.id} : {self.scenario.title}"
+        return f"{self.id} : {self.created_date}"
 
     def serialize(self):
         return {
@@ -134,11 +152,10 @@ class Cart(models.Model):
 class Booking(models.Model):
     booking_number = models.CharField(max_length=255)
     participant = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
-    start_date = models.DateField(auto_now_add=False)
     created_date = models.DateTimeField(auto_now_add=True)
     total_amount = models.IntegerField()
-    is_canceled = models.BooleanField(default=False) 
-    scenario = models.ForeignKey(Scenario, on_delete=models.CASCADE)
+    is_canceled = models.BooleanField(default=False)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -159,13 +176,11 @@ class Booking(models.Model):
         db_table = "booking"
 
 
-class Game(models.Model):
-    start_time = models.TimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
-    end_time = models.TimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.id} : {self.booking.scenario.title}"
+class GameDetails(models.Model):
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="games_details")
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="games_details")
 
     def serialize(self):
         return {
@@ -175,13 +190,15 @@ class Game(models.Model):
         }
 
     class Meta:
-        db_table = "game"
+        db_table = "game_details"
+        verbose_name_plural = "Games Details"
 
 
 class Discount(models.Model):
     step = models.IntegerField()
     discount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     is_percentage = models.BooleanField(default=False)
+    scenarios = models.ManyToManyField(Scenario, blank=True)
 
     def __str__(self):
         return f"{self.id} : {self.discount}"

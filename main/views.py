@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 
 from .forms import RegisterForm
-from .models import User, Scenario
+from .models import User, Scenario, Game, GameDetails
 
 
 def home(request):

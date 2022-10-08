@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from main.models import User, Level, Image, Room, Scenario, Cart, Booking, Game, Discount, ScenarioRoomClue, \
-    TicketCategory, TicketQuestion, TicketAnswer
+from .models import User, Level, Image, Room, Scenario, Cart, Booking, Game, Discount, ScenarioRoomClue, \
+    TicketCategory, TicketQuestion, TicketAnswer, GameDetails
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -50,19 +50,6 @@ class BookingAdmin(admin.ModelAdmin):
     list_editable = ("scenario", "start_date",)
     ordering = ("-start_date",)
     search_fields = ("scenario", "start_date",)
-    list_display_links = None
-
-
-class GameAdmin(admin.ModelAdmin):
-    exclude = []  
-    fieldsets = (
-        (None, {"fields": ('booking', 'start_time', 'end_time',)}),
-    )
-    list_display = ("booking", "start_time", "end_time")
-    list_filter = ("booking", "start_time",)
-    list_editable = ("booking",)
-    ordering = ("-start_time",)
-    search_fields = ("booking", "start_time",)
     list_display_links = None
 
 
@@ -121,15 +108,17 @@ admin.site.register(Scenario, ScenarioAdmin)
 
 admin.site.register(Level)
 
-admin.site.register(Booking, BookingAdmin)
+admin.site.register(Booking)
 
 admin.site.register(Image)
 
 admin.site.register(Room)
 
-admin.site.register(Cart, CartAdmin)
+admin.site.register(Cart)
 
-admin.site.register(Game, GameAdmin)
+admin.site.register(Game)
+
+admin.site.register(GameDetails)
 
 admin.site.register(Discount, DiscountAdmin)
 

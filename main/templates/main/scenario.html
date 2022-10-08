@@ -147,7 +147,7 @@
                 {% for image in scenario.images.all %}
                     <div class="grid-item">
                         <a href="#">
-                            <img src="{{ image.url }}" alt="{{ image.alt }}" title="{{ image.title }}"
+                            <img src="{{ image.img.url }}" alt="{{ image.alt }}" title="{{ image.title }}"
                                  class="img-responsive">
                         </a>
                     </div>
