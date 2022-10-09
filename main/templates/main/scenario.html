@@ -73,7 +73,7 @@
                             </td>
                             <td class="align-middle">
                 <span class="d-block ms-4 fw-bold">
-                   {{ scenario.duration|stringformat:".1f" }} h
+                   Durée: {{ scenario.duration|stringformat:".1f" }}h
                 </span>
                             </td>
                         </tr>
@@ -91,7 +91,7 @@
                             </td>
                             <td class="align-middle">
                 <span class="d-block ms-4 fw-bold">
-                  Temps record: {{ record_time }}h
+                  Temps record: {{ record_time|stringformat:".1f" }}h
                 </span>
                             </td>
                         </tr>

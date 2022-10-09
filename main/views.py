@@ -7,13 +7,20 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from .forms import RegisterForm, ManageForm, ChatForm
-from .models import User, Scenario, Game, GameDetails, TicketAnswer, TicketCategory, TicketQuestion, Booking
+from .models import User, Scenario, Game, GameDetails, TicketAnswer, TicketCategory, TicketQuestion, Booking, Discount
 
 from datetime import datetime, date
 
 
 def home(request):
-    return render(request, "main/index.html")
+    scenarios = Scenario.objects.all()
+    discounts = Discount.objects.all()
+    context = {
+        "scenarios": scenarios,
+        "discounts": discounts
+    }
+
+    return render(request, "main/index.html", context)
 
 
 def scenario(request, slug):
