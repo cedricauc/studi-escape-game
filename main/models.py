@@ -104,7 +104,7 @@ class Scenario(models.Model):
             "price_participant": self.price_participant,
             "level": self.level,
         }
-    
+
     class Meta:
         db_table = "scenario"
 
@@ -234,6 +234,7 @@ class ScenarioRoomClue(models.Model):
 
 class TicketCategory(models.Model):
     title = models.CharField(max_length=255)
+    slug = models.SlugField(blank=True, null=True)
 
     def __str__(self):
         return self.title
