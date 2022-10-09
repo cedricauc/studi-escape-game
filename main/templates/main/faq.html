@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="mb-5">
-                    <div class="accordion" id="accordionExample">
+                    <div class="accordion" id="accordionFaq">
                         {% for row in data %}
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="heading{{ forloop.counter }}">
@@ -69,7 +69,7 @@
                                         id="collapse{{ forloop.counter }}"
                                         class="accordion-collapse collapse"
                                         aria-labelledby="heading{{ forloop.counter }}"
-                                        data-bs-parent="#accordionExample"
+                                        data-bs-parent="#accordionFaq"
                                 >
                                     <div class="accordion-body">
                                         {{ row.answer }}

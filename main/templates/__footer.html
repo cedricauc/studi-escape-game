@@ -29,7 +29,7 @@
                                 {% for scenario in footer_scenario %}
                                     <li>
                                         <a
-                                                href="{% url 'scenario' id=scenario.id %}"
+                                                href="{% url 'scenario' slug=scenario.slug %}"
                                                 class="py-2 d-block text-light text-decoration-none"
                                         >
                                             {{ scenario.title }}
@@ -41,7 +41,7 @@
                         <div class="col-md-12 col-lg-6 border-light">
                             <h3 class="footer-heading text-light">Site</h3>
                             <ul class="list-unstyled">
-                                                     <li>
+                                <li>
                                     <a
                                             href="{% anchor 'home' 'about' %}"
                                             class="py-2 d-block text-light text-decoration-none"

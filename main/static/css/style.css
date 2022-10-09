@@ -74,8 +74,13 @@ button,
 input,
 optgroup,
 select,
-textarea {
+textarea,
+form-select {
   font-family: inherit;
+}
+
+.form-select option {
+  font-family: 'DMSans';
 }
 
 small {

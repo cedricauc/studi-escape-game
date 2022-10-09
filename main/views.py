@@ -4,9 +4,10 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
-from .forms import RegisterForm
-from .models import User, Scenario, Game, GameDetails, TicketAnswer, TicketCategory, TicketQuestion
+from .forms import RegisterForm, ManageForm, ChatForm
+from .models import User, Scenario, Game, GameDetails, TicketAnswer, TicketCategory, TicketQuestion, Booking
 
 from datetime import datetime, date
 
@@ -15,12 +16,12 @@ def home(request):
     return render(request, "main/index.html")
 
 
-def scenario(request, id):
+def scenario(request, slug):
     # requête pour le scénario demandé
     try:
-        data = Scenario.objects.get(pk=id)
+        data = Scenario.objects.get(slug=slug)
     except Scenario.DoesNotExist:
-        data = None
+        data = Scenario.objects.all().first()
 
     record_time = data.duration
     # pour chaque partie terminée du scénario ci-dessus
@@ -115,16 +116,73 @@ def register(request):
     return render(request, "main/register.html", context)
 
 
+@login_required(login_url="login")
 def order(request):
-    return render(request, "main/order.html")
+    data = Booking.objects.all()
+
+    context = {
+        "data": data,
+        "template": "order"
+    }
+
+    return render(request, "main/order.html", context)
 
 
+@login_required(login_url="login")
 def manage(request):
-    return render(request, "main/manage.html")
+    if request.method == "POST":
+        # Créez une instance de formulaire et remplissez-la avec les données de la requête :
+        form = ManageForm(request.POST)
+        # Vérifiez s'il est valide :
+        if form.is_valid():
+            # traiter les données
+            user = form.save(commit=False)
+            request.user.first_name = request.POST.get("first_name")
+            request.user.last_name = request.POST.get("last_name")
+            request.user.save()
+
+            return HttpResponseRedirect('/manage')
+    else:
+        # Create a form instance and populate it with initial data
+        form = ManageForm(
+            initial={'id': request.user.id, 'first_name': request.user.first_name, 'last_name': request.user.last_name})
+
+    context = {
+        "form": form,
+        "template": "manage"
+    }
+
+    return render(request, "main/manage.html", context)
 
 
+@login_required(login_url="login")
 def chat(request):
-    return render(request, "main/chat.html")
+    if request.method == "POST":
+        # Créez une instance de formulaire et remplissez-la avec les données de la requête :
+        form = ChatForm(request.POST)
+        # Vérifiez s'il est valide :
+        if form.is_valid():
+            # traiter les données
+            category = TicketCategory.objects.get(title=request.POST.get("category"))
+            question = request.POST.get("question")
+            ticket_question = TicketQuestion(author=request.user.username, category=category, question=question)
+            ticket_question.save()
+
+            return render(request, "main/chat.html", {
+                "form": form,
+                "template": "chat",
+                "success": "Question bien transmis"
+            })
+    else:
+        # Create a form instance and populate it with initial data
+        form = ChatForm()
+
+    context = {
+        "form": form,
+        "template": "chat"
+    }
+
+    return render(request, "main/chat.html", context)
 
 
 def booking(request):
