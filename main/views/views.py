@@ -85,7 +85,7 @@ def login_view(request):
             login(request, user)
 
             redirect_to_page = request.POST.get('next')
-            if redirect_to_page:
+            if redirect_to_page != 'None':
                 return redirect(redirect_to_page)
             return HttpResponseRedirect(reverse("home"))
         else:

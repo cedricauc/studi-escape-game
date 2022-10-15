@@ -1,9 +1,9 @@
 {% extends "__base.html" %} {% load static %} {% block body %}
 
     <main class="container">
-        <div class="row h-100">
+        <div class="row h-md-100">
             <aside
-                    class="col-md-2 bg-light h-100 p-0 d-flex py-5"
+                    class="col-md-2 bg-light h-md-100 p-0 d-flex py-5"
             >
                 {% include "__sidebar.html" with action=template %}
             </aside>
@@ -56,21 +56,29 @@
                         {{ row.game.scenario.title }}
                       </span>
                                                     </a>
-
                                                 </h2>
                                                 <div class="card mt-3 mb-4">
                                                     <div class="card-body">
                                                         {{ row.game.scenario.description }}
                                                     </div>
+                                                    <div class="card-footer bg-transparent border-none">
+                                                        <ul class="list-group list-group-flush">
+                                                            <li class="list-group-item">Nombre de participant: <span
+                                                                    class="badge bg-light p-1 text-body">{{ row.participant }}</span>
+                                                            </li>
+                                                            <li class="list-group-item">Total transaction: <span
+                                                                    class="badge bg-light p-1 text-body">{{ row.total_amount }}€</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                                <div class="card-footer bg-transparent border-none">
-                                                    <a
-                                                            href="#"
-                                                            class="btn btn-lg btn-block btn-secondary text-light float-start"
-                                                    >
-                                                        Voir la facture
-                                                    </a>
-                                                </div>
+                                                <a
+                                                        href="#"
+                                                        class="btn btn-lg btn-block btn-secondary text-light float-start"
+                                                >
+                                                    Voir la facture
+                                                </a>
+
                                             </div>
                                         </section>
                                     </div>
