@@ -7,13 +7,13 @@
 @font-face {
   font-family: Oswald;
   src: url(../fonts/Oswald-Medium.ttf);
-  font-weight: medium;
+  font-weight: normal;
 }
 
 @font-face {
   font-family: Oswald;
   src: url(../fonts/Oswald-Regular.ttf);
-  font-weight: regular;
+  font-weight: auto;
 }
 
 @font-face {
@@ -25,13 +25,13 @@
 @font-face {
   font-family: DMSans;
   src: url(../fonts/DMSans-Medium.ttf);
-  font-weight: medium;
+  font-weight: auto;
 }
 
 @font-face {
   font-family: DMSans;
   src: url(../fonts/DMSans-Regular.ttf);
-  font-weight: regular;
+  font-weight: auto;
 }
 
 html {
@@ -56,18 +56,18 @@ body {
 }
 
 body {
-  font-family: 'DMSans';
+  font-family: 'DMSans', sans-serif;
 }
 
 h1,
 h2 {
-  font-family: 'Oswald';
+  font-family: 'Oswald', sans-serif;
 }
 
 h3,
 h4,
 h5 {
-  font-family: 'DMSans';
+  font-family: 'DMSans', sans-serif;
 }
 
 button,
@@ -80,7 +80,7 @@ form-select {
 }
 
 .form-select option {
-  font-family: 'DMSans';
+  font-family: 'DMSans', sans-serif;
 }
 
 small {
