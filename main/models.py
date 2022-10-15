@@ -6,8 +6,8 @@ from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserM
 
 ROLES = [
     (0, "Admin"),
-    (1, "Client"),
-    (2, "Employee"),
+    (1, "Employee"),
+    (2, "Client"),
 ]
 
 

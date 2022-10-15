@@ -7,8 +7,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from main.forms import RegisterForm, ManageForm, ChatForm, BookingForm
-from main.models import User, Scenario, Game, GameDetails, TicketAnswer, TicketCategory, TicketQuestion, Booking, \
-    Discount, Cart
+from main.models import User, Scenario, GameDetails, TicketAnswer, TicketCategory, TicketQuestion, Booking, Discount, \
+    Cart
 
 from datetime import datetime, date
 
@@ -116,6 +116,8 @@ def register(request):
                 user = User.objects.create_user(user_form.email, user_form.email, user_form.password)
                 user.last_name = user_form.last_name
                 user.first_name = user_form.first_name
+                # définir un role client à l'utilisateur
+                user.role = 2
                 user.save()
             except IntegrityError:
                 context = {

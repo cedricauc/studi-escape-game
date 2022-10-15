@@ -1,11 +1,20 @@
 from django.conf import settings
-from django.conf.urls import url
 from django.conf.urls.static import static
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+
+from . import api
 from .views import views, calendar
+
+api_router = routers.DefaultRouter()
+api_router.register(r"bookings", api.BookingViewSet)
+api_router.register(r"games", api.GameViewSet)
+api_router.register(r"details", api.GameDetailsViewSet)
+api_router.register(r"clues", api.ScenarioRoomClueViewSet)
 
 urlpatterns = [
     path("", views.home, name="home"),
+    path("api/", include(api_router.urls)),
     path("scenario/<str:slug>", views.scenario, name="scenario"),
     path("faq", views.faq, name="faq"),
     path("faq/<str:slug>", views.faq, name="faq"),
@@ -17,13 +26,9 @@ urlpatterns = [
     path("chat", views.chat, name="chat"),
     path("booking/sum", views.booking_sum, name="booking_sum"),
     path("booking/final", views.booking_final, name="booking_final"),
-    # url(r'^calendar/$', calendar.CalendarView.as_view(), name='calendar'),
-    # url(r'^booking/$/$/$', views.booking_sum, name='booking'),
     path("booking", views.booking, name="booking"),
     path("booking/<str:slug>", views.booking, name="booking"),
-    # path("booking/<int:year>/<int:month>/<int:day>", views.booking, name="booking"),
     path("api/calendar", calendar.calendar, name="calendar_api"),
-
 ]
 
 if settings.DEBUG:
