@@ -132,7 +132,11 @@ class Cart(models.Model):
     participant = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
     created_date = models.DateTimeField(auto_now_add=True)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             null=True,
+                             blank=True,
+                             )
 
     def __str__(self):
         return f"{self.id} : {self.created_date}"
@@ -141,7 +145,6 @@ class Cart(models.Model):
         return {
             "id": self.id,
             "participant": self.participant,
-            "start_date": self.start_date,
             "created_date": self.created_date,
         }
 
@@ -166,7 +169,6 @@ class Booking(models.Model):
             "id": self.id,
             "booking_number": self.booking_number,
             "participant": self.participant,
-            "start_date": self.start_date,
             "created_date": self.created_date,
             "total_amount": self.total_amount,
             "is_canceled": self.is_canceled,

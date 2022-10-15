@@ -146,28 +146,29 @@ table.calendar-days {
   height: 100%;
 }
 
-.calendar > thead > tr > th {
+table.calendar > tbody > tr > th,
+table.calendar > tbody > tr > td {
   padding: 20px;
-  text-align: center;
   border: 1px solid black;
-  border-bottom: transparent;
+  text-align: center;
 }
 
-.calendar > tbody > tr > td {
-  padding: 0;
+table.calendar td.active {
+  position: relative;
+}
+
+table.calendar span.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #016fb9;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   margin: 0;
-}
-
-table.week-number > thead > tr > th,
-table.calendar-days > thead > tr > th,
-table.week-number > tbody > tr > td,
-table.calendar-days > tbody > tr > td {
-  padding: 20px;
-  border: 1px solid black;
-  text-align: center;
-}
-
-table.calendar-days > thead > tr > th,
-table.calendar-days > tbody > tr > td {
-  border-left: transparent;
 }

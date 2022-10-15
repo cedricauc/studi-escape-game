@@ -22,7 +22,7 @@
 
                     {% for category in categories %}
                         <div class="col-md-4">
-                            <a href="{% url 'faq' id=category.id %}">
+                            <a href="{% url 'faq' slug=category.slug %}">
                    <span class="badge rounded-pill bg-primary w-100 h3 p-2">
                 {{ category.title }}
               </span>

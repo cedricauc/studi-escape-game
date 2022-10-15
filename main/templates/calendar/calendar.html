@@ -1,0 +1,14 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" media="all"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}"/>
+{% block body %}
+    {{ calendar }}
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        function myFunction() {
+            alert("click")
+        }
+
+    </script>
+{% endblock %}

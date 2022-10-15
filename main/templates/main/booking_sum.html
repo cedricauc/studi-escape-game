@@ -1,0 +1,108 @@
+{% extends "__base.html" %} {% load static %} {% block body %}
+
+    <main class="container">
+        <div class="row">
+            <nav class="col-md-12 stepbar xs-labels">
+                <ol class="d-flex justify-content-center bg-white mt-5 p-2">
+                    <li class="col-md-4 current stepbar-item d-flex justify-content-center">
+                        <a
+                                class="stepbar-link"
+                                href="{% url 'booking' %}"
+                                title="Step 1 : Sign in"
+                        >
+                            <span class="step-number">
+                              <img class="p-2" src="/static/img/svg/step-one-outline.svg" alt="step-sign-in"/>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="col-md-4 stepbar-item d-flex justify-content-center next">
+                        <a
+                                class="stepbar-link"
+                                href="{% url 'booking_sum' %}"
+                                title="Step 2 : Review"
+                                aria-current="step"
+                        >
+                            <span class="step-number">
+                              <img class="p-2" src="/static/img/svg/step-two-fill.svg" alt="step-review"/>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="col-md-4 stepbar-item d-flex justify-content-center next">
+                        <a
+                                class="stepbar-link"
+                                href="#"
+                                title="Step 3 : Confirm"
+                        >
+                            <span class="step-number">
+                              <img class="p-2" src="/static/img/svg/step-three-outline.svg" alt="step-confirm"/>
+                            </span>
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+            <div class="py-5">
+                <div class="col-md-12">
+                    {% if empty_cart %}
+                        <div class="w-md-80 w-lg-60 text-center mx-md-auto">
+                            <div class="mt-5 mb-5">
+                                <div class="rounded-circle mb-5">
+                                    <span class="fa fa-shopping-bag fa-2x text-primary"></span>
+                                </div>
+                                <h1 class="h2 mt-5">Votre panier est vide</h1>
+
+                            </div>
+                            <a class="btn btn-secondary btn-lg" href="{% url 'booking' %}">Réserver une séance</a>
+                        </div>
+                    {% else %}
+
+                        <form action="{% url 'booking_sum' %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" width="65">Supprimer</th>
+                                        <th scope="col">Scenario</th>
+                                        <th scope="col">Prix unitaire/participant</th>
+                                        <th scope="col">Nombre participants</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td align="middle">
+                                            <input type="checkbox" name="remove_from_cart" id="remove_from_cart">
+                                        </td>
+                                        <td>{{ scenario.title }}</td>
+                                        <td>{{ scenario.price_participant }}</td>
+                                        <td>{{ cart.participant }}</td>
+                                        <td>{{ total }}€</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">Remise prix calculé:</td>
+                                        <td>{{ discount }}€</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">Total:</td>
+                                        <td>{{ total_amount }}€</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button type="submit" class="btn btn-lg btn-primary mt-4 float-end" name="checkout">
+                                Suivant
+                            </button>
+                            <button type="submit" class="btn btn-lg btn-primary mt-4 float-end me-4" name="update">
+                                Editer
+                            </button>
+                        </form>
+
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+        </div>
+    </main>
+{% endblock %}

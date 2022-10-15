@@ -1,15 +1,18 @@
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from .forms import RegisterForm, ManageForm, ChatForm
-from .models import User, Scenario, Game, GameDetails, TicketAnswer, TicketCategory, TicketQuestion, Booking, Discount
+from main.forms import RegisterForm, ManageForm, ChatForm, BookingForm
+from main.models import User, Scenario, Game, GameDetails, TicketAnswer, TicketCategory, TicketQuestion, Booking, \
+    Discount, Cart
 
 from datetime import datetime, date
+
+from main.utils.util import prepare_booking, create_booking_number
 
 
 def home(request):
@@ -25,21 +28,24 @@ def home(request):
 
 def scenario(request, slug):
     # requête pour le scénario demandé
-    try:
-        data = Scenario.objects.get(slug=slug)
-    except Scenario.DoesNotExist:
+    if not slug:
         data = Scenario.objects.all().first()
+    else:
+        data = Scenario.objects.get(slug=slug)
 
-    record_time = data.duration
-    # pour chaque partie terminée du scénario ci-dessus
-    for itr in data.games.all():
-        row = GameDetails.objects.get(game=itr)
-        # calcul en delta time de la différence début/fin partie
-        diff_dt = datetime.combine(date.today(), row.end_time) - datetime.combine(date.today(), row.start_time)
-        diff = diff_dt.total_seconds() / 3600
-        # si e temps est inférieur alors stocker dans la variable record_time
-        if diff < record_time:
-            record_time = diff
+    record_time = None
+    try:
+        # pour chaque partie terminée du scénario ci-dessus
+        for itr in data.games.all():
+            row = GameDetails.objects.get(game=itr)
+            # calcul en delta time de la différence début/fin partie
+            diff_dt = datetime.combine(date.today(), row.end_time) - datetime.combine(date.today(), row.start_time)
+            diff = diff_dt.total_seconds() / 3600
+            # si e temps est inférieur alors stocker dans la variable record_time
+            if diff < record_time:
+                record_time = diff
+    except GameDetails.DoesNotExist:
+        record_time = None
 
     context = {
         "scenario": data,
@@ -49,11 +55,11 @@ def scenario(request, slug):
     return render(request, "main/scenario.html", context)
 
 
-def faq(request, id=None):
-    if id:
-        category = TicketCategory.objects.get(pk=id)
-    else:
+def faq(request, slug=None):
+    if not slug:
         category = TicketCategory.objects.all().first()
+    else:
+        category = TicketCategory.objects.get(slug=slug)
 
     data = TicketAnswer.objects.filter(question__category=category).order_by("id")
 
@@ -77,17 +83,25 @@ def login_view(request):
         # authentification réussie
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+
+            redirect_to_page = request.POST.get('next')
+            if redirect_to_page:
+                return redirect(redirect_to_page)
+            return HttpResponseRedirect(reverse("home"))
         else:
             return render(request, "main/login.html", {
                 "message": "Invalide e-mail/mot de passe"
             })
-    return render(request, "main/login.html")
+
+    context = {
+        'next': request.GET.get('next')
+    }
+    return render(request, "main/login.html", context)
 
 
 def logout_view(request):
     logout(request)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("home"))
 
 
 def register(request):
@@ -110,7 +124,7 @@ def register(request):
                 return render(request, "main/register.html", context)
 
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("home"))
         else:
             context = {
                 'form': form
@@ -123,7 +137,7 @@ def register(request):
     return render(request, "main/register.html", context)
 
 
-@login_required(login_url="login")
+@login_required(login_url="login_view")
 def order(request):
     data = Booking.objects.all()
 
@@ -135,7 +149,7 @@ def order(request):
     return render(request, "main/order.html", context)
 
 
-@login_required(login_url="login")
+@login_required(login_url="login_view")
 def manage(request):
     if request.method == "POST":
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
@@ -150,7 +164,7 @@ def manage(request):
 
             return HttpResponseRedirect('/manage')
     else:
-        # Create a form instance and populate it with initial data
+        # Créer une instance de formulaire et la remplir avec les données initiales
         form = ManageForm(
             initial={'id': request.user.id, 'first_name': request.user.first_name, 'last_name': request.user.last_name})
 
@@ -162,7 +176,7 @@ def manage(request):
     return render(request, "main/manage.html", context)
 
 
-@login_required(login_url="login")
+@login_required(login_url="login_view")
 def chat(request):
     if request.method == "POST":
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
@@ -181,7 +195,7 @@ def chat(request):
                 "success": "Question bien transmis"
             })
     else:
-        # Create a form instance and populate it with initial data
+        # Créer une instance de formulaire
         form = ChatForm()
 
     context = {
@@ -192,5 +206,76 @@ def chat(request):
     return render(request, "main/chat.html", context)
 
 
-def booking(request):
-    return render(request, "main/booking.html")
+def booking(request, slug=None):
+    if request.method == "POST":
+        cart = Cart(game_id=request.POST.get("start_time"), participant=request.POST.get("participant"))
+        cart.save()
+        request.session['cart'] = cart.id
+        return HttpResponseRedirect(reverse("booking_sum"))
+
+    form = BookingForm()
+
+    context = {
+        "form": form,
+    }
+    return render(request, "main/booking.html", context)
+
+
+@login_required(login_url="login_view")
+def booking_sum(request):
+    if "cart" not in request.session:
+        context = {
+            "empty_cart": True
+        }
+        return render(request, "main/booking_sum.html", context)
+
+    if request.method == "POST":
+        if "update" in request.POST:
+            if request.POST.get("remove_from_cart"):
+                Cart.objects.filter(pk=request.session['cart']).delete()
+                # supprime session cart
+                del request.session["cart"]
+                context = {
+                    "empty_cart": True
+                }
+                return render(request, "main/booking_sum.html", context)
+
+        if "checkout" in request.POST:
+            return HttpResponseRedirect(reverse("booking_final"))
+
+    cart, discount, total, total_amount = prepare_booking(request.session['cart'])
+
+    context = {
+        "cart": cart,
+        "scenario": cart.game.scenario,
+        "discount": discount,
+        "total": total,
+        "total_amount": total_amount
+    }
+    return render(request, "main/booking_sum.html", context)
+
+
+@login_required(login_url="login_view")
+def booking_final(request):
+    if "cart" not in request.session:
+        return HttpResponseRedirect(reverse("booking"))
+
+    if request.method == "POST":
+        if request.POST.get("tos"):
+            cart, discount, total, total_amount = prepare_booking(request.session['cart'])
+
+            booker = Booking(
+                booking_number=create_booking_number(cart.game.scenario.title),
+                participant=cart.participant,
+                total_amount=total_amount,
+                game=cart.game,
+                user=request.user)
+            booker.save()
+
+            Cart.objects.filter(pk=request.session['cart']).delete()
+            # supprime session cart
+            del request.session["cart"]
+
+            return HttpResponseRedirect(reverse("order"))
+
+    return render(request, "main/booking_final.html", {})

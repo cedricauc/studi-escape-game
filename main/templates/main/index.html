@@ -21,60 +21,64 @@
         <!--welcome-->
         <div class="mb-120 d-block"></div>
         <!--highlight-->
-        <section id="highlight" class="bg-highlight pt-5 pb-5">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center justify-content-between">
-                    <div class="highlight-content">
-                        <div class="col-md-12 mb-5">
-                            <div class="card w-100 bg-info text-dark">
-                                <div class="d-md-flex align-items-center justify-content-betwee">
-                                    <div class="img-square-wrapper col-md-6 col-lg-5 h-100">
-                                        <img
-                                                src="/static/img/escape-game.jpg"
-                                                alt="Card image cap"
-                                                class="img-fluid mw-80"
-                                        />
-                                    </div>
-                                    <div class="card-body ms-5 me-5">
-                                        <h2 class="card-title text-light fw-bold mb-5">
-                                            {{ scenarios.first.title }}
-                                        </h2>
-                                        <a href="{% url 'scenario' slug=scenarios.first.slug %}"
-                                           class="btn btn-lg btn-block btn-light">
-                                            Réserver
-                                        </a>
+        {% if scenarios|length %}
+            <section id="highlight" class="bg-highlight pt-5 pb-5">
+                <div class="container h-100">
+                    <div class="row h-100 align-items-center justify-content-between">
+                        <div class="highlight-content">
+                            <div class="col-md-12 mb-5">
+
+                                <div class="card w-100 bg-info text-dark">
+                                    <div class="d-md-flex align-items-center justify-content-betwee">
+                                        <div class="img-square-wrapper col-md-6 col-lg-5 h-100">
+                                            <img
+                                                    src="/static/img/escape-game.jpg"
+                                                    alt="Card image cap"
+                                                    class="img-fluid mw-80"
+                                            />
+                                        </div>
+                                        <div class="card-body ms-5 me-5">
+                                            <h2 class="card-title text-light fw-bold mb-5">
+                                                {{ scenarios.first.title }}
+                                            </h2>
+                                            <a href="{% url 'booking' slug=scenarios.first.slug %}"
+                                               class="btn btn-lg btn-block btn-light">
+                                                Réserver
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                {% for row in scenarios %}
-                                    <div class="col-sm-12 col-md-6 pe-md-4">
-                                        <div class="card w-100 bg-light text-dark">
-                                            <div class="d-flex">
-                                                <div class="card-body">
-                                                    <h4 class="card-title fw-bold">
-                                                        {{ row.title }}
-                                                    </h4>
-                                                    <p class="card-text">
-                                                        {{ row.description|truncatechars:120 }}
-                                                    </p>
-                                                    <a href="{% url 'scenario' slug=row.slug %}"
-                                                       class="btn btn-outline-primary">
-                                                        En savoir plus
-                                                    </a>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    {% for row in scenarios %}
+                                        <div class="col-sm-12 col-md-6 pe-md-4">
+                                            <div class="card w-100 bg-light text-dark">
+                                                <div class="d-flex">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title fw-bold">
+                                                            {{ row.title }}
+                                                        </h4>
+                                                        <p class="card-text">
+                                                            {{ row.description|truncatechars:120 }}
+                                                        </p>
+                                                        <a href="{% url 'scenario' slug=row.slug %}"
+                                                           class="btn btn-outline-primary">
+                                                            En savoir plus
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        {% endif %}
         <!--highlight-->
         <div class="mb-120 d-block"></div>
         <!--about-->
@@ -162,64 +166,66 @@
         <!--about-->
         <div class="mb-120 d-block"></div>
         <!--price-->
-        <section id="price" class="bg-price pt-5 pb-5">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center justify-content-between">
-                    <div class="price-content text-center">
-                        <div class="col-md-12">
-                            <h2 class="fw-bold mb-4">
-                                Les Tarifs
-                            </h2>
-                            <p class="mb-4">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            </p>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="card-deck mt-5 text-center text-light">
-                                <div class="row h-100 align-items-center justify-content-between">
-                                    {% for row in discounts %}
-                                        <div class="col-md-{{ discounts|length }}">
-                                            <div class="card mb-4 {% if forloop.counter|divisibleby:2 %} bg-dark {% else %} bg-secondary {% endif %} border-0 box-shadow">
-                                                <div class="card-body mt-4 mb-4 ">
-                                                    <h2
-                                                            class="card-title pricing-card-title d-flex justify-content-center"
-                                                    >
-                                                        <small class="text-muted align-items-top me-1">$</small>
-                                                        {{ row.discount }}
-                                                    </h2>
-                                                    <h5 class="mt-5 mb-4">{{ row.step }} joueurs</h5>
-                                                    <ul class="list-unstyled mt-3 mb-4">
-                                                        {% for itr in scenarios %}
-                                                            {% if itr in row.scenarios.all %}
-                                                                <li>
-                                                                    <small style="font-size:0.8em">{{ itr.title }}</small>
-                                                                </li>
-                                                            {% else %}
-                                                                <li>
-                                                                    <small style="font-size:0.8em">&nbsp;</small>
-                                                                </li>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </ul>
-                                                    <a
-                                                            href="{% url 'booking' %}"
-                                                            role="button"
-                                                            class="btn btn-lg btn-block {% if forloop.counter|divisibleby:2 %} btn-light {% else %} btn-outline-secondary {% endif %}"
-                                                    >
-                                                        Réserver
-                                                    </a>
+        {% if discounts|length %}
+            <section id="price" class="bg-price pt-5 pb-5">
+                <div class="container h-100">
+                    <div class="row h-100 align-items-center justify-content-between">
+                        <div class="price-content text-center">
+                            <div class="col-md-12">
+                                <h2 class="fw-bold mb-4">
+                                    Les Tarifs
+                                </h2>
+                                <p class="mb-4">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </p>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card-deck mt-5 text-center text-light">
+                                    <div class="row h-100 align-items-center justify-content-between">
+                                        {% for row in discounts %}
+                                            <div class="col-md-{{ discounts|length }}">
+                                                <div class="card mb-4 {% if forloop.counter|divisibleby:2 %} bg-dark {% else %} bg-secondary {% endif %} border-0 box-shadow">
+                                                    <div class="card-body mt-4 mb-4 ">
+                                                        <h2
+                                                                class="card-title pricing-card-title d-flex justify-content-center"
+                                                        >
+                                                            <small class="text-muted align-items-top me-1">$</small>
+                                                            {{ row.discount }}
+                                                        </h2>
+                                                        <h5 class="mt-5 mb-4">{{ row.step }} joueurs</h5>
+                                                        <ul class="list-unstyled mt-3 mb-4">
+                                                            {% for itr in scenarios %}
+                                                                {% if itr in row.scenarios.all %}
+                                                                    <li>
+                                                                        <small style="font-size:0.8em">{{ itr.title }}</small>
+                                                                    </li>
+                                                                {% else %}
+                                                                    <li>
+                                                                        <small style="font-size:0.8em">&nbsp;</small>
+                                                                    </li>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </ul>
+                                                        <a
+                                                                href="{% url 'booking' %}"
+                                                                role="button"
+                                                                class="btn btn-lg btn-block {% if forloop.counter|divisibleby:2 %} btn-light {% else %} btn-outline-secondary {% endif %}"
+                                                        >
+                                                            Réserver
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    {% endfor %}
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        {% endif %}
         <!--price-->
         <div class="mb-120 d-block"></div>
         <!--social-->

@@ -91,3 +91,21 @@ class ChatForm(forms.Form):
         widget=forms.Select(attrs={'name': 'category', 'class': 'form-select form-select-lg border-primary'}),
         choices=categories,
         required=False)
+
+
+class BookingForm(forms.Form):
+    scenario = forms.ChoiceField(
+        widget=forms.Select(
+            attrs={'id': 'scenario', 'name': 'scenario', 'class': 'form-select form-select-lg border-primary mb-3',
+                   'placeholder': 'Choix du scenario'}),
+        choices=[],
+        required=False)
+    participant = forms.IntegerField(widget=forms.NumberInput(
+        attrs={'id': 'participant', 'name': 'participant', 'placeholder': 'Nombre participant',
+               'class': 'form-control form-control-lg border-primary', 'min': 1}))
+    start_time = forms.ChoiceField(
+        widget=forms.Select(
+            attrs={'id': 'start_time', 'name': 'start_time',
+                   'class': 'form-select form-select-lg border-primary mb-3', 'placeholder': 'Heure du scenario'}),
+        choices=[],
+        required=False)

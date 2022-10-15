@@ -19,7 +19,7 @@ class UserAdmin(admin.ModelAdmin):
 
 class ScenarioAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {"fields": ('title', 'description', 'duration', 'level', 'rooms',)}),
+        (None, {"fields": ('title', 'description', 'duration', 'level', 'rooms', 'slug')}),
         ("Détails", {"fields": ('min_participant', 'max_participant', 'price_participant', 'images',)}),
     )
     list_display = ("title", "duration", "price_participant", "level")
@@ -53,18 +53,17 @@ class BookingAdmin(admin.ModelAdmin):
     list_display_links = None
 
 
-class DiscountAdmin(admin.ModelAdmin):
-    exclude = []
-    list_display = ("discount", "step")
-    list_filter = ("discount",)
-    list_editable = ("discount",)
-    ordering = ("-discount",)
-    search_fields = ("discount",)
-    list_display_links = None
+# class DiscountAdmin(admin.ModelAdmin):
+#     exclude = []
+#     list_display = ("discount", "step")
+#     list_filter = ("discount",)
+#     list_editable = ("discount",)
+#     ordering = ("-discount",)
+#     search_fields = ("discount",)
 
 
 class ScenarioRoomClueAdmin(admin.ModelAdmin):
-    exclude = []  
+    exclude = []
     fieldsets = (
         (None, {"fields": ('scenario', 'room', 'clue',)}),
     )
@@ -77,7 +76,7 @@ class ScenarioRoomClueAdmin(admin.ModelAdmin):
 
 
 class TicketQuestionAdmin(admin.ModelAdmin):
-    exclude = []  
+    exclude = []
     fieldsets = (
         (None, {"fields": ('author', 'question', 'category',)}),
     )
@@ -89,7 +88,7 @@ class TicketQuestionAdmin(admin.ModelAdmin):
 
 
 class TicketAnswerAdmin(admin.ModelAdmin):
-    exclude = []  
+    exclude = []
     fieldsets = (
         (None, {"fields": ('answer', 'question',)}),
     )
@@ -118,7 +117,7 @@ admin.site.register(Game)
 
 admin.site.register(GameDetails)
 
-admin.site.register(Discount, DiscountAdmin)
+admin.site.register(Discount)
 
 admin.site.register(ScenarioRoomClue, ScenarioRoomClueAdmin)
 

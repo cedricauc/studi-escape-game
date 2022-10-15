@@ -1,41 +1,116 @@
 {% extends "__base.html" %} {% load static %} {% block body %}
 
-<main class="container">
-  <div class="row">
-    <nav class="col-md-12 o-stepbar xs-labels">
-      <ol class="d-flex justify-content-center bg-white mt-5 p-2">
-        <li class="col-md-4 current stepbar-item d-flex justify-content-center">
-          <a
-            class="stepbar-link"
-            href="#"
-            title="Step 1 : Sign in"
-            aria-current="step"
-          >
-            <span class="step-number">
-              <img class="p-2" src="/static/img/svg/step-a.svg" alt="step-a" />
-            </span>
-            {# <span class="step-title">Sign in</span>#}
-          </a>
-        </li>
-        <li class="col-md-4 stepbar-item d-flex justify-content-center next">
-          <div class="stepbar-link" title="Step 2 : Review">
-            <span class="step-number">
-              <img class="p-2" src="/static/img/svg/step-b.svg" alt="step-b"
-            /></span>
-            {# <span class="step-title">Review</span>#}
-          </div>
-        </li>
-        <li class="col-md-4 stepbar-item d-flex justify-content-center next">
-          <div class="stepbar-link" title="Step 3 : Delivery">
-            <span class="step-number">
-              <img class="p-2" src="/static/img/svg/step-c.svg" alt="step-c"
-            /></span>
-            {# <span class="step-title">Delivery</span>#}
-          </div>
-        </li>
-      </ol>
-    </nav>
-    <div class="py-5">{% include "main/step_c.html" %}</div>
-  </div>
-</main>
+    <main class="container">
+        <div class="row">
+            <nav class="col-md-12 stepbar xs-labels">
+                <ol class="d-flex justify-content-center bg-white mt-5 p-2">
+                    <li class="col-md-4 current stepbar-item d-flex justify-content-center">
+                        <a
+                                class="stepbar-link"
+                                href="{% url 'booking' %}"
+                                title="Step 1 : Sign in"
+                        >
+                            <span class="step-number">
+                              <img class="p-2" src="/static/img/svg/step-one-fill.svg" alt="step-sign-in"/>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="col-md-4 stepbar-item d-flex justify-content-center next">
+                        <a
+                                class="stepbar-link"
+                                href="#"
+                                title="Step 2 : Review"
+                                aria-current="step"
+                        >
+                            <span class="step-number">
+                              <img class="p-2" src="/static/img/svg/step-two-outline.svg" alt="step-review"/>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="col-md-4 stepbar-item d-flex justify-content-center next">
+                        <a
+                                class="stepbar-link"
+                                href="#"
+                                title="Step 3 : Confirm"
+                        >
+                            <span class="step-number">
+                              <img class="p-2" src="/static/img/svg/step-three-outline.svg" alt="step-confirm"/>
+                            </span>
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+            <div class="py-5">
+                <div class="col-md-12">
+                    <form action="{% url 'booking' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-8">
+                                {{ form.scenario }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ form.participant }}
+                            </div>
+                        </div>
+                        <div class="row container-calendar py-5">
+                            <div class="col-md-12 pb-5">
+                                <nav
+                                        class="d-flex justify-content-center"
+                                        aria-label="Page navigation example"
+                                >
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <button class="p-3 page-link"
+                                                    name="prev_month" id="prev_month">
+                                                <em class="fa fa-chevron-left"></em>
+                                            </button>
+                                        </li>
+                                        <li class="page-item">
+                                            <button class="p-3 page-link" id="current_month">
+
+                                            </button>
+                                        </li>
+                                        <li class="page-item">
+                                            <button class="p-3 page-link" id="next_month">
+                                                <em class="fa fa-chevron-right"></em>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                {{ form.start_time }}
+                            </div>
+                            <div class="col-md-4">
+                                <input
+                                        type="text"
+                                        class="form-control form-control-lg border-primary"
+                                        placeholder="Prix"
+                                        id="price"
+                                        disabled
+                                />
+                            </div>
+                        </div>
+                        <button name="next_step" class="btn btn-lg btn-primary mt-4 float-end">
+                            Suivant
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'js/date.js' %}"></script>
+    <script src="{% static 'js/booking.js' %}"></script>
+    <script type="text/javascript">
+
+
+    </script>
 {% endblock %}

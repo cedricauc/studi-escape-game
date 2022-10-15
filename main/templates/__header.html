@@ -14,7 +14,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left links -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 col-md-4">
                 <li class="nav-item pe-4">
                     <a
                             class="nav-link active"
@@ -32,12 +32,15 @@
             </ul>
             <!-- Left links -->
             <!-- Navbar brand -->
-            <a class="navbar-brand me-auto d-none d-lg-block fw-bold" href="#">
+            <a class="navbar-brand mx-auto d-none d-lg-flex fw-bold" href="#">
                 Paradox
             </a>
+            {#            <a class="navbar-brand mx-auto d-none d-lg-block fw-bold" href="#">#}
+            {#                Paradox#}
+            {#            </a>#}
             <!-- Right links -->
-            <ul class="navbar-nav mb-2 mb-lg-0 d-flex">
-                <li class="nav-item">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 col-md-4 d-flex">
+                <li class="nav-item ps-4">
                     <a class="nav-link" href="{% anchor 'home' 'about' %}">A propos</a>
                 </li>
                 <li class="nav-item ps-4">
@@ -56,7 +59,7 @@
                     <li class="nav-item ps-4">
                         <a
                                 class="nav-link btn btn-light text-primary fw-bold"
-                                href="{% url 'login' %}"
+                                href="{% url 'login_view' %}"
                         >
                             Se connecter
                         </a>

@@ -1,71 +1,73 @@
 {% extends "__base.html" %} {% load static %} {% block body %}
 
-<main>
-  <section class="vh-100 bg-light">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-          <div class="card shadow-2-strong" style="border-radius: 1rem">
-            <div class="card-body p-5 text-center">
-              <h3>Se connecter</h3>
-              <form action="{% url 'login' %}" method="post">
-                {% if message %}
-                <div
-                  class="alert alert-warning alert-dismissible fade show mt-3"
-                  role="alert"
-                >
-                  {{message}}
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                {% endif %}
+    <main>
+        <section class="vh-100 bg-light">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <div class="card shadow-2-strong" style="border-radius: 1rem">
+                            <div class="card-body p-5 text-center">
+                                <h3>Se connecter</h3>
+                                <form action="{% url 'login_view' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{{ next }}"/>
+                                    {% if message %}
+                                        <div
+                                                class="alert alert-warning alert-dismissible fade show mt-3"
+                                                role="alert"
+                                        >
+                                            {{ message }}
+                                            <button
+                                                    type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="alert"
+                                                    aria-label="Close"
+                                            ></button>
+                                        </div>
+                                    {% endif %}
 
-                <div class="form-group form-outline mt-4 mb-4">
-                  <input
-                    autofocus
-                    type="email"
-                    name="username"
-                    placeholder="Email"
-                    class="form-control form-control-lg border-primary"
-                  />
-                </div>
+                                    <div class="form-group form-outline mt-4 mb-4">
+                                        <input
+                                                autofocus
+                                                type="text"
+                                                name="username"
+                                                placeholder="Email"
+                                                class="form-control form-control-lg border-primary"
+                                        />
+                                    </div>
 
-                <div class="form-group form-outline mb-4">
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    class="form-control form-control-lg border-primary"
-                  />
-                </div>
+                                    <div class="form-group form-outline mb-4">
+                                        <input
+                                                type="password"
+                                                name="password"
+                                                placeholder="Password"
+                                                class="form-control form-control-lg border-primary"
+                                        />
+                                    </div>
 
-                <button
-                  class="btn btn-primary rounded-pill btn-lg btn-block w-100"
-                  type="submit"
-                >
-                  Se connecter
-                </button>
-                <!--
-              <hr class="my-4" />
-              <button
-                class="btn btn-lg btn-block btn-alert"
-                style="background-color: #dd4b39; color: #fff;"
-                type="submit"
-              >
-                <i class="fa fa-google me-2"></i>
-                Sign in with google
-              </button> -->
-              </form>
+                                    <button
+                                            class="btn btn-primary rounded-pill btn-lg btn-block w-100"
+                                            type="submit"
+                                    >
+                                        Se connecter
+                                    </button>
+                                    <!--
+                                  <hr class="my-4" />
+                                  <button
+                                    class="btn btn-lg btn-block btn-alert"
+                                    style="background-color: #dd4b39; color: #fff;"
+                                    type="submit"
+                                  >
+                                    <i class="fa fa-google me-2"></i>
+                                    Sign in with google
+                                  </button> -->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
+        </section>
+    </main>
 
 {% endblock %}
