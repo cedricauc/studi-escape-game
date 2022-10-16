@@ -98,8 +98,7 @@ class BookingForm(forms.Form):
         widget=forms.Select(
             attrs={'id': 'scenario', 'name': 'scenario', 'class': 'form-select form-select-lg border-primary mb-3',
                    'placeholder': 'Choix du scenario'}),
-        choices=[],
-        required=False)
+        choices=[])
     participant = forms.IntegerField(widget=forms.NumberInput(
         attrs={'id': 'participant', 'name': 'participant', 'placeholder': 'Nombre participant',
                'class': 'form-control form-control-lg border-primary', 'min': 1}))
@@ -107,5 +106,7 @@ class BookingForm(forms.Form):
         widget=forms.Select(
             attrs={'id': 'start_time', 'name': 'start_time',
                    'class': 'form-select form-select-lg border-primary mb-3', 'placeholder': 'Heure du scenario'}),
-        choices=[],
-        required=False)
+        choices=[])
+
+    def clean(self):
+        return self.cleaned_data

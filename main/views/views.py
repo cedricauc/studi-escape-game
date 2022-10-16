@@ -210,11 +210,20 @@ def chat(request):
 
 def booking(request, slug=None):
     if request.method == "POST":
-        cart = Cart(game_id=request.POST.get("start_time"), participant=request.POST.get("participant"))
-        cart.save()
-        request.session['cart'] = cart.id
-        return HttpResponseRedirect(reverse("booking_sum"))
 
+        # Créez une instance de formulaire et remplissez-la avec les données de la requête :
+        form = BookingForm(request.POST)
+        # Ajouter les donnes de l'api scénario et horaires séances au choix des champs de sélection
+        s = request.POST.get("scenario")
+        form.fields['scenario'].choices = [(s, s)]
+        start_time = request.POST.get("start_time")
+        form.fields['start_time'].choices = [(start_time, start_time)]
+        # Vérifiez s'il est valide :
+        if form.is_valid():
+            cart = Cart(game_id=start_time, participant=request.POST.get("participant"))
+            cart.save()
+            request.session['cart'] = cart.id
+            return HttpResponseRedirect(reverse("booking_sum"))
     form = BookingForm()
 
     context = {
