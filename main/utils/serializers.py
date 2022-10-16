@@ -1,6 +1,18 @@
 from rest_framework import serializers
 
-from main.models import Booking, Game, GameDetails, ScenarioRoomClue
+from main.models import Scenario, Booking, Game, GameDetails, ScenarioRoomClue
+
+
+class ScenarioSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Scenario
+        fields = ['title',
+                  'description',
+                  'duration',
+                  'min_participant',
+                  'max_participant',
+                  'price_participant',
+                  'slug']
 
 
 class BookingSerializer(serializers.HyperlinkedModelSerializer):

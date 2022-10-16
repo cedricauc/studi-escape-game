@@ -1,0 +1,6 @@
+Django
+psycopg2
+Pillow
+djangorestframework
+pytest
+pytest-django

@@ -7,6 +7,7 @@ from . import api
 from .views import views, calendar
 
 api_router = routers.DefaultRouter()
+api_router.register(r"scenarios", api.ScenarioViewSet)
 api_router.register(r"bookings", api.BookingViewSet)
 api_router.register(r"games", api.GameViewSet)
 api_router.register(r"details", api.GameDetailsViewSet)

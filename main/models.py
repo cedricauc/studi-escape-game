@@ -81,7 +81,7 @@ class Scenario(models.Model):
         related_name="scenarios",
     )
     images = models.ManyToManyField(Image, blank=True)
-    rooms = models.ManyToManyField(Room)
+    rooms = models.ManyToManyField(Room, blank=True)
 
     def __str__(self):
         return self.title

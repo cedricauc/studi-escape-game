@@ -1,6 +1,7 @@
 from rest_framework import viewsets, permissions
 from . import models
-from .utils.serializers import BookingSerializer, GameSerializer, GameDetailsSerializer, ScenarioRoomClueSerializer
+from .utils.serializers import BookingSerializer, GameSerializer, GameDetailsSerializer, ScenarioRoomClueSerializer, \
+    ScenarioSerializer
 
 
 class IsParadoxEmployeePermission(permissions.BasePermission):
@@ -8,6 +9,19 @@ class IsParadoxEmployeePermission(permissions.BasePermission):
 
     def has_permission(self, request, view):
         return request.user.role in [0, 1] or request.user.is_superuser
+
+
+class ScenarioViewSet(viewsets.ModelViewSet):
+    """
+    API qui permet d'afficher ou de modifier des scénarios.
+    """
+    queryset = models.Scenario.objects.all()
+    permission_classes = [
+        permissions.IsAuthenticated,
+        permissions.DjangoModelPermissions,
+        IsParadoxEmployeePermission,
+    ]
+    serializer_class = ScenarioSerializer
 
 
 class BookingViewSet(viewsets.ModelViewSet):
