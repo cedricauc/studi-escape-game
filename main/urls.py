@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 from rest_framework import routers
+from rest_framework_simplejwt import views as jwt_views
 
 from . import api
 from .views import views, calendar
@@ -30,6 +31,8 @@ urlpatterns = [
     path("booking", views.booking, name="booking"),
     path("booking/<str:slug>", views.booking, name="booking"),
     path("api/calendar", calendar.calendar, name="calendar_api"),
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
 if settings.DEBUG:
