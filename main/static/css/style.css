@@ -155,6 +155,7 @@ table.calendar > tbody > tr > td {
 
 table.calendar td.active {
   position: relative;
+  z-index:-1;
 }
 
 table.calendar span.active {

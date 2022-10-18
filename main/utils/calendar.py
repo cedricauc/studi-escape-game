@@ -1,9 +1,6 @@
-from datetime import datetime, timedelta
 from calendar import HTMLCalendar
 
-from main.models import Scenario, Booking, Game, Cart
-
-from django.db.models import Q
+from main.models import Game
 
 from main.utils.util import exclude_booked_events
 
@@ -31,10 +28,10 @@ class Calendar(HTMLCalendar):
             d = f'bg-secondary'
 
         if day == self.day:
-            e += f' active'
+            e += f'active'
 
         if day != 0:
-            return f"<td class='{e} {d}'><span class='dateD {e}'>{day}</span></td>"
+            return f"<td class='{d} {e}'><span class='dateD {e}'>{day}</span></td>"
 
         return '<td></td>'
 

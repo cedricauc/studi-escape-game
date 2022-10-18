@@ -1,18 +1,12 @@
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, Http404
+from django.http import JsonResponse
 
 from main.utils.calendar import Calendar
 from main.utils.util import get_date, next_month, prev_month, exclude_booked_events
 
-from main.models import Booking, Game, Scenario, Cart
-
-from django.db.models import Q
-
-from datetime import datetime, timedelta
-
-from django.utils import timezone
+from main.models import Game, Scenario
 
 
 @csrf_exempt
