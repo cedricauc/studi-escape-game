@@ -1,7 +1,5 @@
 import calendar
-
 from django.db.models import Q
-
 from main.models import Scenario, Cart, Discount, Booking
 from datetime import datetime, date, timedelta
 
@@ -74,6 +72,9 @@ def next_month(d):
 
 
 def exclude_booked_events(events):
+    """
+    Exclure les séances réservées
+    """
     time_threshold = datetime.now() - timedelta(minutes=1)
 
     events = events.exclude(
@@ -82,3 +83,35 @@ def exclude_booked_events(events):
     )
 
     return events
+
+
+def day_beginning(dt=None):
+    """
+    Retourne le début de la journée
+    """
+    if not dt:
+        dt = get_date(None)
+
+    return dt.replace(hour=0, minute=0, second=0, microsecond=0)
+
+
+def day_end(dt=None):
+    """
+    Retourne la fin de la journée
+    """
+    if not dt:
+        dt = get_date(None)
+
+    return dt.replace(hour=23, minute=59, second=0, microsecond=0)
+
+
+def time_conversion(sec):
+    """
+    Conversion de secondes en heures et minutes
+    """
+    sec_value = sec % (24 * 3600)
+    hour_value = sec_value // 3600
+    sec_value %= 3600
+    min_value = sec_value // 60
+    sec_value %= 60
+    return {hour_value, min_value}

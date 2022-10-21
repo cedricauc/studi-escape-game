@@ -5,14 +5,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
 from main.forms import RegisterForm, ManageForm, ChatForm, BookingForm
-from main.models import User, Scenario, GameDetails, TicketAnswer, TicketCategory, TicketQuestion, Booking, Discount, \
+from main.models import User, Scenario, TicketAnswer, TicketCategory, TicketQuestion, Booking, Discount, \
     Cart
-
 from datetime import datetime, date
-
-from main.utils.util import prepare_booking, create_booking_number
+from main.utils.util import prepare_booking, create_booking_number, time_conversion
 
 
 def home(request):
@@ -34,22 +31,29 @@ def scenario(request, slug):
         data = Scenario.objects.get(slug=slug)
 
     record_time = None
-    try:
-        # pour chaque partie terminée du scénario ci-dessus
-        for itr in data.games.all():
-            row = GameDetails.objects.get(game=itr)
+    now = datetime.now()
+
+    # pour chaque partie terminée du scénario ci-dessus
+    for itr in data.games.all():
+        try:
+            row = Booking.objects.get(game=itr, is_complete=True)
+            start = now.replace(hour=row.start_hour, minute=row.start_minutes)
+            end = now.replace(hour=row.end_hour, minute=row.end_minutes)
             # calcul en delta time de la différence début/fin partie
-            diff_dt = datetime.combine(date.today(), row.end_time) - datetime.combine(date.today(), row.start_time)
-            diff = diff_dt.total_seconds() / 3600
-            # si e temps est inférieur alors stocker dans la variable record_time
-            if diff < record_time:
+            diff_dt = datetime.combine(date.today(), end.time()) - datetime.combine(date.today(), start.time())
+            diff = diff_dt.total_seconds()
+            # si le temps est inférieur alors stocker dans la variable record_time
+            if record_time is None or diff < record_time:
                 record_time = diff
-    except GameDetails.DoesNotExist:
-        record_time = None
+        except Booking.DoesNotExist:
+            row = None
+
+    hour_value, min_value = time_conversion(record_time) if record_time else [0, 0]
 
     context = {
         "scenario": data,
-        "record_time": record_time
+        "hour_value": hour_value,
+        "min_value": min_value
     }
 
     return render(request, "main/scenario.html", context)

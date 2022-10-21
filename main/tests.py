@@ -5,7 +5,6 @@ from django.shortcuts import resolve_url
 from django.urls import reverse
 from django.test import Client
 from django.contrib import auth
-
 from main.models import Scenario, Cart, Booking, Level, Room, User, Game
 
 

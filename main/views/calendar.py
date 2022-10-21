@@ -2,10 +2,8 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-
 from main.utils.calendar import Calendar
 from main.utils.util import get_date, next_month, prev_month, exclude_booked_events
-
 from main.models import Game, Scenario
 
 

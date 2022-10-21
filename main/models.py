@@ -1,4 +1,3 @@
-from unicodedata import decimal
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.forms import ValidationError
@@ -158,7 +157,13 @@ class Booking(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     total_amount = models.IntegerField()
     is_canceled = models.BooleanField(default=False)
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    in_progress = models.BooleanField(default=False)
+    is_complete = models.BooleanField(default=False)
+    start_hour = models.IntegerField(blank=True, null=True)
+    start_minutes = models.IntegerField(blank=True, null=True)
+    end_hour = models.IntegerField(blank=True, null=True)
+    end_minutes = models.IntegerField(blank=True, null=True)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="booking")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -172,28 +177,12 @@ class Booking(models.Model):
             "created_date": self.created_date,
             "total_amount": self.total_amount,
             "is_canceled": self.is_canceled,
+            "in_progress": self.is_canceled,
+            "is_complete": self.is_canceled,
         }
 
     class Meta:
         db_table = "booking"
-
-
-class GameDetails(models.Model):
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="games_details")
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="games_details")
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "start_time": self.start_time,
-            "end_time": self.end_time
-        }
-
-    class Meta:
-        db_table = "game_details"
-        verbose_name_plural = "Games Details"
 
 
 class Discount(models.Model):

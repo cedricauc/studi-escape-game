@@ -1,12 +1,12 @@
 from rest_framework import serializers
-
-from main.models import Scenario, Booking, Game, GameDetails, ScenarioRoomClue
+from main.models import Scenario, Booking, Game, ScenarioRoomClue
 
 
 class ScenarioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Scenario
-        fields = ['title',
+        fields = ['id',
+                  'title',
                   'description',
                   'duration',
                   'min_participant',
@@ -16,24 +16,41 @@ class ScenarioSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class BookingSerializer(serializers.HyperlinkedModelSerializer):
+    scenario_id = serializers.CharField(source='game.scenario.id')
+    scenario_title = serializers.CharField(source='game.scenario.title')
+    game_id = serializers.CharField(source='game.id')
+    game_start_time = serializers.CharField(source='game.start_time')
+
     class Meta:
         model = Booking
-        fields = ['participant', 'is_canceled', 'game']
+        fields = ['id',
+                  'participant',
+                  'in_progress',
+                  'is_complete',
+                  'start_hour',
+                  'start_minutes',
+                  'end_hour',
+                  'end_minutes',
+                  'scenario_id',
+                  'scenario_title',
+                  'game_id',
+                  'game_start_time']
 
 
 class GameSerializer(serializers.HyperlinkedModelSerializer):
+    scenario_id = serializers.CharField(source='scenario.id')
+    scenario_title = serializers.CharField(source='scenario.title')
+
     class Meta:
         model = Game
-        fields = ['start_time', 'end_time', 'scenario']
-
-
-class GameDetailsSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = GameDetails
-        fields = ['start_time', 'end_time', 'game', 'booking']
+        fields = ['id', 'start_time', 'end_time', 'scenario_id', 'scenario_title']
 
 
 class ScenarioRoomClueSerializer(serializers.HyperlinkedModelSerializer):
+    scenario_id = serializers.CharField(source='scenario.id')
+    scenario_title = serializers.CharField(source='scenario.title')
+    room_num = serializers.CharField(source='room.num')
+
     class Meta:
         model = ScenarioRoomClue
-        fields = ['clue', 'scenario', 'room']
+        fields = ['clue', 'scenario_id', 'scenario_title', 'room_num']

@@ -1,7 +1,9 @@
 from rest_framework import viewsets, permissions
+from rest_framework.response import Response
 from . import models
-from .utils.serializers import BookingSerializer, GameSerializer, GameDetailsSerializer, ScenarioRoomClueSerializer, \
+from .utils.serializers import BookingSerializer, GameSerializer, ScenarioRoomClueSerializer, \
     ScenarioSerializer
+from .utils.util import day_beginning, day_end
 
 
 class IsParadoxEmployeePermission(permissions.BasePermission):
@@ -28,13 +30,26 @@ class BookingViewSet(viewsets.ModelViewSet):
     """
     API qui permet d'afficher ou de modifier des réservations.
     """
-    queryset = models.Booking.objects.all()
+    queryset = models.Booking.objects.filter(
+        game__start_time__gt=day_beginning(),
+        game__start_time__lt=day_end()
+    )
+
     permission_classes = [
         permissions.IsAuthenticated,
         permissions.DjangoModelPermissions,
         IsParadoxEmployeePermission,
     ]
     serializer_class = BookingSerializer
+
+    def post(self, request, *args, **kwargs):
+        # modifier une réservation
+        partial = True
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
 
 class GameViewSet(viewsets.ModelViewSet):
@@ -48,19 +63,6 @@ class GameViewSet(viewsets.ModelViewSet):
         IsParadoxEmployeePermission,
     ]
     serializer_class = GameSerializer
-
-
-class GameDetailsViewSet(viewsets.ModelViewSet):
-    """
-    API qui permet d'afficher ou de modifier le détails des séances.
-    """
-    queryset = models.GameDetails.objects.all()
-    permission_classes = [
-        permissions.IsAuthenticated,
-        permissions.DjangoModelPermissions,
-        IsParadoxEmployeePermission,
-    ]
-    serializer_class = GameDetailsSerializer
 
 
 class ScenarioRoomClueViewSet(viewsets.ModelViewSet):

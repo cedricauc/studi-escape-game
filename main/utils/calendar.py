@@ -1,7 +1,5 @@
 from calendar import HTMLCalendar
-
 from main.models import Game
-
 from main.utils.util import exclude_booked_events
 
 
@@ -13,8 +11,8 @@ class Calendar(HTMLCalendar):
         self.slug = slug
         super(Calendar, self).__init__()
 
-    # formats a day as a td
-    # filter events by day
+    # formate un jour comme un td
+    # filtrer les événements par jour
     def formatday(self, day, events):
         events_per_day = events.filter(start_time__day=day)
 
@@ -35,17 +33,16 @@ class Calendar(HTMLCalendar):
 
         return '<td></td>'
 
-    # formats a week as a tr
+    # formats par semaine comme un tr
     def formatweek(self, theweek, events):
         week = ''
         for d, weekday in theweek:
             week += self.formatday(d, events)
         return f'<tr> {week} </tr>'
 
-    # formats a month as a table
-    # filter events by year and month
+    # formate un mois sous forme de tableau
+    # filtrer les événements par année et par mois
     def formatmonth(self, withyear=True):
-        # events = Event.objects.filter(start_time__year=self.year, start_time__month=self.month)
         games = Game.objects.filter(start_time__year=self.year, start_time__month=self.month)
         if self.slug:
             games = games.filter(scenario__slug=self.slug)
