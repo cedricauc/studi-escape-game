@@ -38,6 +38,7 @@ Commandes pour lancer le serveur Django
 python manage.py makemigrations 
 python manage.py migrate
 python manage.py createsuperuser
+python manage.py loaddata fixtures.json
 python manage.py runserver
 ```
 
@@ -46,6 +47,14 @@ Ouvrir [http://localhost:8000](http://localhost:8000) pour afficher dans le navi
 
 Lancement de la console d'administration de l'application en local.\
 Ouvrir [http://localhost:8000/admin](http://localhost:8000/admin) pour afficher dans le navigateur.
+
+**Identification interface d’administration:**\
+utilisateur: admin\
+mot de passe: admin
+
+**Identification application:**\
+utilisateur: client@gmail.com\
+mot de passe: client
 
 ## Visuel de l'application
 
