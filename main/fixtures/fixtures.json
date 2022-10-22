@@ -1,0 +1,346 @@
+[
+  {
+     "model": "main.level",
+      "pk": 1,
+      "fields": {
+        "name": "Facile"
+      }
+  },
+  {
+     "model": "main.level",
+      "pk": 2,
+      "fields": {
+        "name": "Intermédiaire"
+      }
+  },
+  {
+     "model": "main.level",
+      "pk": 3,
+      "fields": {
+        "name": "Difficile"
+      }
+  },
+  {
+     "model": "main.room",
+      "pk": 1,
+      "fields": {
+        "num": "11"
+      }
+  },
+  {
+     "model": "main.room",
+      "pk": 2,
+      "fields": {
+        "num": "41"
+      }
+  },
+  {
+     "model": "main.room",
+      "pk": 3,
+      "fields": {
+        "num": "202"
+      }
+  },
+  {
+     "model": "main.image",
+      "pk": 1,
+      "fields": {
+        "title": "Room",
+        "alt": "Room",
+        "img": "img/room.jpg"
+      }
+  },
+    {
+     "model": "main.scenario",
+      "pk": 1,
+      "fields": {
+        "title": "La prison maudite du Hollandais Volant",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "duration" : 2.00,
+        "min_participant": 3,
+        "max_participant": 9,
+        "price_participant": 35,
+        "slug": "prison-maudite",
+        "level": 2,
+        "rooms": [1, 2, 3],
+        "images": [1]
+      }
+  },
+      {
+     "model": "main.scenario",
+      "pk": 2,
+      "fields": {
+        "title": "Le laboratoire explosif du Dr Schnapp",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "duration" : 2.00,
+        "min_participant": 2,
+        "max_participant": 7,
+        "price_participant": 35,
+        "slug": "laboratoire-explosif",
+        "level": 1,
+        "rooms": [1, 2, 3],
+        "images": [1]
+      }
+  },
+  {
+     "model": "main.discount",
+      "pk": 1,
+      "fields": {
+        "step": 3,
+        "discount": 20.00,
+        "is_percentage": false,
+        "scenarios": [1]
+      }
+  },
+  {
+     "model": "main.discount",
+      "pk": 2,
+      "fields": {
+        "step": 4,
+        "discount": 40.00,
+        "is_percentage": false,
+        "scenarios": [1, 2]
+      }
+  },
+  {
+     "model": "main.discount",
+      "pk": 3,
+      "fields": {
+        "step": 6,
+        "discount": 80.00,
+        "is_percentage": false,
+        "scenarios": [1, 2]
+      }
+  },
+  {
+     "model": "main.scenarioRoomClue",
+      "pk": 1,
+      "fields": {
+        "clue": "Jelly candy canes bear claw chocolate bar pie ice cream cupcake. Cupcake fruitcake halvah sesame snaps sweet roll dessert halvah icing soufflé. Pie jelly beans cake wafer lemon drops jelly beans fruitcake macaroon jelly. Fruitcake cookie shortbread gummi bears cake shortbread jujubes. Chocolate cake dessert cake fruitcake chupa chups tiramisu pudding bear claw jujubes. Donut tootsie roll chocolate cake wafer muffin tootsie roll brownie. Chupa chups soufflé dragée tiramisu lollipop. Oat cake caramels gummies gummi bears jelly dessert. Bonbon jelly-o chocolate cake chocolate bar jelly beans candy canes sugar plum. Jelly pudding bonbon carrot cake marshmallow macaroon. Chupa chups macaroon biscuit bear claw gingerbread tootsie roll. Halvah macaroon apple pie marshmallow fruitcake. Brownie apple pie croissant bonbon sugar plum.",
+        "scenario": 1,
+        "room": 1
+      }
+  },
+      {
+     "model": "main.scenarioRoomClue",
+      "pk": 2,
+      "fields": {
+        "clue": "Liquorice dessert soufflé chocolate ice cream oat cake. Dragée liquorice pudding dessert tart topping. Liquorice cake muffin fruitcake bear claw dessert oat cake chocolate bar. Dessert candy wafer marshmallow brownie candy canes carrot cake shortbread sweet. Tootsie roll brownie croissant jelly-o chupa chups marzipan jelly-o lemon drops. Pudding chocolate bar topping dessert lemon drops bonbon marzipan chupa chups ice cream. Pie cheesecake halvah caramels icing donut gummies. Caramels fruitcake sweet roll carrot cake bonbon bonbon. Gummi bears candy canes gummies dragée danish lollipop cheesecake soufflé soufflé. Cupcake jelly beans dessert jelly beans tiramisu chocolate cake halvah. Sweet roll gummies cake bear claw apple pie. Biscuit croissant croissant candy cookie donut croissant icing dessert. Donut jelly-o icing gummies donut halvah bonbon.",
+        "scenario": 1,
+        "room": 2
+      }
+  },
+  {
+     "model": "main.scenarioRoomClue",
+      "pk": 3,
+      "fields": {
+        "clue": "Topping sweet roll pudding tiramisu lemon drops chocolate bar. Cupcake jujubes dragée marzipan icing cake chupa chups shortbread. Muffin lemon drops jelly-o tootsie roll sugar plum cheesecake icing halvah. Brownie marzipan chocolate bar brownie oat cake liquorice sweet chocolate cake. Gingerbread sugar plum shortbread pie brownie wafer. Tiramisu brownie wafer pastry gummi bears oat cake macaroon gummies marzipan. Apple pie biscuit cotton candy pastry croissant lemon drops cookie jujubes. Chupa chups ice cream dessert apple pie danish cake candy canes oat cake. Chupa chups gingerbread chocolate cake toffee cupcake shortbread tiramisu. Candy pudding biscuit fruitcake oat cake tootsie roll bonbon sweet halvah. Sweet cookie cupcake jujubes ice cream marshmallow. Tootsie roll cotton candy danish chocolate cake liquorice tootsie roll candy canes liquorice. Lemon drops tart cake icing toffee.",
+        "scenario": 1,
+        "room": 3
+      }
+  },
+    {
+     "model": "main.scenarioRoomClue",
+      "pk": 4,
+      "fields": {
+        "clue": "Jelly candy canes bear claw chocolate bar pie ice cream cupcake. Cupcake fruitcake halvah sesame snaps sweet roll dessert halvah icing soufflé. Pie jelly beans cake wafer lemon drops jelly beans fruitcake macaroon jelly. Fruitcake cookie shortbread gummi bears cake shortbread jujubes. Chocolate cake dessert cake fruitcake chupa chups tiramisu pudding bear claw jujubes. Donut tootsie roll chocolate cake wafer muffin tootsie roll brownie. Chupa chups soufflé dragée tiramisu lollipop. Oat cake caramels gummies gummi bears jelly dessert. Bonbon jelly-o chocolate cake chocolate bar jelly beans candy canes sugar plum. Jelly pudding bonbon carrot cake marshmallow macaroon. Chupa chups macaroon biscuit bear claw gingerbread tootsie roll. Halvah macaroon apple pie marshmallow fruitcake. Brownie apple pie croissant bonbon sugar plum.",
+        "scenario": 2,
+        "room": 1
+      }
+  },
+      {
+     "model": "main.scenarioRoomClue",
+      "pk": 5,
+      "fields": {
+        "clue": "Liquorice dessert soufflé chocolate ice cream oat cake. Dragée liquorice pudding dessert tart topping. Liquorice cake muffin fruitcake bear claw dessert oat cake chocolate bar. Dessert candy wafer marshmallow brownie candy canes carrot cake shortbread sweet. Tootsie roll brownie croissant jelly-o chupa chups marzipan jelly-o lemon drops. Pudding chocolate bar topping dessert lemon drops bonbon marzipan chupa chups ice cream. Pie cheesecake halvah caramels icing donut gummies. Caramels fruitcake sweet roll carrot cake bonbon bonbon. Gummi bears candy canes gummies dragée danish lollipop cheesecake soufflé soufflé. Cupcake jelly beans dessert jelly beans tiramisu chocolate cake halvah. Sweet roll gummies cake bear claw apple pie. Biscuit croissant croissant candy cookie donut croissant icing dessert. Donut jelly-o icing gummies donut halvah bonbon.",
+        "scenario": 2,
+        "room": 2
+      }
+  },
+  {
+     "model": "main.scenarioRoomClue",
+      "pk": 6,
+      "fields": {
+        "clue": "Topping sweet roll pudding tiramisu lemon drops chocolate bar. Cupcake jujubes dragée marzipan icing cake chupa chups shortbread. Muffin lemon drops jelly-o tootsie roll sugar plum cheesecake icing halvah. Brownie marzipan chocolate bar brownie oat cake liquorice sweet chocolate cake. Gingerbread sugar plum shortbread pie brownie wafer. Tiramisu brownie wafer pastry gummi bears oat cake macaroon gummies marzipan. Apple pie biscuit cotton candy pastry croissant lemon drops cookie jujubes. Chupa chups ice cream dessert apple pie danish cake candy canes oat cake. Chupa chups gingerbread chocolate cake toffee cupcake shortbread tiramisu. Candy pudding biscuit fruitcake oat cake tootsie roll bonbon sweet halvah. Sweet cookie cupcake jujubes ice cream marshmallow. Tootsie roll cotton candy danish chocolate cake liquorice tootsie roll candy canes liquorice. Lemon drops tart cake icing toffee.",
+        "scenario": 2,
+        "room": 3
+      }
+  },
+  {
+     "model": "main.game",
+      "pk": 1,
+      "fields": {
+        "start_time": "2022-11-02 11:00:00+01",
+        "end_time": "2022-11-02 13:00:00+01",
+        "scenario": 1
+      }
+  },
+  {
+     "model": "main.game",
+      "pk": 2,
+      "fields": {
+        "start_time": "2022-11-02 14:00:00+01",
+        "end_time": "2022-11-02 16:00:00+01",
+        "scenario": 2
+      }
+  },
+  {
+     "model": "main.game",
+      "pk": 3,
+      "fields": {
+        "start_time": "2022-11-03 11:00:00+01",
+        "end_time": "2022-11-03 13:00:00+01",
+        "scenario": 1
+      }
+  },
+  {
+     "model": "main.game",
+      "pk": 4,
+      "fields": {
+        "start_time": "2022-11-03 14:00:00+01",
+        "end_time": "2022-11-03 16:00:00+01",
+        "scenario": 2
+      }
+  },
+  {
+     "model": "main.game",
+      "pk": 5,
+      "fields": {
+        "start_time": "2022-11-04 11:00:00+01",
+        "end_time": "2022-11-04 13:00:00+01",
+        "scenario": 1
+      }
+  },
+    {
+     "model": "main.game",
+      "pk": 6,
+      "fields": {
+        "start_time": "2022-11-04 14:00:00+01",
+        "end_time": "2022-11-04 16:00:00+01",
+        "scenario": 2
+      }
+  },
+  {
+     "model": "main.game",
+      "pk": 7,
+      "fields": {
+        "start_time": "2022-11-05 11:00:00+01",
+        "end_time": "2022-11-05 13:00:00+01",
+        "scenario": 1
+      }
+  },
+    {
+     "model": "main.game",
+      "pk": 8,
+      "fields": {
+        "start_time": "2022-11-05 14:00:00+01",
+        "end_time": "2022-11-05 16:00:00+01",
+        "scenario": 2
+      }
+  },
+    {
+     "model": "main.game",
+      "pk": 9,
+      "fields": {
+        "start_time": "2022-11-07 11:00:00+01",
+        "end_time": "2022-11-07 13:00:00+01",
+        "scenario": 1
+      }
+  },
+      {
+     "model": "main.game",
+      "pk": 10,
+      "fields": {
+        "start_time": "2022-11-07 14:00:00+01",
+        "end_time": "2022-11-07 16:00:00+01",
+        "scenario": 2
+      }
+  },
+  {
+     "model": "main.game",
+      "pk": 11,
+      "fields": {
+        "start_time": "2022-11-08 14:00:00+01",
+        "end_time": "2022-11-08 16:00:00+01",
+        "scenario": 1
+      }
+  },
+  {
+     "model": "main.game",
+      "pk": 12,
+      "fields": {
+        "start_time": "2022-11-08 14:00:00+01",
+        "end_time": "2022-11-08 16:00:00+01",
+        "scenario": 2
+      }
+  },
+  {
+    "model": "main.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$nxXTFP4RavQHH3OAyIqCJY$ZEB19uo6aLHi9eJPmoS1T3X1FqGifQh3gt38KTEcl10=",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@gmail.com",
+      "role": 0
+    }
+  },
+  {
+    "model": "main.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$pOYjo3U3d9RZyneLsjnfi1$FMJ03Wxug0jS0LMxQU9asj2bNRmDuaCRil6HINVBQbs=",
+      "is_superuser": true,
+      "username": "client",
+      "first_name": "",
+      "last_name": "",
+      "email": "client@gmail.com",
+      "role": 0
+    }
+  },
+  {
+     "model": "main.ticketCategory",
+      "pk": 1,
+      "fields": {
+        "title": "Site Paradox",
+        "slug": "site-paradox"
+      }
+  },
+  {
+     "model": "main.ticketCategory",
+      "pk": 2,
+      "fields": {
+        "title": "Réservation",
+        "slug": "reservation"
+      }
+  },
+  {
+     "model": "main.ticketCategory",
+      "pk": 3,
+      "fields": {
+        "title": "Centre Paradox",
+        "slug": "centre-paradox"
+      }
+  },
+  {
+     "model": "main.ticketQuestion",
+      "pk": 1,
+      "fields": {
+        "author": "Client",
+        "question": "Lorem ipsum dolor sit amet",
+        "created_date": "2022-10-22 12:00:00+01",
+        "category": 1
+      }
+  },
+  {
+     "model": "main.ticketAnswer",
+      "pk": 1,
+      "fields": {
+        "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae justo eget magna dui fermentum iaculis. Proin nibh nisl condimentum id venenatis a condimentum. A condimentum vitae sapien pellentesque habitant morbi tristique. Eu augue ut lectus arcu bibendum at varius vel. Pellentesque eu tincidunt tortor aliquam nulla facilisi. Cras tincidunt lobortis feugiat vivamus at augue eget. ",
+        "created_date": "2022-10-22 14:00:00+01",
+        "question": 1
+      }
+  }
+]

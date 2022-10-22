@@ -81,8 +81,11 @@ class ManageForm(forms.ModelForm):
 
 class ChatForm(forms.Form):
     categories = []
-    for e in TicketCategory.objects.all():
-        categories.append([e.title, e.title])
+    try:
+        for e in TicketCategory.objects.all():
+            categories.append([e.title, e.title])
+    except:
+        categories = []
 
     question = forms.CharField(
         widget=forms.Textarea(
