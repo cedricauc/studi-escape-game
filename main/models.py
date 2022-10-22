@@ -1,7 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.forms import ValidationError
-from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser
 
 ROLES = [
     (0, "Admin"),
@@ -42,13 +42,6 @@ class Image(models.Model):
 
     def __str__(self):
         return self.title
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "title": self.title,
-            "alt": self.alt
-        }
 
     class Meta:
         db_table = "image"
@@ -93,17 +86,6 @@ class Scenario(models.Model):
         if self.max_participant < self.min_participant:
             raise ValidationError("The max number of participants must be greater than the min number of participants")
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "title": self.title,
-            "description": self.description,
-            "min_participant": self.min_participant,
-            "max_participant": self.max_participant,
-            "price_participant": self.price_participant,
-            "level": self.level,
-        }
-
     class Meta:
         db_table = "scenario"
 
@@ -115,13 +97,6 @@ class Game(models.Model):
 
     def __str__(self):
         return f"{self.start_time} : {self.end_time}"
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "start_time": self.start_time,
-            "end_time": self.end_time
-        }
 
     class Meta:
         db_table = "game"
@@ -139,13 +114,6 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"{self.id} : {self.created_date}"
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "participant": self.participant,
-            "created_date": self.created_date,
-        }
 
     class Meta:
         db_table = "cart"
@@ -169,18 +137,6 @@ class Booking(models.Model):
     def __str__(self):
         return self.booking_number
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "booking_number": self.booking_number,
-            "participant": self.participant,
-            "created_date": self.created_date,
-            "total_amount": self.total_amount,
-            "is_canceled": self.is_canceled,
-            "in_progress": self.is_canceled,
-            "is_complete": self.is_canceled,
-        }
-
     class Meta:
         db_table = "booking"
 
@@ -194,14 +150,6 @@ class Discount(models.Model):
     def __str__(self):
         return f"{self.id} : {self.discount}"
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "step": self.step,
-            "discount": self.discount,
-            "is_percentage": self.is_percentage
-        }
-
     class Meta:
         db_table = "discount"
 
@@ -214,11 +162,6 @@ class ScenarioRoomClue(models.Model):
     def __str__(self):
         return f"{self.id} : {self.scenario.title} - {self.room.num}"
 
-    def serialize(self):
-        return {
-            "clue": self.clue
-        }
-
     class Meta:
         db_table = "clue"
 
@@ -229,11 +172,6 @@ class TicketCategory(models.Model):
 
     def __str__(self):
         return self.title
-
-    def serialize(self):
-        return {
-            "title": self.title
-        }
 
     class Meta:
         db_table = "ticket_category"
@@ -249,13 +187,6 @@ class TicketQuestion(models.Model):
     def __str__(self):
         return f"{self.id} : {self.category.title}"
 
-    def serialize(self):
-        return {
-            "author": self.author,
-            "question": self.question,
-            "created_date": self.created_date
-        }
-
     class Meta:
         db_table = "ticket_question"
 
@@ -267,12 +198,6 @@ class TicketAnswer(models.Model):
 
     def __str__(self):
         return f"{self.id} : {self.question.category.title}"
-
-    def serialize(self):
-        return {
-            "answer": self.answer,
-            "created_date": self.created_date
-        }
 
     class Meta:
         db_table = "ticket_answer"

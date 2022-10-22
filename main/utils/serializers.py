@@ -18,6 +18,7 @@ class ScenarioSerializer(serializers.HyperlinkedModelSerializer):
 class BookingSerializer(serializers.HyperlinkedModelSerializer):
     scenario_id = serializers.CharField(source='game.scenario.id')
     scenario_title = serializers.CharField(source='game.scenario.title')
+    scenario_duration = serializers.CharField(source='game.scenario.duration')
     game_id = serializers.CharField(source='game.id')
     game_start_time = serializers.CharField(source='game.start_time')
 
@@ -33,6 +34,7 @@ class BookingSerializer(serializers.HyperlinkedModelSerializer):
                   'end_minutes',
                   'scenario_id',
                   'scenario_title',
+                  'scenario_duration',
                   'game_id',
                   'game_start_time']
 
