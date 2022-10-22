@@ -1,4 +1,5 @@
 Django
+gunicorn
 psycopg2
 Pillow
 pytest
@@ -6,3 +7,4 @@ pytest-django
 djangorestframework
 djangorestframework_simplejwt
 django-cors-headers
+dj-database-url

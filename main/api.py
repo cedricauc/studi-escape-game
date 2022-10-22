@@ -33,7 +33,7 @@ class BookingViewSet(viewsets.ModelViewSet):
     queryset = models.Booking.objects.filter(
         game__start_time__gt=day_beginning(),
         game__start_time__lt=day_end()
-    )
+    ).order_by("-game__start_time")
 
     permission_classes = [
         permissions.IsAuthenticated,
