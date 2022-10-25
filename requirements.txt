@@ -7,5 +7,4 @@ pytest-django
 djangorestframework
 djangorestframework_simplejwt
 django-cors-headers
-whitenoise
 dj-database-url
