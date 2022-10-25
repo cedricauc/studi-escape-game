@@ -2,15 +2,15 @@
 
 Ce projet est un outil de reservation d'escape game. 
 
-//lien déploiement 
+https://cedricauc.alwaysdata.net/
 
 Il est constitué de 3 parties à savoir : 
 - une application web : reservations des séances
 - une application mobile : lancement des parties
 - une application desktop : surveillances des parties
 
-Le projet web Escape Game est une application Python développer avec le framework Django. \
-Le projet présente les séances d'Escape Game du centre Paradox et permet la réservation d'une séance d'un utilisateur authentifié.
+Le projet web Escape Game consiste au développmetn d'une application python, 
+une api REST et une base de donnée relationnelle pour permettre la réservation en ligne de séances d'Escape Game.
 Les séances ainsi que les scénarios et la FAQ sont gérés depuis l'interface d’administration automatique de Django.
 
 ## Pré-requis
@@ -55,6 +55,11 @@ mot de passe: admin
 **Identification application:**\
 utilisateur: client@gmail.com\
 mot de passe: client
+
+Commandes pour lancer les tests
+```python
+pytest
+```
 
 ## Visuel de l'application
 
