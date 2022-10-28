@@ -9,7 +9,7 @@ Il est constitué de 3 parties à savoir :
 - une application mobile : lancement des parties
 - une application desktop : surveillances des parties
 
-Le projet web Escape Game consiste au développmetn d'une application python, 
+Le projet web Escape Game consiste au développement d'une application python, 
 une api REST et une base de donnée relationnelle pour permettre la réservation en ligne de séances d'Escape Game.
 Les séances ainsi que les scénarios et la FAQ sont gérés depuis l'interface d’administration automatique de Django.
 
