@@ -11,8 +11,7 @@
                             <span class="text-light">Escape Game</span>
                         </h1>
                         <p class="mb-4 text-light">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Un jeu d’évasion grandeur nature accessible à toute personne
                         </p>
                     </div>
                 </div>
@@ -53,8 +52,8 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     {% for row in scenarios %}
-                                        <div class="col-sm-12 col-md-6 pe-md-4">
-                                            <div class="card w-100 bg-light text-dark">
+                                        <div class="col-sm-12 col-md-6 pe-md-4 ">
+                                            <div class="card w-100 bg-light text-dark mb-md-0 mb-4">
                                                 <div class="d-flex">
                                                     <div class="card-body">
                                                         <h4 class="card-title fw-bold">
@@ -91,8 +90,7 @@
                                 Un Escape Game à Angers pour toutes les circonstances
                             </h2>
                             <p class="mb-4">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                               {{ min_participant.min_participant__min }} à {{ max_participant.max_participant__max }} joueurs, {{ scenarios|length }} escape rooms & aventures immersives
                             </p>
                         </div>
                         <div class="col-md-12 mt-5">
@@ -101,18 +99,36 @@
                                     <div class="card w-100 border-0">
                                         <div class="img-square-wrapper">
                                             <img
-                                                    src="/static/img/room.jpg"
+                                                    src="/static/img/map.jpg"
                                                     alt="Card image cap"
                                                     height="200"
                                             />
                                         </div>
                                         <div class="card-body">
                                             <h5 class="fw-light">
-                                                Lorem ipsum dolor sit amet, consectetur
+                                                Coopération
                                             </h5>
                                             <p class="fw-light mb-4">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                                sed do eiusmod tempor
+                                                Une aventure pleine de rire et d'émotions
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6 col-12">
+                                    <div class="card w-100 border-0">
+                                        <div class="img-square-wrapper">
+                                            <img
+                                                    src="/static/img/clock.jpg"
+                                                    alt="Card image cap"
+                                                    height="200"
+                                            />
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="fw-light">
+                                                Communication
+                                            </h5>
+                                            <p class="fw-light mb-4">
+                                                Une aventure pleine de rire et d'émotions
                                             </p>
                                         </div>
                                     </div>
@@ -128,31 +144,10 @@
                                         </div>
                                         <div class="card-body">
                                             <h5 class="fw-light">
-                                                Lorem ipsum dolor sit amet, consectetur
+                                                Partage
                                             </h5>
                                             <p class="fw-light mb-4">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                                sed do eiusmod tempor
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-md-6 col-12">
-                                    <div class="card w-100 border-0">
-                                        <div class="img-square-wrapper">
-                                            <img
-                                                    src="/static/img/room.jpg"
-                                                    alt="Card image cap"
-                                                    height="200"
-                                            />
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="fw-light">
-                                                Lorem ipsum dolor sit amet, consectetur
-                                            </h5>
-                                            <p class="fw-light mb-4">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                                sed do eiusmod tempor
+                                                Une aventure pleine de rire et d'émotions
                                             </p>
                                         </div>
                                     </div>
@@ -176,8 +171,7 @@
                                     Les Tarifs
                                 </h2>
                                 <p class="mb-4">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                    Paradox Escape game dispose d'un tarif dégressif selon le nombre de joueurs
                                 </p>
                             </div>
                             <div class="col-md-12">
@@ -250,7 +244,7 @@
                                         <div class="col-12 col-sm-6 col-lg-3">
                                             <div class="single-social-item text-center">
                                                 <div class="icon fs-2 mb-3">
-                                                    <a href="#" title="">
+                                                    <a href="{% url 'home' %}" title="Facebook">
                                                         <em class="fa fa-facebook"></em>
                                                     </a>
                                                 </div>
@@ -259,7 +253,7 @@
                                         <div class="col-12 col-sm-6 col-lg-3">
                                             <div class="single-social-item text-center">
                                                 <div class="icon fs-2 mb-3">
-                                                    <a href="#" title="">
+                                                    <a href="{% url 'home' %}" title="Instagram">
                                                         <em class="fa fa-instagram"></em>
                                                     </a>
                                                 </div>
@@ -268,7 +262,7 @@
                                         <div class="col-12 col-sm-6 col-lg-3">
                                             <div class="single-social-item text-center">
                                                 <div class="icon fs-2 mb-3">
-                                                    <a href="#" title="">
+                                                    <a href="{% url 'home' %}" title="Youtube">
                                                         <em class="fa fa-youtube-play"></em>
                                                     </a>
                                                 </div>
@@ -277,7 +271,7 @@
                                         <div class="col-12 col-sm-6 col-lg-3">
                                             <div class="single-social-item text-center">
                                                 <div class="icon fs-2 mb-3">
-                                                    <a href="#" title="">
+                                                    <a href="{% url 'home' %}" title="Twitter">
                                                         <em class="fa fa-twitter"></em>
                                                     </a>
                                                 </div>

@@ -18,7 +18,7 @@
                         <a class="text-decoration-none" href="{% url 'home' %}">Accueil</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a class="text-decoration-none" href="#">Scenario</a>
+                        <a class="text-decoration-none" href="{% url 'scenario' slug=scenario.slug %}">Scenario</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
                         {{ scenario.title }}

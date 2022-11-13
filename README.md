@@ -1,15 +1,16 @@
 # Escape Game
 
-Ce projet est un outil de reservation d'escape game. 
-
-https://cedricauc.alwaysdata.net/
-
 Il est constitué de 3 parties à savoir : 
 - une application web : reservations des séances
 - une application mobile : lancement des parties
 - une application desktop : surveillances des parties
 
-Le projet web Escape Game consiste au développmetn d'une application python, 
+Ce projet est un outil de reservation d'escape game. 
+
+[lien de la version en ligne](https://cedricauc.alwaysdata.net/) 
+
+
+Le projet web Escape Game consiste au développement d'une application python, 
 une api REST et une base de donnée relationnelle pour permettre la réservation en ligne de séances d'Escape Game.
 Les séances ainsi que les scénarios et la FAQ sont gérés depuis l'interface d’administration automatique de Django.
 

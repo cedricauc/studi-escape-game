@@ -30,7 +30,7 @@
                     <li class="col-md-4 stepbar-item d-flex justify-content-center next">
                         <a
                                 class="stepbar-link"
-                                href="#"
+                                href="{% url 'booking_sum' %}"
                                 title="Step 3 : Confirm"
                         >
                             <span class="step-number">
@@ -58,8 +58,8 @@
                         <form action="{% url 'booking_sum' %}" method="post">
                             {% csrf_token %}
                             <div class="row">
-                                <table class="table table-bordered">
-                                    <thead>
+                                <table class="table table-bordered bg-light">
+                                    <thead class="bg-secondary">
                                     <tr>
                                         <th scope="col" width="65">Supprimer</th>
                                         <th scope="col">Scenario</th>
@@ -79,18 +79,18 @@
                                         <td>{{ total }}€</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4">Remise prix calculé:</td>
+                                        <td colspan="4">Montant remise :</td>
                                         <td>{{ discount }}€</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4">Total:</td>
-                                        <td>{{ total_amount }}€</td>
+                                        <td colspan="4" class="fw-bold">Total prix après réduction :</td>
+                                        <td class="fw-bold">{{ total_amount }}€</td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <button type="submit" class="btn btn-lg btn-primary mt-4 float-end" name="checkout">
-                                Suivant
+                                 Passons à l'étape suivante
                             </button>
                             <button type="submit" class="btn btn-lg btn-primary mt-4 float-end me-4" name="update">
                                 Editer

@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const participant = document.querySelector('#participant')
   const price = document.querySelector('#price')
 
+  const notificationCard = document.querySelector('#notification-card')
+  const notificationMsg = document.querySelector('#notification-message')
+
   const baseUrl = window.location.protocol + '//' + window.location.host + '/'
 
   const { pathname } = window.location
@@ -107,6 +110,18 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     price.setAttribute('value', parseInt(participant.value) * q[0]['price'])
+  }
+
+  /**
+   * définit le message de notification
+   * @param classToRemove
+   * @param classToAdd
+   * @param html
+   */
+  function setNotificationMessage(classToRemove, classToAdd, html) {
+      notificationMsg.classList.remove(classToRemove)
+      notificationMsg.classList.add(classToAdd)
+      notificationMsg.innerHTML = html
   }
 
   /**
@@ -220,6 +235,20 @@ document.addEventListener('DOMContentLoaded', () => {
       .then((response) => response.json())
       .then((result) => {
         data = result['data']
+
+        if(!data.length) {
+              notificationCard.classList.remove('d-none')
+              setNotificationMessage(
+                  'alert-info',
+                  'alert-danger',
+                  'Aucune séance d\'escape game disponible',
+              )
+              participant.value = 0
+              price.setAttribute('value', '0')
+        }
+        else {
+          notificationCard.classList.add('d-none')
+        }
 
         calendar.innerHTML = ''
 

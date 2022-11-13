@@ -1,4 +1,5 @@
 from django.db import IntegrityError
+from django.db.models import Min, Max
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -15,9 +16,15 @@ from main.utils.util import prepare_booking, create_booking_number, time_convers
 def home(request):
     scenarios = Scenario.objects.all()
     discounts = Discount.objects.all()
+
+    min_participant = Scenario.objects.aggregate(Min('min_participant'))
+    max_participant = Scenario.objects.aggregate(Max('max_participant'))
+
     context = {
         "scenarios": scenarios,
-        "discounts": discounts
+        "discounts": discounts,
+        "min_participant": min_participant,
+        "max_participant": max_participant
     }
 
     return render(request, "main/index.html", context)

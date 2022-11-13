@@ -18,7 +18,7 @@
                     <li class="col-md-4 stepbar-item d-flex justify-content-center next">
                         <a
                                 class="stepbar-link"
-                                href="#"
+                                href="{% url 'booking' %}"
                                 title="Step 2 : Review"
                                 aria-current="step"
                         >
@@ -30,7 +30,7 @@
                     <li class="col-md-4 stepbar-item d-flex justify-content-center next">
                         <a
                                 class="stepbar-link"
-                                href="#"
+                                href="{% url 'booking' %}"
                                 title="Step 3 : Confirm"
                         >
                             <span class="step-number">
@@ -40,23 +40,38 @@
                     </li>
                 </ol>
             </nav>
-            <div class="py-5">
+            <div class="pt-2 pb-5">
                 <div class="col-md-12">
                     <form action="{% url 'booking' %}" method="post">
+                            <div class="d-none mb-4" id="notification-card">
+                                <div class="alert text-center fs-5" role="alert" id="notification-message"></div>
+                            </div>
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-8">
-                                {{ form.scenario }}
+                                <div class="form-group row">
+                                    <label for="scenario" class="col-sm-3 col-form-label">Scenario :</label>
+                                    <div class="col-sm-9">
+                                        {{ form.scenario }}
+                                    </div>
+                                </div>
+                               
                             </div>
                             <div class="col-md-4">
-                                {{ form.participant }}
+                                <div class="form-group row">
+                                    <label for="participant" class="col-sm-6 col-form-label">Nombre Participant :</label>
+                                    <div class="col-sm-6">
+                                          {{ form.participant }}
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                        <div class="row container-calendar py-5">
-                            <div class="col-md-12 pb-5">
+                        <div class="row container-calendar mb-3">
+                            <div class="col-md-12 pb-1">
                                 <nav
                                         class="d-flex justify-content-center"
-                                        aria-label="Page navigation example"
+                                        aria-label="Navigation"
                                 >
                                     <ul class="pagination">
                                         <li class="page-item">
@@ -85,20 +100,31 @@
                         </div>
                         <div class="row">
                             <div class="col-md-8">
-                                {{ form.start_time }}
+                                <div class="form-group row">
+                                   <label for="start_time" class="col-sm-3 col-form-label">Heure séance :</label>
+                                    <div class="col-sm-9">
+                                        {{ form.start_time }}
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-4">
-                                <input
+                                <div class="form-group row">
+                                   <label for="price" class="col-sm-6 col-form-label">Prix :</label>
+                                    <div class="col-sm-6">
+                                                                       <input
                                         type="text"
-                                        class="form-control form-control-lg border-primary"
+                                        class="form-control form-control-lg border-primary bg-secondary"
                                         placeholder="Prix"
                                         id="price"
                                         disabled
                                 />
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <button name="next_step" class="btn btn-lg btn-primary mt-4 float-end">
-                            Suivant
+                            Passons à l'étape suivante
                         </button>
                     </form>
                 </div>
@@ -109,8 +135,5 @@
 {% block scripts %}
     <script src="{% static 'js/date.js' %}"></script>
     <script src="{% static 'js/booking.js' %}"></script>
-    <script type="text/javascript">
-
-
-    </script>
+    <script type="text/javascript"></script>
 {% endblock %}

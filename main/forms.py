@@ -104,7 +104,7 @@ class BookingForm(forms.Form):
         choices=[])
     participant = forms.IntegerField(widget=forms.NumberInput(
         attrs={'id': 'participant', 'name': 'participant', 'placeholder': 'Nombre participant',
-               'class': 'form-control form-control-lg border-primary', 'min': 1}))
+               'class': 'form-control form-control-lg border-primary mb-3', 'min': 1}))
     start_time = forms.ChoiceField(
         widget=forms.Select(
             attrs={'id': 'start_time', 'name': 'start_time',
