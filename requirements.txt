@@ -8,3 +8,4 @@ djangorestframework
 djangorestframework_simplejwt
 django-cors-headers
 dj-database-url
+whitenoise
