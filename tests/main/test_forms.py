@@ -1,14 +1,11 @@
-import secrets
-
 import pytest
 
-from main.forms import RegisterForm, ManageProfileForm, ManageChatForm
-from main.models import User, TicketQuestion
+from main.forms import RegisterForm, ManageProfileForm
+from main.models import User
 
 
 @pytest.mark.django_db
 def test_register_form_validate():
-
     """
     Tester le RegisterForm pour vérifier si les données saisies par l'utilisateur sont correctement validées ou non
     """
@@ -28,7 +25,6 @@ def test_register_form_validate():
 
 @pytest.mark.django_db
 def test_register_form_save_method():
-
     """
     Tester si l'objet User est créé correctement en utilisant registerForm ou non
     """
@@ -49,7 +45,6 @@ def test_register_form_save_method():
 
 @pytest.mark.django_db
 def test_manage_profile_form_validate():
-
     """
     Tester le ManageProfileForm pour vérifier si les données saisies par l'utilisateur sont correctement validées ou non
     """
@@ -69,7 +64,6 @@ def test_manage_profile_form_validate():
 
 @pytest.mark.django_db
 def test_manage_profile_form_save_method():
-
     """
     Tester si l'objet utilisateur est créé correctement en utilisant ManageProfileForm ou non
     """

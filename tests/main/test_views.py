@@ -1,56 +1,20 @@
 import secrets
-
 import pytest
 from django.contrib import auth
 from django.test import Client
 from django.urls import reverse, resolve
 from pytest_django.asserts import assertTemplateUsed
-
 from main.models import User, Scenario, TicketCategory, Game
 
-client = Client()
+
+@pytest.fixture
+def client():
+    client = Client()
+    return client
 
 
-@pytest.mark.django_db
-def test_HomeView():
-    response = client.get(reverse('home'))
-
-    """ 
-    Dans la première assertion, nous testons si notre requête get renvoie le code d'état 200 (OK)
-    Pour la deuxième assertion, nous nous assurons que notre vue renvoie le modèle home.html
-    """
-
-    assert response.status_code == 200
-    assertTemplateUsed(response, 'main/index.html')
-
-
-@pytest.mark.django_db
-def test_RegisterView():
-    """
-    In the first assert, we are checing if a user is created successfully then, the user is redirected to '/login/' route,
-    For the second assert, we are checking the 302 status code(redirect)
-    """
-
-    credentials = {
-        'first_name': 'Test',
-        'last_name': 'User',
-        'email': 'testuser@testing.com',
-        'password': 'TestPassword',
-        'confirmation': 'TestPassword',
-    }
-    response = client.post(reverse('register'), credentials)
-
-    assert response.url == reverse('home')
-    assert response.status_code == 302
-
-
-@pytest.mark.django_db
-def test_LoginView():
-    """
-    Dans la première assertion, nous vérifions si un utilisateur est créé avec succès, puis l'utilisateur est redirigé vers la route '/login/',
-    Pour la deuxième assertion, nous vérifions le code d'état 302 (redirection)
-    """
-    # Inscrire un utilisateur à l’aide de la vue `signup`afin de l’enregistrer dans la base de données
+@pytest.fixture
+def credentials():
     credentials = {
         'first_name': 'test',
         'last_name': 'test',
@@ -59,6 +23,68 @@ def test_LoginView():
         'password': 'TestPassword',
         'confirmation': 'TestPassword'
     }
+    return credentials
+
+
+@pytest.fixture
+def login(credentials, client):
+    temp_user = client.post(reverse('register'), credentials)
+    client.post(reverse('login_view'), {'username': 'TestUser', 'password': 'TestPassword'})
+    return temp_user
+
+
+@pytest.fixture
+def scenario():
+    temp_scenario = Scenario.objects.create(
+        title=secrets.token_hex(5),
+        description=secrets.token_hex(100),
+        duration=2.5,
+        min_participant=2,
+        max_participant=9,
+        price_participant=20.5,
+        slug=secrets.token_hex(5)
+    )
+    return temp_scenario
+
+
+@pytest.fixture
+def game(scenario):
+    temp_game = Game.objects.create(
+        start_time='2023-05-08 14:00:00+01',
+        end_time='2023-05-08 16:00:00+01',
+        scenario=scenario)
+    return temp_game
+
+
+@pytest.mark.django_db
+def test_HomeView(client):
+    response = client.get(reverse('home'))
+    """ 
+    Dans la première assertion, nous testons si notre requête get renvoie le code d'état 200 (OK)
+    Pour la deuxième assertion, nous nous assurons que notre vue renvoie le modèle home.html
+    """
+    assert response.status_code == 200
+    assertTemplateUsed(response, 'main/index.html')
+
+
+@pytest.mark.django_db
+def test_RegisterView(client, credentials):
+    """
+    In the first assert, we are checing if a user is created successfully then, the user is redirected to '/login/' route,
+    For the second assert, we are checking the 302 status code(redirect)
+    """
+    response = client.post(reverse('register'), credentials)
+
+    assert response.url == reverse('home')
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_LoginView(client, credentials):
+    """
+    Dans la première assertion, nous vérifions si un utilisateur est créé avec succès, puis l'utilisateur est redirigé vers la route '/login/',
+    Pour la deuxième assertion, nous vérifions le code d'état 302 (redirection)
+    """
     response = client.post(reverse('register'), credentials)
 
     credentials = {
@@ -77,12 +103,11 @@ def test_LoginView():
 
 
 @pytest.mark.django_db
-def test_LogoutView():
+def test_LogoutView(client):
     """
     Tester si notre LogoutView déconnecte correctement l'utilisateur, Dans la première assertion, nous vérifions si l'utilisateur est redirigé vers
     route d'accueil, pour la deuxième affirmation, nous vérifions le code d'état de redirection 302
     """
-
     response = client.get(reverse('logout'))
 
     assert response.url == reverse('home')
@@ -90,16 +115,11 @@ def test_LogoutView():
 
 
 @pytest.mark.django_db
-def test_ManageProfileView():
+def test_ManageProfileView(login, client):
     """
     Tester si ManageProfileView est rendu correctement en vérifiant le code d'état 200,
     Pour la deuxième assertion, nous nous assurons que le modèle 'profile.html' est rendu
     """
-
-    # Authentifier un user
-    my_admin = User.objects.create_user('test', 'test@test.com', 'test')
-    client.login(username=my_admin.username, password='test')
-
     response = client.get(reverse('profile'))
 
     assert response.status_code == 200
@@ -107,16 +127,11 @@ def test_ManageProfileView():
 
 
 @pytest.mark.django_db
-def test_ManageOrderView():
+def test_ManageOrderView(login, client):
     """
     Vérifier si notre 'ManageOrderView' renvoie le modèle 'order.html' pour afficher le formulaire de mise à jour,
     pour la deuxième assertion, nous nous assurons que tout s'est bien passé en vérifiant le code d'état 200
     """
-
-    # Authentifier un user
-    my_admin = User.objects.create_user('test', 'test@test.com', 'test')
-    client.login(username=my_admin.username, password='test')
-
     response = client.get(reverse('order'))
 
     assertTemplateUsed(response, 'main/order.html')
@@ -124,16 +139,11 @@ def test_ManageOrderView():
 
 
 @pytest.mark.django_db
-def test_ManageChatView():
+def test_ManageChatView(login, client):
     """
     Vérifier si notre 'ManageChatView' renvoie le modèle 'chat.html' pour afficher le formulaire de mise à jour,
     pour la deuxième assertion, nous nous assurons que tout s'est bien passé en vérifiant le code d'état 200
     """
-
-    # Authentifier un user
-    my_admin = User.objects.create_user('test', 'test@test.com', 'test')
-    client.login(username=my_admin.username, password='test')
-
     response = client.get(reverse('chat'))
 
     assertTemplateUsed(response, 'main/chat.html')
@@ -141,29 +151,19 @@ def test_ManageChatView():
 
 
 @pytest.mark.django_db
-def test_ScenarioView():
+def test_ScenarioView(client, scenario):
     """
     Vérifier si notre 'ScenarioView' renvoie le modèle 'scenario.html' pour afficher le formulaire de mise à jour,
     pour la deuxième assertion, nous nous assurons que tout s'est bien passé en vérifiant le code d'état 200
     """
-    # Enregistrer un scénario
-    temp_scenario = Scenario.objects.create(
-        title=secrets.token_hex(5),
-        description=secrets.token_hex(100),
-        duration=2.5,
-        min_participant=2,
-        max_participant=9,
-        price_participant=20.5,
-        slug=secrets.token_hex(5), )
-
-    response = client.get(reverse('scenario', args=[temp_scenario.slug]))
+    response = client.get(reverse('scenario', args=[scenario.slug]))
 
     assertTemplateUsed(response, 'main/scenario.html')
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_FaqView():
+def test_FaqView(client):
     """
     Vérifier si notre 'FaqView' renvoie le modèle 'scenario.html' pour afficher le formulaire de mise à jour,
     pour la deuxième assertion, nous nous assurons que tout s'est bien passé en vérifiant le code d'état 200
@@ -178,47 +178,23 @@ def test_FaqView():
 
 
 @pytest.mark.django_db
-def test_BookingView():
+def test_BookingView(client, scenario):
     """
     Vérifier si notre 'BookingView' renvoie le modèle 'booking.html' pour afficher le formulaire de mise à jour,
     pour la deuxième assertion, nous nous assurons que tout s'est bien passé en vérifiant le code d'état 200
     """
-    # Enregistrer un scénario
-    temp_scenario = Scenario.objects.create(
-        title=secrets.token_hex(5),
-        description=secrets.token_hex(100),
-        duration=2.5,
-        min_participant=2,
-        max_participant=9,
-        price_participant=20.5,
-        slug=secrets.token_hex(5), )
-
-    response = client.get(reverse('booking', args=[temp_scenario.slug]))
+    response = client.get(reverse('booking', args=[scenario.slug]))
 
     assertTemplateUsed(response, 'main/booking.html')
     assert response.status_code == 200
 
 
 @pytest.mark.django_db
-def test_BookingSumView():
+def test_BookingSumView(login, client, scenario):
     """
     Vérifier si notre 'BookingSumView' renvoie le modèle 'booking_sum.html' pour afficher le formulaire de mise à jour,
     pour la deuxième assertion, nous nous assurons que tout s'est bien passé en vérifiant le code d'état 200
     """
-    # Enregistrer un scénario
-    temp_scenario = Scenario.objects.create(
-        title=secrets.token_hex(5),
-        description=secrets.token_hex(100),
-        duration=2.5,
-        min_participant=2,
-        max_participant=9,
-        price_participant=20.5,
-        slug=secrets.token_hex(5), )
-
-    # Authentifier un user
-    my_admin = User.objects.create_user('test', 'test@test.com', 'test')
-    client.login(username=my_admin.username, password='test')
-
     response = client.get(reverse('booking_sum'))
 
     assertTemplateUsed(response, 'main/booking_sum.html')
@@ -226,33 +202,13 @@ def test_BookingSumView():
 
 
 @pytest.mark.django_db
-def test_BookingFinalView():
+def test_BookingFinalView(login, client, scenario, game):
     """
     Vérifier si notre 'BookingFinalView' renvoie le modèle 'booking_final.html' pour afficher le formulaire de mise à jour,
     pour la deuxième assertion, nous nous assurons que tout s'est bien passé en vérifiant le code d'état 200
     """
-    # Enregistrer un scénario
-    temp_scenario = Scenario.objects.create(
-        title=secrets.token_hex(5),
-        description=secrets.token_hex(100),
-        duration=2.5,
-        min_participant=2,
-        max_participant=9,
-        price_participant=20.5,
-        slug=secrets.token_hex(5), )
-
-    # Enregistrer une séance
-    temp_game = Game.objects.create(
-        start_time='2023-05-08 14:00:00+01',
-        end_time='2023-05-08 16:00:00+01',
-        scenario=temp_scenario)
-
-    # Authentifier un user
-    my_admin = User.objects.create_user('test', 'test@test.com', 'test')
-    client.login(username=my_admin.username, password='test')
-
     client.post(reverse('booking'),
-                {'scenario': temp_scenario.slug, 'participant': secrets.randbits(2), 'start_time': temp_game.id})
+                {'scenario': scenario.slug, 'participant': secrets.randbits(2), 'start_time': game.id})
 
     response = client.get(reverse('booking_final'))
 

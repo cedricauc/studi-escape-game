@@ -1,10 +1,9 @@
 import pytest
-from datetime import datetime, date, timedelta
-
+from datetime import datetime, date
 from main.utils.util import create_booking_number, day_beginning, day_end, time_conversion
 
 
-def test_create_booking_numbe():
+def test_create_booking_number():
     """
     test de la fonction create_booking_number
     """

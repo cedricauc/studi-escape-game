@@ -1,6 +1,5 @@
 from django.urls import reverse, resolve
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
 from main.api import ScenarioViewSet, BookingViewSet, GameViewSet, ScenarioRoomClueViewSet
 from main.views.calendar import CalendarViewSet
 from main.views.views import LoginView, RegisterView, LogoutView, ManageProfileView, HomeView, ScenarioView, FaqView, \
