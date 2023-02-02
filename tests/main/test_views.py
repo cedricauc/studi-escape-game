@@ -56,6 +56,12 @@ def game(scenario):
     return temp_game
 
 
+@pytest.fixture
+def category():
+    temp_category = TicketCategory.objects.create(title=secrets.token_hex(5), slug=secrets.token_urlsafe(5))
+    return temp_category
+
+
 @pytest.mark.django_db
 def test_HomeView(client):
     response = client.get(reverse('home'))
@@ -208,9 +214,90 @@ def test_BookingFinalView(login, client, scenario, game):
     pour la deuxième assertion, nous nous assurons que tout s'est bien passé en vérifiant le code d'état 200
     """
     client.post(reverse('booking'),
-                {'scenario': scenario.slug, 'participant': secrets.randbits(2), 'start_time': game.id})
+                {'scenario': scenario.slug, 'participant': 3, 'start_time': game.id})
 
     response = client.get(reverse('booking_final'))
 
     assertTemplateUsed(response, 'main/booking_final.html')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_booking_success(login, client, scenario, game):
+    """
+    Pour la première assertion, nous nous assurons que la réservation d'une séance a été ajouté au panier,
+    et nous vérifions le code d'état de redirection 302.
+    Pour la deuxième assertion, nous nous assurons que l'utilisateur a pris connaissance,
+    et accepte le montant total de la réservation et nous vérifions le code d'état de redirection 302.
+    Pour la troisième assertion, nous nous assurons que l'utilisateur accepte les conditions d'achat,
+    et nous vérifions le code d'état de redirection 302.
+    """
+    response = client.post(
+        reverse('booking'), {'scenario': scenario.slug, 'participant': secrets.randbits(2), 'start_time': game.id})
+
+    assert response.url == reverse('booking_sum')
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse('booking_sum'), {'checkout': True})
+
+    assert response.url == reverse('booking_final')
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse('booking_final'), {'tos': True})
+
+    assert response.url == reverse('order')
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_booking_failure(login, client, scenario, game):
+    """
+    Pour la première assertion, nous nous assurons que la réservation d'une séance a été ajouté au panier,
+    et nous vérifions le code d'état de redirection 302.
+    Pour la deuxième assertion, nous nous assurons que l'utilisateur a pris connaissance,
+    et accepte le montant total de la réservation et nous vérifions le code d'état de redirection 302.
+    Pour la troisième assertion, nous nous assurons que l'utilisateur n'accepte pas les conditions d'achat,
+    et nous vérifions le code d'état de 200.
+    """
+    response = client.post(
+        reverse('booking'), {'scenario': scenario.slug, 'participant': secrets.randbits(2), 'start_time': game.id})
+
+    assert response.url == reverse('booking_sum')
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse('booking_sum'), {'checkout': True})
+
+    assert response.url == reverse('booking_final')
+    assert response.status_code == 302
+
+    response = client.post(
+        reverse('booking_final'))
+
+    assertTemplateUsed(response, 'main/booking_final.html')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_add_ticket_faq(login, client, category):
+    """
+    Pour la première assertion, nous nous assurons qu'un ticket est créé pour la faq,
+    et nous vérifions le code d'état 200.
+    Pour la deuxième assertion, nous nous assurons qu'un ticket faq a été enregistrer en base de données.
+    Pour la troisième assertion, nous vérifions le code d'état 200.
+    """
+    response = client.post(
+        reverse('chat'), {'category': category, 'question': secrets.token_hex(100)})
+
+    assertTemplateUsed(response, 'main/chat.html')
+    assert response.status_code == 200
+
+    response = client.get(
+        reverse('faq', args=[category.slug]))
+
+    assert len(TicketCategory.objects.all()) == 1
+
+    assertTemplateUsed(response, 'main/faq.html')
     assert response.status_code == 200
