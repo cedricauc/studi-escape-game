@@ -67,6 +67,7 @@ def test_booking_saved_correctly():
     assert saved.user.username == "test@gmail.com"
 
 
+@pytest.mark.django_db
 def test_login_route():
     client = Client()
 

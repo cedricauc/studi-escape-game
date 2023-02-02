@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from main.forms import RegisterForm, ManageForm, ChatForm, BookingForm
+from main.forms import RegisterForm, BookingForm, ManageProfileForm, ManageChatForm
 from main.models import User, Scenario, TicketAnswer, TicketCategory, TicketQuestion, Booking, Discount, \
     Cart
 from datetime import datetime, date
@@ -118,7 +118,7 @@ def ManageProfileView(request):
     """
     if request.method == "POST":
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
-        form = ManageForm(request.POST)
+        form = ManageProfileForm(request.POST)
         # Vérifiez s'il est valide :
         if form.is_valid():
             # traiter les données
@@ -130,7 +130,7 @@ def ManageProfileView(request):
             return HttpResponseRedirect('/profile')
     else:
         # Créer une instance de formulaire et la remplir avec les données initiales
-        form = ManageForm(
+        form = ManageProfileForm(
             initial={'id': request.user.id, 'first_name': request.user.first_name, 'last_name': request.user.last_name})
 
     context = {
@@ -163,7 +163,7 @@ def ManageChatView(request):
     """
     if request.method == "POST":
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
-        form = ChatForm(request.POST)
+        form = ManageChatForm(request.POST)
         # Vérifiez s'il est valide :
         if form.is_valid():
             # traiter les données
@@ -179,7 +179,7 @@ def ManageChatView(request):
             })
     else:
         # Créer une instance de formulaire
-        form = ChatForm()
+        form = ManageChatForm()
 
     context = {
         "form": form,

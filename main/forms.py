@@ -45,7 +45,7 @@ class RegisterForm(forms.ModelForm):
             return self.cleaned_data
 
 
-class ManageForm(forms.ModelForm):
+class ManageProfileForm(forms.ModelForm):
     confirmation = forms.CharField(widget=forms.PasswordInput(attrs={
         'class': 'form-control form-control-lg border-primary',
         'placeholder': 'Confirmer le mot de passe',
@@ -79,7 +79,7 @@ class ManageForm(forms.ModelForm):
             return self.cleaned_data
 
 
-class ChatForm(forms.Form):
+class ManageChatForm(forms.Form):
     categories = []
     try:
         for e in TicketCategory.objects.all():

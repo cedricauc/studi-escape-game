@@ -6,7 +6,7 @@ from main.utils.util import create_booking_number, day_beginning, day_end, time_
 
 def test_create_booking_numbe():
     """
-    test de la fonction creat_booking_number
+    test de la fonction create_booking_number
     """
     scenario_title = "La prison maudite du Hollandais Volant"
     today = date.today()
