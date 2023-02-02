@@ -16,9 +16,12 @@ class User(AbstractUser):
     email = models.EmailField('email address', unique=True)
     role = models.IntegerField(choices=ROLES, null=True, blank=True)
 
+    def __str__(self):
+        return 'Profil de {}'.format(self.get_full_name())
+
     @property
     def full_name(self):
-        "Returns the person's full name."
+        "Renvoie le nom complet de la personne"
         return '%s %s' % (self.first_name, self.last_name)
 
     class Meta:
@@ -84,7 +87,8 @@ class Scenario(models.Model):
 
     def clean(self):
         if self.max_participant < self.min_participant:
-            raise ValidationError("The max number of participants must be greater than the min number of participants")
+            raise ValidationError(
+                "Le nombre maximum de participants doit être supérieur au nombre minimum de participants")
 
     class Meta:
         db_table = "scenario"
@@ -96,7 +100,7 @@ class Game(models.Model):
     scenario = models.ForeignKey(Scenario, on_delete=models.CASCADE, related_name="games")
 
     def __str__(self):
-        return f"{self.start_time} : {self.end_time}"
+        return '{} commence à {} et fini à {}'.format(self.scenario.title, self.start_time, self.end_time)
 
     class Meta:
         db_table = "game"
@@ -113,7 +117,7 @@ class Cart(models.Model):
                              )
 
     def __str__(self):
-        return f"{self.id} : {self.created_date}"
+        return 'scenario {} par {} à {}'.format(self.game.scenario.title, self.user.get_full_name(), self.created_date)
 
     class Meta:
         db_table = "cart"
@@ -135,7 +139,8 @@ class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.booking_number
+        return 'profile {} a reservé {} le {}'.format(self.user.get_full_name(), self.game.scenario.title,
+                                                    self.game.start_time)
 
     class Meta:
         db_table = "booking"
@@ -148,7 +153,7 @@ class Discount(models.Model):
     scenarios = models.ManyToManyField(Scenario, blank=True)
 
     def __str__(self):
-        return f"{self.id} : {self.discount}"
+        return 'remise de {} appliqué sur {} scenarios'.format(self.discount, len(self.scenarios.all()))
 
     class Meta:
         db_table = "discount"
@@ -160,7 +165,7 @@ class ScenarioRoomClue(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.id} : {self.scenario.title} - {self.room.num}"
+        return 'indice {} pour le scénario {} dans la pièce {}'.format(self.id, self.scenario.title, self.room.num)
 
     class Meta:
         db_table = "clue"
@@ -185,7 +190,7 @@ class TicketQuestion(models.Model):
     category = models.ForeignKey(TicketCategory, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.id} : {self.category.title}"
+        return 'billet de {} sur {}'.format(self.author, self.category.title)
 
     class Meta:
         db_table = "ticket_question"
@@ -197,7 +202,7 @@ class TicketAnswer(models.Model):
     question = models.ForeignKey(TicketQuestion, on_delete=models.CASCADE, related_name="ticket_answer")
 
     def __str__(self):
-        return f"{self.id} : {self.question.category.title}"
+        return 'réponse {} du billet {}'.format(self.id, self.question.id)
 
     class Meta:
         db_table = "ticket_answer"

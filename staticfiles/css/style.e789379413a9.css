@@ -1,0 +1,198 @@
+@font-face {
+  font-family: Oswald;
+  src: url("../fonts/Oswald-Bold.452bfeb5bf78.ttf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Oswald;
+  src: url("../fonts/Oswald-Medium.14cf874b374c.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: Oswald;
+  src: url("../fonts/Oswald-Regular.a7ccbd3cd9a9.ttf");
+  font-weight: auto;
+}
+
+@font-face {
+  font-family: DMSans;
+  src: url("../fonts/DMSans-Bold.b9cec5212f09.ttf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: DMSans;
+  src: url("../fonts/DMSans-Medium.24bfda9719b2.ttf");
+  font-weight: auto;
+}
+
+@font-face {
+  font-family: DMSans;
+  src: url("../fonts/DMSans-Regular.7c217bc94338.ttf");
+  font-weight: auto;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+#root {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+body {
+  font-family: 'DMSans', sans-serif;
+}
+
+h1,
+h2 {
+  font-family: 'Oswald', sans-serif;
+}
+
+h3,
+h4,
+h5 {
+  font-family: 'DMSans', sans-serif;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea,
+form-select {
+  font-family: inherit;
+}
+
+.form-select option {
+  font-family: 'DMSans', sans-serif;
+}
+
+small {
+  font-size: 0.6em;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+}
+
+.navbar .show + div {
+  width: 100%;
+}
+
+.bg-welcome {
+  background: linear-gradient(rgba(1, 111, 185, 1), rgba(1, 111, 185, 0.8)),
+    url("../img/puzzle.0e1742a858f2.jpg") rgba(1, 111, 185, 0.8) 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width: 100%;
+  height: 800px;
+}
+
+.bg-highlight,
+.bg-about,
+.bg-social {
+  background-color: #fff;
+}
+
+.bg-price {
+  background-color: #f2f2f2;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  float: left;
+  padding-right: 10px;
+  color: #000;
+  content: url("../img/svg/arrow-right.2e433ce8995a.svg");
+}
+
+.circle {
+  padding: 5px;
+  background: url("../img/svg/circle.07838f7749d2.svg") no-repeat center center;
+  height: 50px;
+  width: 50px;
+}
+
+.table-details > :not(caption) > * > * {
+  border: none;
+}
+
+/*******************/
+/**** calendar *****/
+/*******************/
+table.calendar,
+table.week-number,
+table.calendar-days {
+  width: 100%;
+  height: 100%;
+}
+
+table.calendar > tbody > tr > th,
+table.calendar > tbody > tr > td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+table.calendar td.active {
+  position: relative;
+  z-index:-1;
+}
+
+table.calendar span.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #016fb9;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
+
+/************************/
+/**** media queries *****/
+/************************/
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+  .h-md-100 {
+    height: 100% !important;
+  }
+
+  table.calendar > tbody > tr > th,
+  table.calendar > tbody > tr > td {
+    padding: 20px;
+  }
+
+  table.calendar span.active {
+    width: 40px;
+    height: 40px;
+  }
+
+}
+
+
