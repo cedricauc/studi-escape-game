@@ -138,7 +138,7 @@ def ManageProfileView(request):
         "template": "profile"
     }
 
-    return render(request, "main/manage.html", context)
+    return render(request, "main/profile.html", context)
 
 
 @login_required(login_url="login_view")
@@ -253,17 +253,14 @@ def BookingView(request, slug=None):
     Rend la page de la de réservations d'une séance
     """
     if request.method == "POST":
-
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
         form = BookingForm(request.POST)
         # Ajouter les donnes de l'api scénario et horaires séances au choix des champs de sélection
-        s = request.POST.get("scenario")
-        form.fields['scenario'].choices = [(s, s)]
-        start_time = request.POST.get("start_time")
-        form.fields['start_time'].choices = [(start_time, start_time)]
+        form.fields['scenario'].choices = [(request.POST.get("scenario"), request.POST.get("scenario"))]
+        form.fields['start_time'].choices = [(request.POST.get("start_time"), request.POST.get("start_time"))]
         # Vérifiez s'il est valide :
         if form.is_valid():
-            cart = Cart(game_id=start_time, participant=request.POST.get("participant"))
+            cart = Cart(game_id=request.POST.get("start_time"), participant=request.POST.get("participant"))
             cart.save()
             request.session['cart'] = cart.id
             return HttpResponseRedirect(reverse("booking_sum"))

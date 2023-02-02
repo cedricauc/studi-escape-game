@@ -27,7 +27,7 @@
                                 Editer Profil Utilisateur
                             </div>
                             <div class="row">
-                                <form action="{% url 'manage' %}" method="post">
+                                <form action="{% url 'profile' %}" method="post">
                                     {% csrf_token %}
                                     {% if form.errors %}
                                         {% for field in form %}
