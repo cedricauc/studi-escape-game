@@ -4,7 +4,7 @@
             <a
                     href="{% url 'order' %}"
                     class="nav-link {% if action == "order" %} active {% endif %} py-3 border-bottom"
-                    {% if order == "manage" %} aria-current="page" {% endif %}
+                    {% if action == "order" %} aria-current="page" {% endif %}
                     title=""
                     data-bs-toggle="tooltip"
                     data-bs-placement="right"
@@ -15,9 +15,9 @@
         </li>
         <li>
             <a
-                    href="{% url 'manage' %}"
-                    class="nav-link {% if action == "manage" %} active {% endif %} py-3 border-bottom"
-                    {% if action == "manage" %} aria-current="page" {% endif %}
+                    href="{% url 'profile' %}"
+                    class="nav-link {% if action == "profile" %} active {% endif %} py-3 border-bottom"
+                    {% if action == "profile" %} aria-current="page" {% endif %}
                     title=""
                     data-bs-toggle="tooltip"
                     data-bs-placement="right"

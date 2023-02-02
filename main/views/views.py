@@ -13,7 +13,11 @@ from datetime import datetime, date
 from main.utils.util import prepare_booking, create_booking_number, time_conversion
 
 
-def home(request):
+def HomeView(request):
+    """
+    Rend la page d'accueil avec tous les scénarios et informations associés
+    """
+
     scenarios = Scenario.objects.all()
     discounts = Discount.objects.all()
 
@@ -30,61 +34,11 @@ def home(request):
     return render(request, "main/index.html", context)
 
 
-def scenario(request, slug):
-    # requête pour le scénario demandé
-    if not slug:
-        data = Scenario.objects.all().first()
-    else:
-        data = Scenario.objects.get(slug=slug)
-
-    record_time = None
-    now = datetime.now()
-
-    # pour chaque partie terminée du scénario ci-dessus
-    for itr in data.games.all():
-        try:
-            row = Booking.objects.get(game=itr, is_complete=True)
-            start = now.replace(hour=row.start_hour, minute=row.start_minutes)
-            end = now.replace(hour=row.end_hour, minute=row.end_minutes)
-            # calcul en delta time de la différence début/fin partie
-            diff_dt = datetime.combine(date.today(), end.time()) - datetime.combine(date.today(), start.time())
-            diff = diff_dt.total_seconds()
-            # si le temps est inférieur alors stocker dans la variable record_time
-            if record_time is None or diff < record_time:
-                record_time = diff
-        except Booking.DoesNotExist:
-            row = None
-
-    hour_value, min_value = time_conversion(record_time) if record_time else [0, 0]
-
-    context = {
-        "scenario": data,
-        "hour_value": hour_value,
-        "min_value": min_value
-    }
-
-    return render(request, "main/scenario.html", context)
-
-
-def faq(request, slug=None):
-    if not slug:
-        category = TicketCategory.objects.all().first()
-    else:
-        category = TicketCategory.objects.get(slug=slug)
-
-    data = TicketAnswer.objects.filter(question__category=category).order_by("id")
-
-    context = {
-        "data": data,
-        "category": category,
-        "categories": TicketCategory.objects.all()
-    }
-
-    return render(request, "main/faq.html", context)
-
-
 @csrf_exempt
-def login_view(request):
+def LoginView(request):
+    """
+    Conexion utilisateur
+    """
     if request.method == "POST":
         # authentifier un utilisateur
         username = request.POST["username"]
@@ -104,18 +58,17 @@ def login_view(request):
                 "message": "Invalide e-mail/mot de passe"
             })
 
+    # rediriger vers url initiale
     context = {
         'next': request.GET.get('next')
     }
     return render(request, "main/login.html", context)
 
 
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse("home"))
-
-
-def register(request):
+def RegisterView(request):
+    """
+    Inscription utilisateur
+    """
     if request.method == "POST":
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
         form = RegisterForm(request.POST)
@@ -150,20 +103,19 @@ def register(request):
     return render(request, "main/register.html", context)
 
 
-@login_required(login_url="login_view")
-def order(request):
-    data = Booking.objects.all()
-
-    context = {
-        "data": data,
-        "template": "order"
-    }
-
-    return render(request, "main/order.html", context)
+def LogoutView(request):
+    """
+    Deconexion utilisateur
+    """
+    logout(request)
+    return HttpResponseRedirect(reverse("home"))
 
 
 @login_required(login_url="login_view")
-def manage(request):
+def ManageProfileView(request):
+    """
+    Gestion utilisateur
+    """
     if request.method == "POST":
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
         form = ManageForm(request.POST)
@@ -175,7 +127,7 @@ def manage(request):
             request.user.last_name = request.POST.get("last_name")
             request.user.save()
 
-            return HttpResponseRedirect('/manage')
+            return HttpResponseRedirect('/profile')
     else:
         # Créer une instance de formulaire et la remplir avec les données initiales
         form = ManageForm(
@@ -183,14 +135,32 @@ def manage(request):
 
     context = {
         "form": form,
-        "template": "manage"
+        "template": "profile"
     }
 
     return render(request, "main/manage.html", context)
 
 
 @login_required(login_url="login_view")
-def chat(request):
+def ManageOrderView(request):
+    """
+    Gestion des commandes
+    """
+    data = Booking.objects.all()
+
+    context = {
+        "data": data,
+        "template": "order"
+    }
+
+    return render(request, "main/order.html", context)
+
+
+@login_required(login_url="login_view")
+def ManageChatView(request):
+    """
+    Gestion du chat
+    """
     if request.method == "POST":
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
         form = ChatForm(request.POST)
@@ -219,7 +189,69 @@ def chat(request):
     return render(request, "main/chat.html", context)
 
 
-def booking(request, slug=None):
+def ScenarioView(request, slug):
+    """
+    Rend la page d'un scénario avec les informations associés
+    """
+    # si scenario passé dans l'url de la requête
+    if not slug:
+        data = Scenario.objects.all().first()
+    else:
+        data = Scenario.objects.get(slug=slug)
+
+    record_time = None
+    now = datetime.now()
+
+    # pour chaque partie terminée du scénario ci-dessus
+    for itr in data.games.all():
+        try:
+            row = Booking.objects.get(game=itr, is_complete=True)
+            start = now.replace(hour=row.start_hour, minute=row.start_minutes)
+            end = now.replace(hour=row.end_hour, minute=row.end_minutes)
+            # calcul en delta time de la différence début/fin partie
+            diff_dt = datetime.combine(date.today(), end.time()) - datetime.combine(date.today(), start.time())
+            diff = diff_dt.total_seconds()
+            # si le temps est inférieur alors stocker dans la variable record_time
+            if record_time is None or diff < record_time:
+                record_time = diff
+        except Booking.DoesNotExist:
+            row = None
+
+    hour_value, min_value = time_conversion(record_time) if record_time else [0, 0]
+
+    context = {
+        "scenario": data,
+        "hour_value": hour_value,
+        "min_value": min_value
+    }
+
+    return render(request, "main/scenario.html", context)
+
+
+def FaqView(request, slug=None):
+    """
+    Rend la page de la FAQ avec toutes catégories de questions
+    """
+    if not slug:
+        category = TicketCategory.objects.all().first()
+    else:
+        category = TicketCategory.objects.get(slug=slug)
+
+    data = TicketAnswer.objects.filter(question__category=category).order_by("id")
+
+    context = {
+        "data": data,
+        "category": category,
+        "categories": TicketCategory.objects.all()
+    }
+
+    return render(request, "main/faq.html", context)
+
+
+def BookingView(request, slug=None):
+    """
+    Rend la page de la de réservations d'une séance
+    """
     if request.method == "POST":
 
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
@@ -244,7 +276,10 @@ def booking(request, slug=None):
 
 
 @login_required(login_url="login_view")
-def booking_sum(request):
+def BookingSumView(request):
+    """
+    Rend la page du panier des réservations
+    """
     if "cart" not in request.session:
         context = {
             "empty_cart": True
@@ -278,7 +313,10 @@ def booking_sum(request):
 
 
 @login_required(login_url="login_view")
-def booking_final(request):
+def BookingFinalView(request):
+    """
+    Rend la page de validation du panier des réservations
+    """
     if "cart" not in request.session:
         return HttpResponseRedirect(reverse("booking"))
 

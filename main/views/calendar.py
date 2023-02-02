@@ -8,7 +8,7 @@ from main.models import Game, Scenario
 
 
 @csrf_exempt
-def calendar(request):
+def CalendarViewSet(request):
     date = get_date(request.GET.get('day', None))
 
     if request.GET.get('nav') == "next_month":
