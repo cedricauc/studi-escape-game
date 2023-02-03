@@ -24,11 +24,14 @@ def HomeView(request):
     min_participant = Scenario.objects.aggregate(Min('min_participant'))
     max_participant = Scenario.objects.aggregate(Max('max_participant'))
 
+    ticket_items = TicketAnswer.objects.order_by('-question')
+
     context = {
         "scenarios": scenarios,
         "discounts": discounts,
         "min_participant": min_participant,
-        "max_participant": max_participant
+        "max_participant": max_participant,
+        "ticket_items": ticket_items
     }
 
     return render(request, "main/index.html", context)
@@ -228,21 +231,14 @@ def ScenarioView(request, slug):
     return render(request, "main/scenario.html", context)
 
 
-def FaqView(request, slug=None):
+def FaqView(request):
     """
     Rend la page de la FAQ avec toutes catégories de questions
     """
-    if not slug:
-        category = TicketCategory.objects.all().first()
-    else:
-        category = TicketCategory.objects.get(slug=slug)
-
-    data = TicketAnswer.objects.filter(question__category=category).order_by("id")
+    ticket_items = TicketAnswer.objects.order_by('-question')
 
     context = {
-        "data": data,
-        "category": category,
-        "categories": TicketCategory.objects.all()
+        "ticket_items": ticket_items
     }
 
     return render(request, "main/faq.html", context)

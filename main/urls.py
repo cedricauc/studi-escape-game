@@ -21,7 +21,6 @@ urlpatterns = [
     path("chat", views.ManageChatView, name="chat"),
     path("scenario/<str:slug>", views.ScenarioView, name="scenario"),
     path("faq", views.FaqView, name="faq"),
-    path("faq/<str:slug>", views.FaqView, name="faq"),
     path("booking", views.BookingView, name="booking"),
     path("booking/sum", views.BookingSumView, name="booking_sum"),
     path("booking/final", views.BookingFinalView, name="booking_final"),

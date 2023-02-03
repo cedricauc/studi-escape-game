@@ -1,72 +1,75 @@
-{% extends "__base.html" %} {% load static %} {% block body %}
+{% extends "__base.html" %} {% load static %} {% block title %}Réservation{% endblock %} {% block body %}
 
-    <main class="container">
-        <div class="row">
-            <nav class="col-md-12 stepbar xs-labels">
-                <ol class="d-flex justify-content-center bg-white mt-5 p-2">
-                    <li class="col-md-4 current stepbar-item d-flex justify-content-center">
-                        <a
-                                class="stepbar-link"
-                                href="{% url 'booking' %}"
-                                title="Step 1 : Sign in"
-                        >
+    <section class="py-5 mt-5">
+        <div class="container py-4 py-xl-5">
+            <div class="row mb-5">
+                <nav class="col-md-12 stepbar xs-labels">
+                    <ol class="d-flex justify-content-center bg-white mt-5 p-2">
+                        <li class="col-md-4 current stepbar-item d-flex justify-content-center">
+                            <a
+                                    class="stepbar-link"
+                                    href="{% url 'booking' %}"
+                                    title="Step 1 : Sign in"
+                            >
                             <span class="step-number">
                               <img class="p-2" src="/static/img/svg/step-one-outline.svg" alt="step-sign-in"/>
                             </span>
-                        </a>
-                    </li>
-                    <li class="col-md-4 stepbar-item d-flex justify-content-center next">
-                        <a
-                                class="stepbar-link"
-                                href="{% url 'booking_sum' %}"
-                                title="Step 2 : Review"
-                        >
+                            </a>
+                        </li>
+                        <li class="col-md-4 stepbar-item d-flex justify-content-center next">
+                            <a
+                                    class="stepbar-link"
+                                    href="{% url 'booking_sum' %}"
+                                    title="Step 2 : Review"
+                            >
                             <span class="step-number">
                               <img class="p-2" src="/static/img/svg/step-two-outline.svg" alt="step-review"/>
                             </span>
-                        </a>
-                    </li>
-                    <li class="col-md-4 stepbar-item d-flex justify-content-center next">
-                        <a
-                                class="stepbar-link"
-                                href="{% url 'booking_final' %}"
-                                title="Step 3 : Confirm"
-                                aria-current="step"
-                        >
+                            </a>
+                        </li>
+                        <li class="col-md-4 stepbar-item d-flex justify-content-center next">
+                            <a
+                                    class="stepbar-link"
+                                    href="{% url 'booking_final' %}"
+                                    title="Step 3 : Confirm"
+                                    aria-current="step"
+                            >
                             <span class="step-number">
                               <img class="p-2" src="/static/img/svg/step-three-fill.svg" alt="step-confirm"/>
                             </span>
-                        </a>
-                    </li>
-                </ol>
-            </nav>
-            <div class="py-5">
-                <div class="col-md-12">
-                    <form action="{% url 'booking_final' %}" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <select class="form-select mb-4" aria-label="Default select example">
-                                <option selected>Mode paiement sur place</option>
-                            </select>
-                            <div class="form-check mb-4">
-                                <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        id="tos"
-                                        name="tos"
-                                        checked
-                                />
-                                <label class="form-check-label ms-1"
-                                >J'accepte les conditions générales de vente du site.</label
-                                >
+                            </a>
+                        </li>
+                    </ol>
+                </nav>
+                <div class="py-5">
+                    <div class="col-md-12">
+                        <form action="{% url 'booking_final' %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <select class="form-select mb-4" aria-label="Default select example">
+                                    <option selected>Mode paiement sur place</option>
+                                </select>
+                                <div class="form-check mb-4">
+                                    <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            id="tos"
+                                            name="tos"
+                                            checked
+                                    />
+                                    <label class="form-check-label ms-1"
+                                    >J'accepte les conditions générales de vente du site.</label
+                                    >
+                                </div>
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-lg btn-primary mt-4 float-end">
-                            Finaliser la réservation
-                        </button>
-                    </form>
+                            <button type="submit" class="btn btn-lg btn-primary mt-4 float-end">
+                                Finaliser la réservation
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
+
 {% endblock %}
