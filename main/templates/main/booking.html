@@ -1,136 +1,139 @@
-{% extends "__base.html" %} {% load static %} {% block body %}
+{% extends "__base.html" %} {% load static %} {% block title %}Réservation{% endblock %} {% block body %}
 
-    <main class="container">
-        <div class="row">
-            <nav class="col-md-12 stepbar xs-labels">
-                <ol class="d-flex justify-content-center bg-white mt-5 p-2">
-                    <li class="col-md-4 current stepbar-item d-flex justify-content-center">
-                        <a
-                                class="stepbar-link"
-                                href="{% url 'booking' %}"
-                                title="Step 1 : Sign in"
-                        >
+    <section class="py-5 mt-5">
+        <div class="container py-4 py-xl-5">
+            <div class="row mb-5">
+                <nav class="col-md-12 stepbar xs-labels">
+                    <ol class="d-flex justify-content-center bg-white mt-5 p-2">
+                        <li class="col-md-4 current stepbar-item d-flex justify-content-center">
+                            <a
+                                    class="stepbar-link"
+                                    href="{% url 'booking' %}"
+                                    title="Step 1 : Sign in"
+                            >
                             <span class="step-number">
                               <img class="p-2" src="/static/img/svg/step-one-fill.svg" alt="step-sign-in"/>
                             </span>
-                        </a>
-                    </li>
-                    <li class="col-md-4 stepbar-item d-flex justify-content-center next">
-                        <a
-                                class="stepbar-link"
-                                href="{% url 'booking' %}"
-                                title="Step 2 : Review"
-                                aria-current="step"
-                        >
+                            </a>
+                        </li>
+                        <li class="col-md-4 stepbar-item d-flex justify-content-center next">
+                            <a
+                                    class="stepbar-link"
+                                    href="{% url 'booking' %}"
+                                    title="Step 2 : Review"
+                                    aria-current="step"
+                            >
                             <span class="step-number">
                               <img class="p-2" src="/static/img/svg/step-two-outline.svg" alt="step-review"/>
                             </span>
-                        </a>
-                    </li>
-                    <li class="col-md-4 stepbar-item d-flex justify-content-center next">
-                        <a
-                                class="stepbar-link"
-                                href="{% url 'booking' %}"
-                                title="Step 3 : Confirm"
-                        >
+                            </a>
+                        </li>
+                        <li class="col-md-4 stepbar-item d-flex justify-content-center next">
+                            <a
+                                    class="stepbar-link"
+                                    href="{% url 'booking' %}"
+                                    title="Step 3 : Confirm"
+                            >
                             <span class="step-number">
                               <img class="p-2" src="/static/img/svg/step-three-outline.svg" alt="step-confirm"/>
                             </span>
-                        </a>
-                    </li>
-                </ol>
-            </nav>
-            <div class="pt-2 pb-5">
-                <div class="col-md-12">
-                    <form action="{% url 'booking' %}" method="post">
+                            </a>
+                        </li>
+                    </ol>
+                </nav>
+                <div class="pt-2 pb-5">
+                    <div class="col-md-12">
+                        <form action="{% url 'booking' %}" method="post">
                             <div class="d-none mb-4" id="notification-card">
                                 <div class="alert text-center fs-5" role="alert" id="notification-message"></div>
                             </div>
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="form-group row">
-                                    <label for="scenario" class="col-sm-3 col-form-label">Scenario :</label>
-                                    <div class="col-sm-9">
-                                        {{ form.scenario }}
-                                    </div>
-                                </div>
-                               
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group row">
-                                    <label for="participant" class="col-sm-6 col-form-label">Nombre Participant :</label>
-                                    <div class="col-sm-6">
-                                          {{ form.participant }}
-                                    </div>
-                                </div>
+                            {% csrf_token %}
+                            <div class="row container-calendar mb-3">
+                                <div class="col-md-12 pb-1">
+                                    <nav
+                                            class="d-flex justify-content-center"
+                                            aria-label="Navigation"
+                                    >
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <button class="p-3 page-link"
+                                                        name="prev_month" id="prev_month">
+                                                    <em class="fa fa-chevron-left"></em>
+                                                </button>
+                                            </li>
+                                            <li class="page-item">
+                                                <button class="p-3 page-link" id="current_month">
 
-                            </div>
-                        </div>
-                        <div class="row container-calendar mb-3">
-                            <div class="col-md-12 pb-1">
-                                <nav
-                                        class="d-flex justify-content-center"
-                                        aria-label="Navigation"
-                                >
-                                    <ul class="pagination">
-                                        <li class="page-item">
-                                            <button class="p-3 page-link"
-                                                    name="prev_month" id="prev_month">
-                                                <em class="fa fa-chevron-left"></em>
-                                            </button>
-                                        </li>
-                                        <li class="page-item">
-                                            <button class="p-3 page-link" id="current_month">
-
-                                            </button>
-                                        </li>
-                                        <li class="page-item">
-                                            <button class="p-3 page-link" id="next_month">
-                                                <em class="fa fa-chevron-right"></em>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="form-group row">
-                                   <label for="start_time" class="col-sm-3 col-form-label">Heure séance :</label>
-                                    <div class="col-sm-9">
-                                        {{ form.start_time }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group row">
-                                   <label for="price" class="col-sm-6 col-form-label">Prix :</label>
-                                    <div class="col-sm-6">
-                                                                       <input
-                                        type="text"
-                                        class="form-control form-control-lg border-primary bg-secondary"
-                                        placeholder="Prix"
-                                        id="price"
-                                        disabled
-                                />
-                                    </div>
+                                                </button>
+                                            </li>
+                                            <li class="page-item">
+                                                <button class="p-3 page-link" id="next_month">
+                                                    <em class="fa fa-chevron-right"></em>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
 
+                                <div class="col-md-12">
+                                    <div id="calendar"></div>
+                                </div>
                             </div>
-                        </div>
-                        <button name="next_step" class="btn btn-lg btn-primary mt-4 float-end">
-                            Passons à l'étape suivante
-                        </button>
-                    </form>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="scenario" class="col-sm-3 col-form-label">Scenario :</label>
+                                        <div class="col-sm-9">
+                                            {{ form.scenario }}
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+                                        <label for="participant" class="col-sm-6 col-form-label">Nombre Participant
+                                            :</label>
+                                        <div class="col-sm-6">
+                                            {{ form.participant }}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group row">
+                                        <label for="start_time" class="col-sm-3 col-form-label">Heure séance :</label>
+                                        <div class="col-sm-9">
+                                            {{ form.start_time }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+                                        <label for="price" class="col-sm-6 col-form-label">Prix :</label>
+                                        <div class="col-sm-6">
+                                            <input
+                                                    type="text"
+                                                    class="form-control form-control-lg border-primary bg-secondary"
+                                                    placeholder="Prix"
+                                                    id="price"
+                                                    disabled
+                                            />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <button name="next_step" class="btn btn-lg btn-primary mt-4 float-end">
+                                Passons à l'étape suivante
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 {% endblock %}
 {% block scripts %}
     <script src="{% static 'js/date.js' %}"></script>

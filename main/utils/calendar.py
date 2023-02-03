@@ -20,7 +20,7 @@ class Calendar(HTMLCalendar):
         d = ''
         e = ''
         for event in events_per_day:
-            d = f'bg-info'
+            d = f'bg-warning'
 
         for event in events_not_booked:
             d = f'bg-secondary'
