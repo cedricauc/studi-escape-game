@@ -1,9 +1,9 @@
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
-from . import models
-from .utils.serializers import BookingSerializer, GameSerializer, ScenarioRoomClueSerializer, \
+from main.models import Scenario, Booking, Game, Discount, ScenarioRoomClue
+from main.utils.serializers import BookingSerializer, GameSerializer, ScenarioRoomClueSerializer, \
     ScenarioSerializer
-from .utils.util import day_beginning, day_end
+from main.utils.util import day_beginning, day_end
 
 
 class IsParadoxEmployeePermission(permissions.BasePermission):
@@ -17,7 +17,7 @@ class ScenarioViewSet(viewsets.ModelViewSet):
     """
     API qui permet d'afficher ou de modifier des scénarios.
     """
-    queryset = models.Scenario.objects.all()
+    queryset = Scenario.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
         permissions.DjangoModelPermissions,
@@ -30,7 +30,7 @@ class BookingViewSet(viewsets.ModelViewSet):
     """
     API qui permet d'afficher ou de modifier des réservations.
     """
-    queryset = models.Booking.objects.filter(
+    queryset = Booking.objects.filter(
         game__start_time__gt=day_beginning(),
         game__start_time__lt=day_end()
     ).order_by("-game__start_time")
@@ -56,7 +56,7 @@ class GameViewSet(viewsets.ModelViewSet):
     """
     API qui permet d'afficher ou de modifier des séances.
     """
-    queryset = models.Game.objects.all()
+    queryset = Game.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
         permissions.DjangoModelPermissions,
@@ -69,7 +69,7 @@ class ScenarioRoomClueViewSet(viewsets.ModelViewSet):
     """
     API qui permet d'afficher ou de modifier les indices lors d'une partie
     """
-    queryset = models.ScenarioRoomClue.objects.all()
+    queryset = ScenarioRoomClue.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
         permissions.DjangoModelPermissions,

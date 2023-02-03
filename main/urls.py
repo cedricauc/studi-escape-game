@@ -3,8 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt import views as jwt_views
-from . import api
-from .views import views, calendar
+from .views import views, api, calendar
 
 api_router = routers.DefaultRouter()
 api_router.register(r"scenarios", api.ScenarioViewSet)
