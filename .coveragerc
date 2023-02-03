@@ -1,0 +1,4 @@
+[run]
+omit =
+    escapegame/*
+    manage.py

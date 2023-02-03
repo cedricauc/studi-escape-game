@@ -4,6 +4,8 @@ psycopg2
 Pillow
 pytest
 pytest-django
+coverage
+pytest-cov
 djangorestframework
 djangorestframework_simplejwt
 django-cors-headers
