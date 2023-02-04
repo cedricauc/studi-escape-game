@@ -63,12 +63,13 @@ def category():
 
 
 @pytest.mark.django_db
-def test_HomeView(client):
-    response = client.get(reverse('home'))
+def test_HomeView(client, scenario):
     """ 
     Dans la première assertion, nous testons si notre requête get renvoie le code d'état 200 (OK)
     Pour la deuxième assertion, nous nous assurons que notre vue renvoie le modèle home.html
     """
+    scenario.save()
+    response = client.get(reverse('home'))
     assert response.status_code == 200
     assertTemplateUsed(response, 'main/index.html')
 
@@ -145,18 +146,6 @@ def test_ManageOrderView(login, client):
 
 
 @pytest.mark.django_db
-def test_ManageChatView(login, client):
-    """
-    Vérifier si notre 'ManageChatView' renvoie le modèle 'chat.html' pour afficher le formulaire de mise à jour,
-    pour la deuxième assertion, nous nous assurons que tout s'est bien passé en vérifiant le code d'état 200
-    """
-    response = client.get(reverse('chat'))
-
-    assertTemplateUsed(response, 'main/chat.html')
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
 def test_ScenarioView(client, scenario):
     """
     Vérifier si notre 'ScenarioView' renvoie le modèle 'scenario.html' pour afficher le formulaire de mise à jour,
@@ -177,7 +166,7 @@ def test_FaqView(client):
     # Enregistrer une catégorie de Faq
     ticket_category = TicketCategory.objects.create(title=secrets.token_hex(5), slug=secrets.token_urlsafe(5))
 
-    response = client.get(reverse('faq', args=[ticket_category.slug]))
+    response = client.get(reverse('faq'))
 
     assertTemplateUsed(response, 'main/faq.html')
     assert response.status_code == 200
@@ -289,13 +278,13 @@ def test_add_ticket_faq(login, client, category):
     Pour la troisième assertion, nous vérifions le code d'état 200.
     """
     response = client.post(
-        reverse('chat'), {'category': category, 'question': secrets.token_hex(100)})
+        reverse('faq'), {'author':secrets.token_hex(10), 'category': category, 'question': secrets.token_hex(100)})
 
-    assertTemplateUsed(response, 'main/chat.html')
+    assertTemplateUsed(response, 'main/faq.html')
     assert response.status_code == 200
 
     response = client.get(
-        reverse('faq', args=[category.slug]))
+        reverse('faq'))
 
     assert len(TicketCategory.objects.all()) == 1
 
