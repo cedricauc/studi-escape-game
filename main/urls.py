@@ -18,7 +18,6 @@ urlpatterns = [
     path("logout", views.LogoutView, name="logout"),
     path("profile", views.ManageProfileView, name="profile"),
     path("order", views.ManageOrderView, name="order"),
-    path("chat", views.ManageChatView, name="chat"),
     path("scenario/<str:slug>", views.ScenarioView, name="scenario"),
     path("faq", views.FaqView, name="faq"),
     path("booking", views.BookingView, name="booking"),

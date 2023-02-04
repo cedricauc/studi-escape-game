@@ -1,22 +1,74 @@
-{% extends "__base.html" %} {% load static %} {% block body %}
+{% extends "__base.html" %} {% load static %} {% block title %}Login{% endblock %} {% block body %}
 
-    <main>
-        <section class="vh-100 bg-light">
-            <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                        <div class="card shadow-2-strong" style="border-radius: 1rem">
-                            <div class="card-body p-5 text-center">
-                                <h3>Se connecter</h3>
-                                <form action="{% url 'login_view' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="next" value="{{ next }}"/>
-                                    {% if message %}
-                                        <div
-                                                class="alert alert-warning alert-dismissible fade show mt-3"
-                                                role="alert"
-                                        >
-                                            {{ message }}
+    <section class="pt-4 pt-md-5 mt-5 bg-light">
+        <div class="container pt-md-5">
+            <div class="row">
+                <div class="col-md-6 text-center"><img class="img-fluid w-100" src="static/img/login.png">
+                </div>
+                <div class="col-md-5 col-xl-4 text-center text-md-start">
+                    <h2 class="display-6 fw-bold mb-5"><strong>Se&nbsp;</strong><span class="pb-1 underline"
+                                                                                      style="z-index: 1">Connecter</span><br>
+                    </h2>
+                    <form action="{% url 'login_view' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ next }}"/>
+                        {% if message %}
+                            <div
+                                    class="alert alert-warning alert-dismissible fade show mt-3"
+                                    role="alert"
+                            >
+                                {{ message }}
+                                <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="alert"
+                                        aria-label="Close"
+                                ></button>
+                            </div>
+                        {% endif %}
+                        <div class="mb-3"><input
+                                autofocus
+                                type="text"
+                                name="username"
+                                placeholder="Email"
+                                class="form-control form-control-lg border-primary"
+                        /></div>
+                        <div class="mb-3"><input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                class="form-control form-control-lg border-primary"
+                        /></div>
+                        <div class="mb-5">
+                            <button class="btn btn-primary shadow" type="submit">Se connecter</button>
+                        </div>
+                        <p class="text-muted"><a>Mot de passe oublié?</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pb-4 pb-md-5 mb-5 bg-light">
+        <div class="container py-md-5">
+            <div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
+                <div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7"
+                     style="border-radius: 5px;background: rgba(255,255,255,0);">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h4 class="text-dark mb-5">Ou</h4>
+                        </div>
+                        <div class="text-center">
+                            <h2 class="display-6 fw-bold mb-5"><span class="underline pb-1" style="z-index: 1"><strong>Créer un compte</strong></span>
+                            </h2>
+                        </div>
+                        <form action="{% url 'register' %}" method="post">
+                            {% csrf_token %}
+                            {% if form.errors %}
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-danger alert-dismissible fade show mt-3"
+                                             role="alert">
+                                            <strong>{{ error|escape }}</strong>
                                             <button
                                                     type="button"
                                                     class="btn-close"
@@ -24,50 +76,41 @@
                                                     aria-label="Close"
                                             ></button>
                                         </div>
-                                    {% endif %}
-
-                                    <div class="form-group form-outline mt-4 mb-4">
-                                        <input
-                                                autofocus
-                                                type="text"
-                                                name="username"
-                                                placeholder="Email"
-                                                class="form-control form-control-lg border-primary"
-                                        />
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-3"
+                                         role="alert">
+                                        <strong>{{ error|escape }}</strong>
+                                        <button
+                                                type="button"
+                                                class="btn-close"
+                                                data-bs-dismiss="alert"
+                                                aria-label="Close"
+                                        ></button>
                                     </div>
+                                {% endfor %}
+                            {% endif %}
 
-                                    <div class="form-group form-outline mb-4">
-                                        <input
-                                                type="password"
-                                                name="password"
-                                                placeholder="Password"
-                                                class="form-control form-control-lg border-primary"
-                                        />
-                                    </div>
+                            <div class="mb-3">{{ form.email }}</div>
+                            <div class="mb-3">{{ form.first_name }}</div>
+                            <div class="mb-3">{{ form.last_name }}</div>
+                            <div class="mb-3">{{ form.password }}</div>
+                            <div class="mb-3">{{ form.confirmation }}</div>
 
-                                    <button
-                                            class="btn btn-primary rounded-pill btn-lg btn-block w-100"
-                                            type="submit"
-                                    >
-                                        Se connecter
-                                    </button>
-                                    <!--
-                                  <hr class="my-4" />
-                                  <button
-                                    class="btn btn-lg btn-block btn-alert"
-                                    style="background-color: #dd4b39; color: #fff;"
-                                    type="submit"
-                                  >
-                                    <i class="fa fa-google me-2"></i>
-                                    Sign in with google
-                                  </button> -->
-                                </form>
+                            <div class="mb-3">
+                                <div class="mb-5">
+                                    <button class="btn btn-primary shadow" type="submit">Créer un compte</button>
+                                </div>
                             </div>
-                        </div>
+                            <hr>
+                        </form>
+
+                        <div class="text-center"></div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
 {% endblock %}

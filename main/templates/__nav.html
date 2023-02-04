@@ -27,20 +27,21 @@
                 </li>
             </ul>
             {% if user.is_authenticated %}
-                <a
-                        class="btn btn-primary shadow"
-                        role="button"
-                        href="{% url 'register' %}"
-                >
-                    Créer un compte
-                </a>
+                <li class="nav-item dropdown list-unstyled">
+                    <a href="#" class="btn btn-primary shadow fw-bold dropdown-toggle"
+                       data-bs-toggle="dropdown">Mon compte</a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a href="{% url 'order' %}" class="dropdown-item">Mes commandes</a>
+                        <a href="{% url 'logout' %}" class="dropdown-item">Se déconnecter</a>
+                    </div>
+                </li>
             {% else %}
                 <a
-                        class="btn btn-primary shadow"
+                        class="btn{% if request.path == '/login' or request.path == '/register' %} btn-outline-primary {% else %} btn-primary {% endif %} shadow"
                         role="button"
-                        href="{% url 'profile' %}"
+                        href="{% url 'login_view' %}"
                 >
-                    Compte utilisateur
+                    Se connecter
                 </a>
             {% endif %}
         </div>

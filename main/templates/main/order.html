@@ -1,95 +1,99 @@
-{% extends "__base.html" %} {% load static %} {% block body %}
+{% extends "__base.html" %} {% load static %} {% block title %}Order{% endblock %} {% block body %}
 
-    <main class="container">
-        <div class="row h-md-100">
-            <aside
-                    class="col-md-2 bg-light h-md-100 p-0 d-flex py-5"
-            >
-                {% include "__sidebar.html" with action=template %}
-            </aside>
-            <section class="col-md-10 ps-md-5 py-5">
-                <div class="row">
-                    <nav class="col-12" aria-label="breadcrumb">
-                        <ol class="breadcrumb d-flex bg-white mt-5 p-2">
-                            <li class="breadcrumb-item">
-                                <a class="text-decoration-none" href="{% url 'order' %}">Tableau de bord</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Planning
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-md-12">
-                    <div class="accordion" id="accordionOrder">
-                        {% for row in data %}
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading{{ forloop.counter }}">
-                                    <button
-                                            class="accordion-button collapsed"
-                                            type="button"
-                                            data-bs-toggle="collapse"
-                                            data-bs-target="#collapse{{ forloop.counter }}"
-                                            aria-expanded="false"
-                                            aria-controls="collapse{{ forloop.counter }}"
+    <section class="py-4 py-md-5">
+        <div class="container">
+            <div class="row h-md-100">
+                <aside
+                        class="col-md-3 bg-light p-0 d-flex py-5"
+                >
+                    {% include "__sidebar.html" with action=template %}
+                </aside>
+                <section class="col-md-9 ps-md-5 py-5">
+                    <div class="row">
+                        <nav class="col-12" aria-label="breadcrumb">
+                            <ol class="breadcrumb d-flex bg-white mt-5 p-2">
+                                <li class="breadcrumb-item">
+                                    <a class="text-decoration-none" href="{% url 'order' %}">Tableau de bord</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Planning
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="accordion" id="accordionOrder">
+                            {% for row in data %}
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                        <button
+                                                class="accordion-button collapsed"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapse{{ forloop.counter }}"
+                                                aria-expanded="false"
+                                                aria-controls="collapse{{ forloop.counter }}"
+                                        >
+                                            Prévue le {{ row.game.start_time|date:"d M Y" }}
+                                            à {{ row.game.start_time|date:"H:i a" }}
+
+                                        </button>
+                                    </h2>
+                                    <div
+                                            id="collapse{{ forloop.counter }}"
+                                            class="accordion-collapse collapse"
+                                            aria-labelledby="heading{{ forloop.counter }}"
+                                            data-bs-parent="#accordionOrder"
                                     >
-                                        Prévue le {{ row.game.start_time|date:"d M Y" }}
-                                        à {{ row.game.start_time|date:"H:i a" }}
-
-                                    </button>
-                                </h2>
-                                <div
-                                        id="collapse{{ forloop.counter }}"
-                                        class="accordion-collapse collapse"
-                                        aria-labelledby="heading{{ forloop.counter }}"
-                                        data-bs-parent="#accordionOrder"
-                                >
-                                    <div class="accordion-body">
-                                        <div class="row">
-                                            <section class="col-12 mt-4">
-                                                <div>
-                                                    <h2 class="font-weight-bold">
-                                                        Scénario :
-                                                        <a class="text-decoration-none"
-                                                           href="{% url 'scenario' slug=row.game.scenario.slug %}">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                <section class="col-12 mt-4">
+                                                    <div>
+                                                        <h2 class="font-weight-bold">
+                                                            Scénario :
+                                                            <a class="text-decoration-none"
+                                                               href="{% url 'scenario' slug=row.game.scenario.slug %}">
                                                                                                <span class="h3 font-weight-light text-secondary">
                             {{ row.game.scenario.title }}
                           </span>
+                                                            </a>
+                                                        </h2>
+                                                        <div class="card mt-3 mb-4">
+                                                            <div class="card-body">
+                                                                {{ row.game.scenario.description }}
+                                                            </div>
+                                                            <div class="card-footer bg-transparent border-none">
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li class="list-group-item">Nombre de participant:
+                                                                        <span
+                                                                                class="badge bg-light p-1 text-body">{{ row.participant }}</span>
+                                                                    </li>
+                                                                    <li class="list-group-item">Total transaction: <span
+                                                                            class="badge bg-light p-1 text-body">{{ row.total_amount }}€</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <a
+                                                                href="#"
+                                                                class="btn btn-lg btn-block btn-secondary text-light float-start"
+                                                        >
+                                                            Voir la facture
                                                         </a>
-                                                    </h2>
-                                                    <div class="card mt-3 mb-4">
-                                                        <div class="card-body">
-                                                            {{ row.game.scenario.description }}
-                                                        </div>
-                                                        <div class="card-footer bg-transparent border-none">
-                                                            <ul class="list-group list-group-flush">
-                                                                <li class="list-group-item">Nombre de participant: <span
-                                                                        class="badge bg-light p-1 text-body">{{ row.participant }}</span>
-                                                                </li>
-                                                                <li class="list-group-item">Total transaction: <span
-                                                                        class="badge bg-light p-1 text-body">{{ row.total_amount }}€</span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <a
-                                                            href="#"
-                                                            class="btn btn-lg btn-block btn-secondary text-light float-start"
-                                                    >
-                                                        Voir la facture
-                                                    </a>
 
-                                                </div>
-                                            </section>
+                                                    </div>
+                                                </section>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
+                        <div class="d-none d-md-block" style="height:200px"></div>
                     </div>
-                    <div class="d-none d-md-block" style="height:200px"></div>
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
-    </main>
+    </section>
+
 {% endblock %}

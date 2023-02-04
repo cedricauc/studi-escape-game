@@ -1,37 +1,51 @@
-{% extends "__base.html" %} {% load static %} {% block body %}
+{% extends "__base.html" %} {% load static %} {% block title %}Profile{% endblock %} {% block body %}
 
-    <main class="container">
-        <div class="row h-md-100">
-            <aside
-                    class="col-md-2 bg-light h-md-100 p-0 d-flex py-5"
-            >
-                {% include "__sidebar.html" with action=template %}
-            </aside>
-            <section class="col-md-10 ps-md-5 py-5">
-                <div class="row">
-                    <nav class="col-12" aria-label="breadcrumb">
-                        <ol class="breadcrumb d-flex bg-white mt-5 p-2">
-                            <li class="breadcrumb-item">
-                                <a class="text-decoration-none" href="{% url 'order' %}">Tableau de bord</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                Editer profil
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-body p-4">
-                            <div class="card-title fs-4 fw-semibold mb-4">
-                                Editer Profil Utilisateur
-                            </div>
-                            <div class="row">
-                                <form action="{% url 'profile' %}" method="post">
-                                    {% csrf_token %}
-                                    {% if form.errors %}
-                                        {% for field in form %}
-                                            {% for error in field.errors %}
+    <section class="py-4 py-md-5">
+        <div class="container">
+            <div class="row h-md-100">
+                <aside
+                        class="col-md-3 bg-light p-0 d-flex py-5"
+                >
+                    {% include "__sidebar.html" with action=template %}
+                </aside>
+                <section class="col-md-9 ps-md-5 py-5">
+                    <div class="row">
+                        <nav class="col-12" aria-label="breadcrumb">
+                            <ol class="breadcrumb d-flex bg-white mt-5 p-2">
+                                <li class="breadcrumb-item">
+                                    <a class="text-decoration-none" href="{% url 'order' %}">Tableau de bord</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Editer profil
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card mb-4">
+                            <div class="card-body p-4">
+                                <div class="card-title fs-4 fw-semibold mb-4">
+                                    Editer Profil Utilisateur
+                                </div>
+                                <div class="row">
+                                    <form action="{% url 'profile' %}" method="post">
+                                        {% csrf_token %}
+                                        {% if form.errors %}
+                                            {% for field in form %}
+                                                {% for error in field.errors %}
+                                                    <div class="alert alert-danger alert-dismissible fade show mt-3"
+                                                         role="alert">
+                                                        <strong>{{ error|escape }}</strong>
+                                                        <button
+                                                                type="button"
+                                                                class="btn-close"
+                                                                data-bs-dismiss="alert"
+                                                                aria-label="Close"
+                                                        ></button>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endfor %}
+                                            {% for error in form.non_field_errors %}
                                                 <div class="alert alert-danger alert-dismissible fade show mt-3"
                                                      role="alert">
                                                     <strong>{{ error|escape }}</strong>
@@ -43,46 +57,35 @@
                                                     ></button>
                                                 </div>
                                             {% endfor %}
-                                        {% endfor %}
-                                        {% for error in form.non_field_errors %}
-                                            <div class="alert alert-danger alert-dismissible fade show mt-3"
-                                                 role="alert">
-                                                <strong>{{ error|escape }}</strong>
-                                                <button
-                                                        type="button"
-                                                        class="btn-close"
-                                                        data-bs-dismiss="alert"
-                                                        aria-label="Close"
-                                                ></button>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
+                                        {% endif %}
 
-                                    <div class="form-group  form-outline mb-4">
-                                        {{ form.last_name }}
+                                        <div class="form-group  form-outline mb-4">
+                                            {{ form.last_name }}
 
-                                    </div>
-                                    <div class="form-group  form-outline mb-4">
-                                        {{ form.first_name }}
+                                        </div>
+                                        <div class="form-group  form-outline mb-4">
+                                            {{ form.first_name }}
 
-                                    </div>
-                                    <div class="form-group  form-outline mb-4">
-                                        {{ form.password }}
+                                        </div>
+                                        <div class="form-group  form-outline mb-4">
+                                            {{ form.password }}
 
-                                    </div>
-                                    <div class="form-group  form-outline mb-4">
-                                        {{ form.confirmation }}
+                                        </div>
+                                        <div class="form-group  form-outline mb-4">
+                                            {{ form.confirmation }}
 
-                                    </div>
-                                    <button type="submit" class="btn btn-lg btn-primary mt-4">
-                                        Envoyer
-                                    </button>
-                                </form>
+                                        </div>
+                                        <button type="submit" class="btn btn-lg btn-primary mt-4">
+                                            Envoyer
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
-    </main>
+    </section>
+
 {% endblock %}

@@ -79,19 +79,21 @@ class ManageProfileForm(forms.ModelForm):
             return self.cleaned_data
 
 
-class ManageChatForm(forms.Form):
+class ManageFaqForm(forms.Form):
     categories = []
     try:
         for e in TicketCategory.objects.all():
             categories.append([e.title, e.title])
     except:
         categories = []
-
+    author = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'name': 'author', 'placeholder': 'Saisir un nom complet', 'class': 'shadow form-control form-control-lg'}))
     question = forms.CharField(
         widget=forms.Textarea(
-            attrs={'name': 'question', 'rows': 10, 'class': 'form-control form-control-lg border-primary'}))
+            attrs={'name': 'question', 'placeholder': 'Saisir votre question', 'rows': 6, 'class': 'shadow form-control form-control-lg'}))
     category = forms.ChoiceField(
-        widget=forms.Select(attrs={'name': 'category', 'class': 'form-select form-select-lg border-primary'}),
+        widget=forms.Select(attrs={'name': 'category', 'class': 'shadow form-select form-select-lg'}),
         choices=categories,
         required=False)
 

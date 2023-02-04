@@ -1,5 +1,10 @@
-<div class="d-flex flex-md-column flex-row flex-shrink-0 flex-grow-1 bg-light justify-content-center">
-    <ul class="nav nav-pills nav-flush flex-md-column flex-row mb-auto text-center">
+<nav id="sidebar" class="w-100">
+    <div class="sidebar-header">
+        <h4 class="text-muted my-4 text-center">Tableau de bord</h4>
+    </div>
+
+    <ul class="nav-pills nav-flush flex-md-column flex-row mb-auto text-center list-unstyled components">
+
         <li class="nav-item">
             <a
                     href="{% url 'order' %}"
@@ -13,7 +18,7 @@
                 <img class="p-2" src="/static/img/svg/task.svg" alt="image3"/>
             </a>
         </li>
-        <li>
+        <li class="nav-item">
             <a
                     href="{% url 'profile' %}"
                     class="nav-link {% if action == "profile" %} active {% endif %} py-3 border-bottom"
@@ -26,18 +31,7 @@
                 <img class="p-2" src="/static/img/svg/setting.svg" alt="image3"/>
             </a>
         </li>
-        <li>
-            <a
-                    href="{% url 'chat' %}"
-                    class="nav-link {% if action == "chat" %} active {% endif %} py-3 border-bottom"
-                    {% if action == "chat" %} aria-current="page" {% endif %}
-                    title=""
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="right"
-                    data-bs-original-title="Dashboard"
-            >
-                <img class="p-2" src="/static/img/svg/chat.svg" alt="image3"/>
-            </a>
-        </li>
     </ul>
-</div>
+
+</nav>
+

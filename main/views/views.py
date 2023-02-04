@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from main.forms import RegisterForm, BookingForm, ManageProfileForm, ManageChatForm
+from main.forms import RegisterForm, BookingForm, ManageProfileForm, ManageFaqForm
 from main.models import User, Scenario, TicketAnswer, TicketCategory, TicketQuestion, Booking, Discount, \
     Cart
 from datetime import datetime, date
@@ -58,12 +58,15 @@ def LoginView(request):
             return HttpResponseRedirect(reverse("home"))
         else:
             return render(request, "main/login.html", {
-                "message": "Invalide e-mail/mot de passe"
+                'message': "Invalide e-mail/mot de passe",
+                'next': request.GET.get('next'),
+                'form': RegisterForm()
             })
 
     # rediriger vers url initiale
     context = {
-        'next': request.GET.get('next')
+        'next': request.GET.get('next'),
+        'form': RegisterForm()
     }
     return render(request, "main/login.html", context)
 
@@ -90,7 +93,7 @@ def RegisterView(request):
                 context = {
                     'form': form
                 }
-                return render(request, "main/register.html", context)
+                return render(request, "main/login.html", context)
 
             login(request, user)
             return HttpResponseRedirect(reverse("home"))
@@ -98,12 +101,12 @@ def RegisterView(request):
             context = {
                 'form': form
             }
-            return render(request, "main/register.html", context)
+            return render(request, "main/login.html", context)
     form = RegisterForm()
     context = {
         'form': form
     }
-    return render(request, "main/register.html", context)
+    return render(request, "main/login.html", context)
 
 
 def LogoutView(request):
@@ -159,39 +162,6 @@ def ManageOrderView(request):
     return render(request, "main/order.html", context)
 
 
-@login_required(login_url="login_view")
-def ManageChatView(request):
-    """
-    Gestion du chat
-    """
-    if request.method == "POST":
-        # Créez une instance de formulaire et remplissez-la avec les données de la requête :
-        form = ManageChatForm(request.POST)
-        # Vérifiez s'il est valide :
-        if form.is_valid():
-            # traiter les données
-            category = TicketCategory.objects.get(title=request.POST.get("category"))
-            question = request.POST.get("question")
-            ticket_question = TicketQuestion(author=request.user.username, category=category, question=question)
-            ticket_question.save()
-
-            return render(request, "main/chat.html", {
-                "form": form,
-                "template": "chat",
-                "success": "Question bien transmis"
-            })
-    else:
-        # Créer une instance de formulaire
-        form = ManageChatForm()
-
-    context = {
-        "form": form,
-        "template": "chat"
-    }
-
-    return render(request, "main/chat.html", context)
-
-
 def ScenarioView(request, slug):
     """
     Rend la page d'un scénario avec les informations associés
@@ -237,7 +207,29 @@ def FaqView(request):
     """
     ticket_items = TicketAnswer.objects.order_by('-question')
 
+    if request.method == "POST":
+        # Créez une instance de formulaire et remplissez-la avec les données de la requête :
+        form = ManageFaqForm(request.POST)
+        # Vérifiez s'il est valide :
+        if form.is_valid():
+            # traiter les données
+            author = request.POST.get("author")
+            category = TicketCategory.objects.get(title=request.POST.get("category"))
+            question = request.POST.get("question")
+            ticket_question = TicketQuestion(author=author, category=category, question=question)
+            ticket_question.save()
+
+            return render(request, "main/faq.html", {
+                "ticket_items": ticket_items,
+                "form": form,
+                "success": "Question envoyé"
+            })
+    else:
+        # Créer une instance de formulaire
+        form = ManageFaqForm()
+
     context = {
+        "form": form,
         "ticket_items": ticket_items
     }
 
