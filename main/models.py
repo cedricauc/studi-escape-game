@@ -41,7 +41,7 @@ class Level(models.Model):
 class Image(models.Model):
     title = models.CharField(max_length=255)
     alt = models.CharField(max_length=255)
-    img = models.ImageField(upload_to='img', null=True, blank=True)
+    img = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.title

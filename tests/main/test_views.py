@@ -2,9 +2,9 @@ import secrets
 import pytest
 from django.contrib import auth
 from django.test import Client
-from django.urls import reverse, resolve
+from django.urls import reverse
 from pytest_django.asserts import assertTemplateUsed
-from main.models import User, Scenario, TicketCategory, Game
+from main.models import Scenario, TicketCategory, Game
 
 
 @pytest.fixture

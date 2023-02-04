@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from main.forms import RegisterForm, BookingForm, ManageProfileForm, ManageFaqForm
+from main.forms import RegisterForm, BookingForm, ManageProfileForm, FaqForm
 from main.models import User, Scenario, TicketAnswer, TicketCategory, TicketQuestion, Booking, Discount, \
     Cart
 from datetime import datetime, date
@@ -209,7 +209,7 @@ def FaqView(request):
 
     if request.method == "POST":
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
-        form = ManageFaqForm(request.POST)
+        form = FaqForm(request.POST)
         # Vérifiez s'il est valide :
         if form.is_valid():
             # traiter les données
@@ -226,7 +226,7 @@ def FaqView(request):
             })
     else:
         # Créer une instance de formulaire
-        form = ManageFaqForm()
+        form = FaqForm()
 
     context = {
         "form": form,

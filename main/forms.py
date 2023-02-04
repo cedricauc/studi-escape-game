@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, TicketQuestion, TicketCategory
+from .models import User, TicketCategory
 
 
 class RegisterForm(forms.ModelForm):
@@ -79,7 +79,7 @@ class ManageProfileForm(forms.ModelForm):
             return self.cleaned_data
 
 
-class ManageFaqForm(forms.Form):
+class FaqForm(forms.Form):
     categories = []
     try:
         for e in TicketCategory.objects.all():
