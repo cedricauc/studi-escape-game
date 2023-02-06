@@ -93,8 +93,8 @@
             <div class="row mb-2">
                 <div class="col-md-8 mx-auto">
 
-                {% regroup ticket_items by question.category as tickets_list %}
-                {% for item in tickets_list %}
+                {% regroup ticket_items by  question.category as tickets_list %}
+                    {% for item in tickets_list %}
                     <div class="mb-4">
                         <span class="badge bg-warning rounded-bottom-left text-uppercase text-primary fw-bold p-2">{{ item.grouper }}</span>
                         <div class="accordion text-muted" role="tablist" id="accordion-{{ forloop.counter }}">

@@ -24,7 +24,7 @@ def HomeView(request):
     min_participant = Scenario.objects.aggregate(Min('min_participant'))
     max_participant = Scenario.objects.aggregate(Max('max_participant'))
 
-    ticket_items = TicketAnswer.objects.order_by('-question')
+    ticket_items = TicketAnswer.objects.order_by('-question__category', '-created_date')
 
     context = {
         "scenarios": scenarios,
@@ -205,7 +205,7 @@ def FaqView(request):
     """
     Rend la page de la FAQ avec toutes catégories de questions
     """
-    ticket_items = TicketAnswer.objects.order_by('-question')
+    ticket_items = TicketAnswer.objects.order_by('-question__category', '-created_date')
 
     if request.method == "POST":
         # Créez une instance de formulaire et remplissez-la avec les données de la requête :
