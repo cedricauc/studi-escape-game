@@ -78,28 +78,16 @@ WSGI_APPLICATION = 'escapegame.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'db_escape_game',
-            'USER': 'postgres',
-            'PASSWORD': 'root',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'db_escape_game',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': '',
-            'USER': '',
-            'PASSWORD': '',
-            'HOST': '',
-            'PORT': '5432',
-        }
-    }
+}
 # Substituting a custom User model
 # https://docs.djangoproject.com/en/4.1/topics/auth/customizing/
 

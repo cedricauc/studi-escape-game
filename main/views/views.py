@@ -324,3 +324,10 @@ def BookingFinalView(request):
             return HttpResponseRedirect(reverse("order"))
 
     return render(request, "main/booking_final.html", {})
+
+
+def PageNotFoundView(request, exception):
+    """
+    Rend la page de 404
+    """
+    return render(request, '404.html', status=404)

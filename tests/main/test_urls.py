@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from main.views.api import ScenarioViewSet, BookingViewSet, GameViewSet, ScenarioRoomClueViewSet
 from main.views.calendar import CalendarViewSet
 from main.views.views import LoginView, RegisterView, LogoutView, ManageProfileView, HomeView, ScenarioView, FaqView, \
-    BookingView, BookingSumView, BookingFinalView, ManageOrderView
+    BookingView, BookingSumView, BookingFinalView, ManageOrderView, PageNotFoundView
 
 
 def test_home_url():
