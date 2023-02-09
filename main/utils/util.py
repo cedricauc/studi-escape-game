@@ -75,11 +75,15 @@ def exclude_booked_events(events):
     """
     Exclure les séances réservées
     """
-    time_threshold = datetime.now() - timedelta(minutes=1)
+    # Bloquer les séances ajoutées à un panier pour une durée de 5 minutes
+    carts = []
+    for cart in Cart.objects.all():
+        if not cart.created_date + timedelta(minutes=5) < datetime.now():
+            carts.append(cart.id)
 
     events = events.exclude(
         Q(id__in=Booking.objects.filter(is_canceled=False).values_list('game_id', flat=True).all()) |
-        Q(id__in=Cart.objects.filter(created_date__time__gt=time_threshold).values_list('game_id', flat=True).all())
+        Q(id__in=carts)
     )
 
     return events

@@ -16,21 +16,25 @@ def CalendarViewSet(request):
     elif request.GET.get('nav') == "prev_month":
         date = prev_month(date)
 
-    rows = Game.objects.filter(start_time__year=date.year,
+    # Filtre la liste des séances à une date précise
+    games = Game.objects.filter(start_time__year=date.year,
                                start_time__month=date.month,
                                start_time__day=date.day)
 
-    rows = exclude_booked_events(rows)
+    # Retire les séances déjà réservées
+    games = exclude_booked_events(games)
 
+    # Filtre les séances avec le paramètre slug passé dans l'URL
     slug = None
     if request.GET.get('scenario') and request.GET.get('scenario') != "booking":
         slug = request.GET.get('scenario')
-        rows = rows.filter(scenario__slug=slug)
+        games = games.filter(scenario__slug=slug)
 
-    scenarios = Scenario.objects.filter(games__in=rows.all())
+    # Récupére la liste distincte des scénarios pour les séances a la date sélectionnée
+    scenarios = Scenario.objects.distinct("title").filter(games__in=games.all())
 
+    # Pour chaque scénario, ajouter la liste des séances
     data = []
-
     for scenario in scenarios:
         data.append({
             'id': scenario.id,
@@ -39,7 +43,7 @@ def CalendarViewSet(request):
             'min_participant': scenario.min_participant,
             'max_participant': scenario.max_participant,
             'start_time': list(
-                rows.filter(scenario=scenario).all().values('id', 'start_time', 'scenario_id'))
+                games.filter(scenario=scenario).all().values('id', 'start_time', 'scenario_id'))
         })
 
     # Instancier notre classe de calendrier avec l'année et la date d'aujourd'hui

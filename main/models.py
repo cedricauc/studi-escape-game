@@ -117,7 +117,8 @@ class Cart(models.Model):
                              )
 
     def __str__(self):
-        return 'scenario {} par {} à {}'.format(self.game.scenario.title, self.user.get_full_name(), self.created_date)
+        return 'scenario {} par {} à {}'.format(self.game.scenario.title,
+                                                self.user.get_full_name() if self.user else None, self.created_date)
 
     class Meta:
         db_table = "cart"
@@ -140,7 +141,7 @@ class Booking(models.Model):
 
     def __str__(self):
         return 'profile {} a reservé {} le {}'.format(self.user.get_full_name(), self.game.scenario.title,
-                                                    self.game.start_time)
+                                                      self.game.start_time)
 
     class Meta:
         db_table = "booking"

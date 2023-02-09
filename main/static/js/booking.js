@@ -236,6 +236,8 @@ document.addEventListener('DOMContentLoaded', () => {
       .then((result) => {
         data = result['data']
 
+        console.log(data);
+
         if(!data.length) {
               notificationCard.classList.remove('d-none')
               setNotificationMessage(
