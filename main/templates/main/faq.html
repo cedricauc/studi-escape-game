@@ -106,8 +106,8 @@
                                                 aria-expanded="true"
                                                 aria-controls="accordion-{{ forloop.parentloop.counter }} .item-{{ forloop.counter }}">{{ ticket.question.question }}</button>
                                     </h2>
-                                    <div class="accordion-collapse collapse show item-1" role="tabpanel"
-                                         data-bs-parent="#accordion-1">
+                                    <div class="accordion-collapse collapse show item-{{ forloop.counter }}" role="tabpanel"
+                                         data-bs-parent="#accordion-{{ forloop.parentloop.counter }}">
                                         <div class="accordion-body">
                                             <p class="mb-0">{{ ticket.answer }}</p>
                                         </div>

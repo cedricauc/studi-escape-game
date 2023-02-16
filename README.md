@@ -102,8 +102,7 @@ $$
         WHERE g.start_time > TO_TIMESTAMP(start_datetime, 'YYYY-MM-DD HH24:MI:SS')
           AND g.end_time < TO_TIMESTAMP(end_datetime, 'YYYY-MM-DD HH24:MI:SS')
           AND in_progress = False
-          AND is_complete = False
-        LIMIT 1;
+          AND is_complete = False;
 
         -- Récupérer le premier élément de la table temporaire
         booking_id := (SELECT id FROM temp_booking LIMIT 1);

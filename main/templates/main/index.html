@@ -31,7 +31,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 order-first order-md-last d-none d-md-block" style="min-height: 250px;">
+                                        <div class="col-md-6 order-first order-md-last d-none d-md-block"
+                                             style="min-height: 250px;">
                                             <img class=" float-md-end fit-contain pt-5 pt-md-0 me-5 mt-4"
                                                  src="static/img/puzzle.png" height="250"></div>
                                     </div>
@@ -201,7 +202,7 @@
                                         <div>
                                             <h6 class="fw-bold text-muted">Remise dès {{ row.step }} joueurs</h6>
                                             <h4 class="display-5 fw-bold mb-4">
-                                                ${{ row.discount|floatformat:"0" }}</h4>
+                                                €{{ row.discount|floatformat:"0" }}</h4>
                                             <ul class="list-unstyled">
                                                 {% for itr in row.scenarios.all %}
                                                     <li class="d-flex mb-2"><span
@@ -228,7 +229,7 @@
                                         <div>
                                             <h6 class="fw-bold text-muted">Remise dès {{ row.step }} joueurs</h6>
                                             <h4 class="display-5 fw-bold mb-4">
-                                                ${{ row.discount|floatformat:"0" }}</h4>
+                                                €{{ row.discount|floatformat:"0" }}</h4>
                                             <ul class="list-unstyled">
                                                 {% for itr in row.scenarios.all %}
                                                     <li class="d-flex mb-2"><span
@@ -285,8 +286,9 @@
                                                     aria-expanded="true"
                                                     aria-controls="accordion-{{ forloop.parentloop.counter }} .item-{{ forloop.counter }}">{{ ticket.question.question }}</button>
                                         </h2>
-                                        <div class="accordion-collapse collapse show item-1" role="tabpanel"
-                                             data-bs-parent="#accordion-1">
+                                        <div class="accordion-collapse collapse show item-{{ forloop.counter }}"
+                                             role="tabpanel"
+                                             data-bs-parent="#accordion-{{ forloop.parentloop.counter }}">
                                             <div class="accordion-body">
                                                 <p class="mb-0">{{ ticket.answer }}</p>
                                             </div>

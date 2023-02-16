@@ -150,9 +150,9 @@ def ManageProfileView(request):
 @login_required(login_url="login_view")
 def ManageOrderView(request):
     """
-    Gestion des commandes
+    Rend la page des réservations
     """
-    data = Booking.objects.all()
+    data = Booking.objects.order_by('-created_date')
 
     context = {
         "data": data,

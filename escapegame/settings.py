@@ -23,9 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7jl-i&)=j2p%=oqcwz)din#e%r=y7!f9t$n-v$d2y@k5nbe3ap'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]', '.cedricauc.alwaysdata.net', '.paradox-escapegames.tech']
 
 # Application definition
 INSTALLED_APPS = [
