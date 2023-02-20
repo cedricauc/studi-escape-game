@@ -42,7 +42,7 @@ def create_booking_number(scenario_title):
     return first_letters + today.strftime("%d%m%Y%H%M")
 
 
-def get_date(req_day):
+def get_date(req_day=None):
     """
     Retoure la date du jour
     """
@@ -94,7 +94,7 @@ def day_beginning(dt=None):
     Retourne le début de la journée
     """
     if not dt:
-        dt = get_date(None)
+        dt = get_date()
 
     return dt.replace(hour=0, minute=0, second=0, microsecond=0)
 
@@ -104,7 +104,7 @@ def day_end(dt=None):
     Retourne la fin de la journée
     """
     if not dt:
-        dt = get_date(None)
+        dt = get_date()
 
     return dt.replace(hour=23, minute=59, second=0, microsecond=0)
 
