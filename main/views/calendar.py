@@ -1,7 +1,7 @@
-from django.template.loader import render_to_string
+import json
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import HttpResponse
 from main.utils.calendar import Calendar
 from main.utils.util import get_date, next_month, prev_month, exclude_booked_events
 from main.models import Game, Scenario
@@ -18,8 +18,8 @@ def CalendarViewSet(request):
 
     # Filtre la liste des séances à une date précise
     games = Game.objects.filter(start_time__year=date.year,
-                               start_time__month=date.month,
-                               start_time__day=date.day)
+                                start_time__month=date.month,
+                                start_time__day=date.day)
 
     # Retire les séances déjà réservées
     games = exclude_booked_events(games)
@@ -36,14 +36,20 @@ def CalendarViewSet(request):
     # Pour chaque scénario, ajouter la liste des séances
     data = []
     for scenario in scenarios:
+        filtered_games = []
+        for row in games.filter(scenario=scenario).all().values('id', 'start_time', 'scenario_id'):
+            filtered_games.append({
+                'id': row['id'],
+                'start_time': row['start_time'].strftime('%Y-%m-%d %H:%M'),
+                'scenario_id': row['scenario_id']
+            })
         data.append({
             'id': scenario.id,
             'title': scenario.title,
-            'price': scenario.price_participant,
+            'price': str(scenario.price_participant),
             'min_participant': scenario.min_participant,
             'max_participant': scenario.max_participant,
-            'start_time': list(
-                games.filter(scenario=scenario).all().values('id', 'start_time', 'scenario_id'))
+            'start_time': filtered_games
         })
 
     # Instancier notre classe de calendrier avec l'année et la date d'aujourd'hui
@@ -51,15 +57,11 @@ def CalendarViewSet(request):
 
     # Appelez la méthode formatmonth, qui renvoie notre calendrier sous forme de tableau
     html_cal = cal.formatmonth(withyear=True)
-    context = {
-        "calendar": mark_safe(html_cal),
 
+    response = {
+        "content": mark_safe(html_cal),
+        "data": json.dumps(data),
+        "date": date.strftime('%Y-%m-%d')
     }
-    # Rendre le modèle HTML en texte
-    html = render_to_string("calendar/calendar.html", context)
-
-    return JsonResponse({
-        "content": html,
-        "data": data,
-        "date": date
-    })
+    dump = json.dumps(response)
+    return HttpResponse(dump, content_type='application/json')

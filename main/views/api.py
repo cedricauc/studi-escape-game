@@ -47,7 +47,6 @@ class BookingViewSet(viewsets.ModelViewSet):
             dt = self.request.query_params.get('dt')
             dt = datetime.strptime(dt, '%Y-%m-%d')
         except ValueError as ex:
-
             dt = None
         except TypeError as ex:
             dt = None

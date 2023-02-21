@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Author: Cedric Auclair"""
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
